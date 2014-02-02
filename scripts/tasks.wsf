@@ -1,0 +1,72 @@
+<package>
+	<job id="clean">
+		<?job debug="true"?>
+		<runtime>
+			<named name = "procPath" helpstring = "pathToClean" type = "string" required = "true"/>
+		</runtime>
+		<object id="fsoObj" progid="Scripting.FileSystemObject"/>
+		<script language="JScript">
+
+		function ProcessFolder(folderPath)
+		{
+			var path = "";
+		
+			for (var i in maskArr)
+			{
+				path = folderPath + "\\" + maskArr[i];
+
+				try { fsoObj.DeleteFile(path); } catch (e) {}
+				try { fsoObj.DeleteFolder(path); } catch (e) {}
+			}
+
+			var subfolders = new Enumerator(fsoObj.GetFolder(folderPath).SubFolders);
+
+			for(; !subfolders.atEnd(); subfolders.moveNext())
+				ProcessFolder(subfolders.item().Path);
+		}
+
+		var sepStr = ",";
+		var maskStr = "Debug,ipch,*.sdf";
+		var maskExceptions = "";
+
+		var maskArr = maskStr.split(sepStr);
+
+		ProcessFolder(WScript.Arguments.Named.Item("procPath"));
+
+		</script>
+	</job>
+
+	<job id="pack">
+		<?job debug="true"?>
+		<runtime>
+			<named name = "procPath" helpstring = "pathToPack" type = "string" required = "true"/>
+		</runtime>
+		<object id="execObj" progid="WScript.Shell"/>
+		<object id="fsoObj" progid="Scripting.FileSystemObject"/>
+		<script language="JScript">
+
+		function fmtNum(num) {
+			return num > 9 ? "" + num : "0" + num;
+		}
+
+		var archPath = "C:\\Program Files\\WinRAR\\RAR.exe";
+		var archArgs = "a -m5 -ep1";
+
+		var archName = "";
+		var procPath = WScript.Arguments.Named.Item("procPath");
+
+		procPath = fsoObj.GetFolder(procPath).Path;
+		
+		var now = new Date();
+
+		archName = procPath.substr(procPath.lastIndexOf("\\") + 1);
+		archName += "_";
+		archName += fmtNum(now.getYear() % 100) + fmtNum(now.getMonth() + 1) + fmtNum(now.getDate());
+		archName += ".rar";
+
+		execObj.Exec(archPath + " " + archArgs + " " + archName + " " + procPath);
+
+		</script>
+	</job>
+
+</package>

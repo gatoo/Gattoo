@@ -2,21 +2,46 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <opencvdir>../libs/opencv/</opencvdir>
+    <opencvdir>e:\Downloads\opencv\build\</opencvdir>
+    <VS_ver>11</VS_ver>
+    <opencv_platform>x86</opencv_platform>
+    <opencv_lib_dir>$(opencvdir)$(opencv_platform)\vc$(VS_ver)\lib\</opencv_lib_dir>
+    <opencv_inc_dir>$(opencvdir)include\</opencv_inc_dir>
+    <opencv_bin_dir>$(opencvdir)$(opencv_platform)\vc$(VS_ver)\bin\</opencv_bin_dir>
   </PropertyGroup>
   <PropertyGroup />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(opencvdir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(opencv_inc_dir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(opencvdir)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_core246.lib;opencv_imgproc246.lib;opencv_highgui246.lib;zlibd.lib;IlmImfd.lib;libjasperd.lib;libjpegd.lib;libpngd.lib;libtiffd.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(opencv_lib_dir)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_core$(opencv_ver).lib;opencv_highgui$(opencv_ver).lib;opencv_imgproc$(opencv_ver).lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(opencv_bin_dir)opencv_core$(opencv_ver).dll $(TargetDir)
+copy $(opencv_bin_dir)opencv_highgui$(opencv_ver).dll $(TargetDir)
+copy $(opencv_bin_dir)opencv_imgproc$(opencv_ver).dll $(TargetDir)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <BuildMacro Include="opencvdir">
       <Value>$(opencvdir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="VS_ver">
+      <Value>$(VS_ver)</Value>
+    </BuildMacro>
+    <BuildMacro Include="opencv_platform">
+      <Value>$(opencv_platform)</Value>
+    </BuildMacro>
+    <BuildMacro Include="opencv_lib_dir">
+      <Value>$(opencv_lib_dir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="opencv_inc_dir">
+      <Value>$(opencv_inc_dir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="opencv_bin_dir">
+      <Value>$(opencv_bin_dir)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>

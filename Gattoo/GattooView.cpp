@@ -48,14 +48,16 @@ BOOL CGattooView::PreCreateWindow(CREATESTRUCT& cs)
 
 // CGattooView drawing
 
-void CGattooView::OnDraw(CDC* /*pDC*/)
+void CGattooView::OnDraw(CDC* pDC)
 {
 	CGattooDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
 
-	// TODO: add draw code for native data here
+	CDC memDC;
+
+	memDC.CreateCompatibleDC(pDC);
 }
 
 void CGattooView::OnRButtonUp(UINT /* nFlags */, CPoint point)
