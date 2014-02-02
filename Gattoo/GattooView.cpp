@@ -16,6 +16,7 @@
 #define new DEBUG_NEW
 #endif
 
+#include <opencv2/opencv.hpp>
 
 // CGattooView
 
@@ -55,9 +56,33 @@ void CGattooView::OnDraw(CDC* pDC)
 	if (!pDoc)
 		return;
 
-	CDC memDC;
+// 	CDC memDC;
+// 
+// 	memDC.CreateCompatibleDC(pDC);
 
-	memDC.CreateCompatibleDC(pDC);
+	cv::Mat img;
+
+	img = cv::imread("C:\\temp\\test.bmp");
+
+	BITMAPINFO bmi;
+
+	memset(&bmi, 0, sizeof(bmi));
+	bmi.bmiHeader.biSize        = sizeof(BITMAPINFOHEADER);
+	bmi.bmiHeader.biWidth       = img.cols;
+	bmi.bmiHeader.biHeight      = -img.rows; // top-down image 
+	bmi.bmiHeader.biPlanes      = 1;
+	bmi.bmiHeader.biBitCount    = 24;
+	bmi.bmiHeader.biCompression = BI_RGB;
+	bmi.bmiHeader.biSizeImage   = 0;
+
+	CRect rc;
+	GetClientRect(&rc);
+
+	pDC->FillSolidRect(&rc, RGB(0x10, 0x10, 0x10));
+
+	SetDIBitsToDevice(pDC->GetSafeHdc(), 0, 0, img.cols,
+		img.rows, 0, 0, 0, img.rows, img.data, &bmi,
+		DIB_RGB_COLORS);
 }
 
 void CGattooView::OnRButtonUp(UINT /* nFlags */, CPoint point)
