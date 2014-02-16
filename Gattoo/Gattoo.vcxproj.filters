@@ -13,6 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{be812c7c-7ea5-45a0-9b50-61defb38bf56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\Header Files">
+      <UniqueIdentifier>{25ff2d35-b314-4516-bd7d-415af741c347}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\Source Files">
+      <UniqueIdentifier>{bd1747d5-264a-42bc-990c-b64c82808e4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\Storage Routine">
+      <UniqueIdentifier>{97e8f52e-80a1-472c-b91f-5dcd9d2acfd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\Source Files\Filters">
+      <UniqueIdentifier>{8e7e7b6e-d592-4a43-92d6-74a93d9ece22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\Source Files\ImgConverters">
+      <UniqueIdentifier>{a552764b-da5c-43b8-8375-2132268f7665}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -81,6 +99,36 @@
     <ClInclude Include="PropertiesWnd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ILogger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OutputLogger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\DriveBrowseDlg.h">
+      <Filter>core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\GattooImg.h">
+      <Filter>core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\StorageRoutine\CVolumeAccess.h">
+      <Filter>core\Storage Routine</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Filters\HalfToneFilter.h">
+      <Filter>core\Source Files\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Filters\IImgFilter.h">
+      <Filter>core\Source Files\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Filters\EqulizeFilter.h">
+      <Filter>core\Source Files\Filters</Filter>
+    </ClInclude>
+    <ClInclude Include="core\ImgConverters\IIMgConverter.h">
+      <Filter>core\Source Files\ImgConverters</Filter>
+    </ClInclude>
+    <ClInclude Include="core\ImgConverters\ImgConverter.h">
+      <Filter>core\Source Files\ImgConverters</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Gattoo.cpp">
@@ -103,6 +151,30 @@
     </ClCompile>
     <ClCompile Include="PropertiesWnd.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OutputLogger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\DriveBrowseDlg.cpp">
+      <Filter>core\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\GattooImg.cpp">
+      <Filter>core\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\ImgSaver.cpp">
+      <Filter>core\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\StorageRoutine\CVolumeAccess.cpp">
+      <Filter>core\Storage Routine</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Filters\HalfToneFilter.cpp">
+      <Filter>core\Source Files\Filters</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Filters\EqulizeFilter.cpp">
+      <Filter>core\Source Files\Filters</Filter>
+    </ClCompile>
+    <ClCompile Include="core\ImgConverters\ImgConverter.cpp">
+      <Filter>core\Source Files\ImgConverters</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

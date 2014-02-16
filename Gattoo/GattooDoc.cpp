@@ -22,6 +22,7 @@
 IMPLEMENT_DYNCREATE(CGattooDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CGattooDoc, CDocument)
+	ON_COMMAND(ID_FILE_SAVE, &CGattooDoc::OnFileSave)
 END_MESSAGE_MAP()
 
 
@@ -37,16 +38,16 @@ CGattooDoc::~CGattooDoc()
 {
 }
 
-BOOL CGattooDoc::OnNewDocument()
-{
-	if (!CDocument::OnNewDocument())
-		return FALSE;
-
-	// TODO: add reinitialization code here
-	// (SDI documents will reuse this document)
-
-	return TRUE;
-}
+//BOOL CGattooDoc::OnNewDocument()
+//{
+//	if (!CDocument::OnNewDocument())
+//		return FALSE;
+//
+//	// TODO: add reinitialization code here
+//	// (SDI documents will reuse this document)
+//
+//	return TRUE;
+//}
 
 
 
@@ -135,3 +136,34 @@ void CGattooDoc::Dump(CDumpContext& dc) const
 
 
 // CGattooDoc commands
+
+
+BOOL CGattooDoc::OnOpenDocument(LPCTSTR lpszPathName)
+{
+	if (!CDocument::OnOpenDocument(lpszPathName))
+		return FALSE;
+
+	return m_Img.Load(lpszPathName);
+}
+
+CSize CGattooDoc::getImgSize() const
+{
+	return m_Img.getImgSize();
+}
+
+void const * CGattooDoc::getImgData() const
+{
+	return m_Img.getImgData();
+}
+
+
+//BOOL CGattooDoc::OnSaveDocument(LPCTSTR lpszPathName)
+//{
+//	return CDocument::OnSaveDocument(lpszPathName);
+//}
+
+
+void CGattooDoc::OnFileSave()
+{
+	m_Img.Process();
+}

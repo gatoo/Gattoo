@@ -16,8 +16,6 @@
 #define new DEBUG_NEW
 #endif
 
-#include <opencv2/opencv.hpp>
-
 // CGattooView
 
 IMPLEMENT_DYNCREATE(CGattooView, CView)
@@ -25,6 +23,7 @@ IMPLEMENT_DYNCREATE(CGattooView, CView)
 BEGIN_MESSAGE_MAP(CGattooView, CView)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
+	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 // CGattooView construction/destruction
@@ -53,36 +52,44 @@ void CGattooView::OnDraw(CDC* pDC)
 {
 	CGattooDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
-	if (!pDoc)
-		return;
+	if (!pDoc) return;
 
-// 	CDC memDC;
-// 
-// 	memDC.CreateCompatibleDC(pDC);
+	CRect rc;
+	GetClientRect(&rc);
 
-	cv::Mat img;
-
-	img = cv::imread("C:\\temp\\test.bmp");
-
+ 	CDC memDC;
+	CBitmap bmp;
+ 
+ 	memDC.CreateCompatibleDC(pDC);
+	bmp.CreateCompatibleBitmap(pDC, rc.Width(), rc.Height());
+	memDC.SelectObject(bmp);
+	
+	CSize size = pDoc->getImgSize();
 	BITMAPINFO bmi;
 
 	memset(&bmi, 0, sizeof(bmi));
 	bmi.bmiHeader.biSize        = sizeof(BITMAPINFOHEADER);
-	bmi.bmiHeader.biWidth       = img.cols;
-	bmi.bmiHeader.biHeight      = -img.rows; // top-down image 
+	bmi.bmiHeader.biWidth       = size.cx;
+	bmi.bmiHeader.biHeight      = -size.cy; // top-down image 
 	bmi.bmiHeader.biPlanes      = 1;
 	bmi.bmiHeader.biBitCount    = 24;
 	bmi.bmiHeader.biCompression = BI_RGB;
 	bmi.bmiHeader.biSizeImage   = 0;
 
-	CRect rc;
-	GetClientRect(&rc);
+	memDC.FillSolidRect(&rc, RGB(0xFF, 0xFF, 0xFF));
 
-	pDC->FillSolidRect(&rc, RGB(0x10, 0x10, 0x10));
+	int iXStart = 0, iYStart = 0;
 
-	SetDIBitsToDevice(pDC->GetSafeHdc(), 0, 0, img.cols,
-		img.rows, 0, 0, 0, img.rows, img.data, &bmi,
+	iXStart = (rc.Width() - size.cx) / 2;
+	iYStart = (rc.Height() - size.cy) / 2;
+
+	//bmp.SetBitmapBits(size.cx* size.cy *3, pDoc->getImgData());
+
+	SetDIBitsToDevice(memDC.GetSafeHdc(), iXStart, iYStart, size.cx,
+		size.cy, 0, 0, 0, size.cy, pDoc->getImgData(), &bmi,
 		DIB_RGB_COLORS);
+
+	pDC->BitBlt(0, 0, rc.Width(), rc.Height(), &memDC, 0, 0, SRCCOPY);
 }
 
 void CGattooView::OnRButtonUp(UINT /* nFlags */, CPoint point)
@@ -121,3 +128,11 @@ CGattooDoc* CGattooView::GetDocument() const // non-debug version is inline
 
 
 // CGattooView message handlers
+
+
+BOOL CGattooView::OnEraseBkgnd(CDC* pDC)
+{
+	return 0;// TODO: Add your message handler code here and/or call default
+
+	return CView::OnEraseBkgnd(pDC);
+}
