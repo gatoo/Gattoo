@@ -129,6 +129,9 @@
     <ClInclude Include="core\ImgConverters\ImgConverter.h">
       <Filter>core\Source Files\ImgConverters</Filter>
     </ClInclude>
+    <ClInclude Include="CommonHelpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Gattoo.cpp">
@@ -175,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="core\ImgConverters\ImgConverter.cpp">
       <Filter>core\Source Files\ImgConverters</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonHelpers.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

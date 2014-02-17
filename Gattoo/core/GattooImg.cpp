@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "GattooImg.h"
 
+#include "../CommonHelpers.h"
+
 #include "Filters/IImgFilter.h"
 #include "Filters/EqulizeFilter.h"
 #include "Filters/HalfToneFilter.h"
@@ -729,17 +731,55 @@ bool CGattooImg::Process()
 
 	CImgConverter converter;
 
-	char buffer [L_tmpnam];
-	tmpnam (buffer);
-
-	cv::imshow("Test", m_Img);
+	std::string strPath;
+	CCommonHelpers::getTempFilePath(strPath);
 
 	cv::cvtColor(m_Img, m_Img, CV_RGB2GRAY);
 
- 	converter.Convert(m_Img, buffer);
- 	converter.CreateBitmap(buffer);
+	strPath.append("pix");
+ 	converter.Convert(m_Img, strPath.c_str());
+ 	converter.CreateBitmap(strPath.c_str());
 
 	cv::cvtColor(m_Img, m_Img, CV_GRAY2RGB);
 
 	return true;
+}
+
+void CGattooImg::Draw(CDC* pDC, CRect const &rc)
+{
+	if (NULL == m_memDC.GetSafeHdc())
+		m_memDC.CreateCompatibleDC(pDC);
+
+	BITMAP memBitMap;
+	CBitmap* memBMP = m_memDC.GetCurrentBitmap();
+	
+	memBMP->GetBitmap(&memBitMap);
+
+	if (memBitMap.bmWidth != rc.Width() || memBitMap.bmHeight != rc.Height())
+	{
+		BITMAPINFO bi;
+		ZeroMemory(&bi, sizeof(bi));
+		bi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+		bi.bmiHeader.biCompression = BI_RGB;
+		bi.bmiHeader.biBitCount = 24;
+		bi.bmiHeader.biPlanes = 1;
+		bi.bmiHeader.biWidth = rc.Width();
+		bi.bmiHeader.biHeight = rc.Height();
+		bi.bmiHeader.biSizeImage = 0;
+		
+		BYTE* pbuff = nullptr;
+		HBITMAP bmp = ::CreateDIBSection(NULL, &bi, DIB_RGB_COLORS, (void**) &pbuff, NULL, 0);
+
+		int iPadding = 4 - (m_Img.cols % 4);
+
+		for(int i=0; i<m_Img.rows; i++)
+		{
+			memcpy(pbuff, m_Img.data + i*(m_Img.cols + iPadding), m_Img.cols);
+		}
+
+		//m_memDC.FillSolidRect(&rc, GetSysColor(COLOR_APPWORKSPACE));
+		m_memDC.SelectObject(bmp);
+	}
+
+	pDC->BitBlt(0, 0, rc.Width(), rc.Height(), &m_memDC, 0, 0, SRCCOPY);
 }

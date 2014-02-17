@@ -167,3 +167,8 @@ void CGattooDoc::OnFileSave()
 {
 	m_Img.Process();
 }
+
+void CGattooDoc::PerformDrawing(CDC* pDC, CRect const &rc)
+{
+	m_Img.Draw(pDC, rc);
+}

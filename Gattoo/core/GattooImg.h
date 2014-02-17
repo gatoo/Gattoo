@@ -20,6 +20,8 @@ public:
 	bool Load(LPCSTR lpszFilePath);
 	bool Process();
 
+	void Draw(CDC* pDC, CRect const &rc);
+
 protected:
 
 	static unsigned char getColor(unsigned char chLevel);
@@ -28,5 +30,6 @@ protected:
 	bool doHalfTone();
 
 	cv::Mat m_Img;
+	CDC m_memDC;
 };
 

@@ -57,39 +57,41 @@ void CGattooView::OnDraw(CDC* pDC)
 	CRect rc;
 	GetClientRect(&rc);
 
- 	CDC memDC;
-	CBitmap bmp;
- 
- 	memDC.CreateCompatibleDC(pDC);
-	bmp.CreateCompatibleBitmap(pDC, rc.Width(), rc.Height());
-	memDC.SelectObject(bmp);
-	
-	CSize size = pDoc->getImgSize();
-	BITMAPINFO bmi;
+//  	CDC memDC;
+// 	CBitmap bmp;
+//  
+//  	memDC.CreateCompatibleDC(pDC);
+// 	bmp.CreateCompatibleBitmap(pDC, rc.Width(), rc.Height());
+// 	memDC.SelectObject(bmp);
+// 	
+// 	CSize size = pDoc->getImgSize();
+// 	BITMAPINFO bmi;
+// 
+// 	memset(&bmi, 0, sizeof(bmi));
+// 	bmi.bmiHeader.biSize        = sizeof(BITMAPINFOHEADER);
+// 	bmi.bmiHeader.biWidth       = size.cx;
+// 	bmi.bmiHeader.biHeight      = -size.cy; // top-down image 
+// 	bmi.bmiHeader.biPlanes      = 1;
+// 	bmi.bmiHeader.biBitCount    = 24;
+// 	bmi.bmiHeader.biCompression = BI_RGB;
+// 	bmi.bmiHeader.biSizeImage   = 0;
+// 
+// 	memDC.FillSolidRect(&rc, RGB(0xFF, 0xFF, 0xFF));
+// 
+// 	int iXStart = 0, iYStart = 0;
+// 
+// 	iXStart = (rc.Width() - size.cx) / 2;
+// 	iYStart = (rc.Height() - size.cy) / 2;
+// 
+// 	//bmp.SetBitmapBits(size.cx* size.cy *3, pDoc->getImgData());
+// 
+// 	SetDIBitsToDevice(memDC.GetSafeHdc(), iXStart, iYStart, size.cx,
+// 		size.cy, 0, 0, 0, size.cy, pDoc->getImgData(), &bmi,
+// 		DIB_RGB_COLORS);
+// 
+// 	pDC->BitBlt(0, 0, rc.Width(), rc.Height(), &memDC, 0, 0, SRCCOPY);
 
-	memset(&bmi, 0, sizeof(bmi));
-	bmi.bmiHeader.biSize        = sizeof(BITMAPINFOHEADER);
-	bmi.bmiHeader.biWidth       = size.cx;
-	bmi.bmiHeader.biHeight      = -size.cy; // top-down image 
-	bmi.bmiHeader.biPlanes      = 1;
-	bmi.bmiHeader.biBitCount    = 24;
-	bmi.bmiHeader.biCompression = BI_RGB;
-	bmi.bmiHeader.biSizeImage   = 0;
-
-	memDC.FillSolidRect(&rc, RGB(0xFF, 0xFF, 0xFF));
-
-	int iXStart = 0, iYStart = 0;
-
-	iXStart = (rc.Width() - size.cx) / 2;
-	iYStart = (rc.Height() - size.cy) / 2;
-
-	//bmp.SetBitmapBits(size.cx* size.cy *3, pDoc->getImgData());
-
-	SetDIBitsToDevice(memDC.GetSafeHdc(), iXStart, iYStart, size.cx,
-		size.cy, 0, 0, 0, size.cy, pDoc->getImgData(), &bmi,
-		DIB_RGB_COLORS);
-
-	pDC->BitBlt(0, 0, rc.Width(), rc.Height(), &memDC, 0, 0, SRCCOPY);
+	pDoc->PerformDrawing(pDC, rc);
 }
 
 void CGattooView::OnRButtonUp(UINT /* nFlags */, CPoint point)

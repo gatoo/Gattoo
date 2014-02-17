@@ -20,6 +20,8 @@ public:
 
 	CSize getImgSize() const;
 	void const * getImgData() const;
+
+	void PerformDrawing(CDC* pDC, CRect const &rc);
 	
 #ifdef SHARED_HANDLERS
 	virtual void InitializeSearchContent();
