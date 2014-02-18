@@ -11,38 +11,38 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{6FBD7C47-6BCC-4AEF-AC8A-28CC773E35DB}</ProjectGuid>
-    <RootNamespace>Gattoo</RootNamespace>
+    <ProjectGuid>{EDF2AC1A-5A01-4F6F-BB7C-C4D08EBA0157}</ProjectGuid>
+    <RootNamespace>Visualizer</RootNamespace>
     <Keyword>MFCProj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>NotSet</CharacterSet>
-    <UseOfMfc>Static</UseOfMfc>
     <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>NotSet</CharacterSet>
-    <UseOfMfc>Static</UseOfMfc>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="opencv.props" />
-    <Import Project="opencvd.props" />
+    <Import Project="..\Gattoo\opencv.props" />
+    <Import Project="..\Gattoo\opencvd.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="opencv.props" />
-    <Import Project="opencvr.props" />
+    <Import Project="..\Gattoo\opencv.props" />
+    <Import Project="..\Gattoo\opencvr.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -56,7 +56,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -80,7 +81,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -100,72 +102,38 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="ReadMe.txt" />
-    <None Include="res\Gattoo.ico" />
-    <None Include="res\Gattoo.rc2" />
-    <None Include="res\GattooDoc.ico" />
-    <None Include="res\output_wnd.ico" />
-    <None Include="res\output_wnd_hc.ico" />
-    <None Include="res\properties.bmp" />
-    <None Include="res\properties_hc.bmp" />
-    <None Include="res\properties_wnd.ico" />
-    <None Include="res\properties_wnd_hc.ico" />
-    <None Include="res\Toolbar.bmp" />
-    <None Include="res\Toolbar256.bmp" />
-    <None Include="UserImages.bmp" />
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CommonHelpers.h" />
-    <ClInclude Include="core\DriveBrowseDlg.h" />
-    <ClInclude Include="core\Filters\EqulizeFilter.h" />
-    <ClInclude Include="core\Filters\HalfToneFilter.h" />
-    <ClInclude Include="core\Filters\IImgFilter.h" />
-    <ClInclude Include="core\GattooImg.h" />
-    <ClInclude Include="core\ImgConverters\IIMgConverter.h" />
-    <ClInclude Include="core\ImgConverters\ImgConverter.h" />
-    <ClInclude Include="core\StorageRoutine\CVolumeAccess.h" />
-    <ClInclude Include="Gattoo.h" />
-    <ClInclude Include="GattooDoc.h" />
-    <ClInclude Include="GattooView.h" />
-    <ClInclude Include="ILogger.h" />
-    <ClInclude Include="MainFrm.h" />
-    <ClInclude Include="OutputLogger.h" />
-    <ClInclude Include="OutputWnd.h" />
-    <ClInclude Include="PropertiesWnd.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Visualizer.h" />
+    <ClInclude Include="VisualizerDlg.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CommonHelpers.cpp" />
-    <ClCompile Include="core\DriveBrowseDlg.cpp" />
-    <ClCompile Include="core\Filters\EqulizeFilter.cpp" />
-    <ClCompile Include="core\Filters\HalfToneFilter.cpp" />
-    <ClCompile Include="core\GattooImg.cpp" />
-    <ClCompile Include="core\ImgConverters\ImgConverter.cpp" />
-    <ClCompile Include="core\ImgSaver.cpp" />
-    <ClCompile Include="core\StorageRoutine\CVolumeAccess.cpp" />
-    <ClCompile Include="Gattoo.cpp" />
-    <ClCompile Include="GattooDoc.cpp" />
-    <ClCompile Include="GattooView.cpp" />
-    <ClCompile Include="MainFrm.cpp" />
-    <ClCompile Include="OutputLogger.cpp" />
-    <ClCompile Include="OutputWnd.cpp" />
-    <ClCompile Include="PropertiesWnd.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Visualizer.cpp" />
+    <ClCompile Include="VisualizerDlg.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Gattoo.rc" />
+    <ResourceCompile Include="Visualizer.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Visualizer.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Visualizer.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties RESOURCE_FILE="Gattoo.rc" />
+      <UserProperties RESOURCE_FILE="Visualizer.rc" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

@@ -81,7 +81,7 @@ bool CImgConverter::Convert(cv::Mat const & img, LPCTSTR lpszConvertedFile)
 					{
 						for(int k = 1; k<=iDiff; k++)
 						{
-							shX = 0x0FFF & (bReverse ?  (iLastDot+k) : (iLastDot-k)) ;
+							shX = 0x0FFF & (bReverse ?  (iLastDot+k) : (iLastDot-k));
 							shX = MAKE_LE(shX);
 
 							arrData.push_back(shX);
@@ -93,6 +93,19 @@ bool CImgConverter::Convert(cv::Mat const & img, LPCTSTR lpszConvertedFile)
 
 					arrData.push_back(shY);
 					bFirstInLine = false;
+
+					iDiff = bReverse ? (iLastDot - i) : (i - iLastDot);
+
+					if (iDiff > 0 && nLastDotPos)
+					{
+						for(int k = 0; k<iDiff; k++)
+						{
+							shX = 0x0FFF & (bReverse ? (iLastDot-k) : (iLastDot+k));
+							shX = MAKE_LE(shX);
+
+							arrData.push_back(shX);
+						}
+					}
 				}
 
 				shX = (0x7000 & (intensity << 12)) | (0x0FFF & i);
