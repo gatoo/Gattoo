@@ -28,7 +28,7 @@ protected:
 	static char getLevel(uchar intencity);
 	//static void getSideDots(cv::Mat &img, int &iMinX, int &iMaxX, int &iMinY, int &iMaxY);
 	bool doHalfTone();
-
+	bool getDriveToSave(std::basic_string<TCHAR> &strDrive);
 	cv::Mat m_Img;
 	CDC m_memDC;
 };

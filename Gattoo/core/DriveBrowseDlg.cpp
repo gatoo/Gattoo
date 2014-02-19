@@ -2,7 +2,7 @@
 
 #include <atltrace.h>
 
-//#include "resource.h"
+#include "../resource.h"
 #include "DriveBrowseDlg.h"
 
 #include <Commctrl.h>
@@ -31,10 +31,10 @@ bool CDriveBrowseDlg::browseDrive(TCHAR &chDrive)
 	m_hWnd = NULL;
 	m_chDrive = 0;
 
-//	INT_PTR res = DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_DRIVES), NULL, DialogProc, (LPARAM) this);
+	INT_PTR res = DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_DRIVES), NULL, DialogProc, (LPARAM) this);
 
-// 	if (IDOK == res)
-// 		chDrive = m_chDrive;
+	if (IDOK == res)
+		chDrive = m_chDrive;
 
 	return m_chDrive != 0;
 }
@@ -70,23 +70,23 @@ INT_PTR CALLBACK CDriveBrowseDlg::DialogProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			if (LOWORD(wParam) == 1)
 			{
 
-// 				HWND hTree = GetDlgItem(pDlg->m_hWnd, IDC_TREE_DRIVES);
-// 				HTREEITEM hItem = TreeView_GetSelection(hTree);
-// 				HTREEITEM hRoot = TreeView_GetRoot(hTree);
-// 
-// 				if (hItem != hRoot)
-// 				{
-// 					TVITEM item;
-// 					ZeroMemory(&item, sizeof(item));
-// 					item.hItem = hItem;
-// 					item.mask = TVIF_PARAM;
-// 					
-// 					BOOL b = TreeView_GetItem(hTree, &item);
-// 
-// 					pDlg->m_chDrive = ((LPCTSTR) item.lParam)[0];
-// 				}
-// 				else
-// 					pDlg->m_chDrive = 0;
+				HWND hTree = GetDlgItem(pDlg->m_hWnd, IDC_TREE_DRIVES);
+				HTREEITEM hItem = TreeView_GetSelection(hTree);
+				HTREEITEM hRoot = TreeView_GetRoot(hTree);
+
+				if (hItem != hRoot)
+				{
+					TVITEM item;
+					ZeroMemory(&item, sizeof(item));
+					item.hItem = hItem;
+					item.mask = TVIF_PARAM;
+					
+					BOOL b = TreeView_GetItem(hTree, &item);
+
+					pDlg->m_chDrive = ((LPCTSTR) item.lParam)[0];
+				}
+				else
+					pDlg->m_chDrive = 0;
 			}
 			
 			EndDialog(pDlg->m_hWnd, LOWORD(wParam));				
@@ -95,14 +95,14 @@ INT_PTR CALLBACK CDriveBrowseDlg::DialogProc(HWND hwnd, UINT uMsg, WPARAM wParam
 	
 	case WM_NOTIFY:
 		{
-// 			HWND hTree = GetDlgItem(pDlg->m_hWnd, IDC_TREE_DRIVES);
-// 			if (reinterpret_cast<LPNMHDR>(lParam)->hwndFrom == hTree)
-// 			{
-// 				if (reinterpret_cast<LPNMHDR>(lParam)->code == NM_DBLCLK)
-// 				{
-// 					int y= 0;// double-click
-// 				}
-// 			}
+			HWND hTree = GetDlgItem(pDlg->m_hWnd, IDC_TREE_DRIVES);
+			if (reinterpret_cast<LPNMHDR>(lParam)->hwndFrom == hTree)
+			{
+				if (reinterpret_cast<LPNMHDR>(lParam)->code == NM_DBLCLK)
+				{
+					int y= 0;// double-click
+				}
+			}
 		}
 		
 		break;
@@ -153,32 +153,32 @@ void CDriveBrowseDlg::FillDrivesTree()
 {
 	FillDrivesList(m_listDrives);
 	
-// 	HWND hTree = GetDlgItem(m_hWnd, IDC_TREE_DRIVES);
-// 	CDrivesList::iterator iter = m_listDrives.begin();
-// 	
-// 	TVITEM item;
-// 	TVINSERTSTRUCT insItem;
-// 	
-// 	ZeroMemory(&insItem, sizeof(insItem));
-// 	ZeroMemory(&item, sizeof(item));
-// 
-// 	item.mask = TVIF_TEXT|TVIF_PARAM;
-// 	item.pszText = _T("Removable media volumes");
-// 
-// 	insItem.item = item;
-// 	insItem.hParent = NULL;
-// 
-// 	HTREEITEM hRoot = (HTREEITEM)SendMessage(hTree, TVM_INSERTITEM, 0, (LPARAM)(LPTVINSERTSTRUCT)&insItem); 
-// 
-// 	insItem.hParent = hRoot;
-// 	insItem.hInsertAfter = TVI_SORT;
-// 
-// 	for(iter; iter != m_listDrives.end(); ++iter)
-// 	{
-// 		insItem.item.pszText = const_cast<LPTSTR>((*iter).c_str());
-// 		insItem.item.lParam = (LPARAM) ((*iter).c_str());
-// 		SendMessage(hTree, TVM_INSERTITEM, 0, (LPARAM)(LPTVINSERTSTRUCT)&insItem);
-// 	}
-// 
-// 	TreeView_Expand(hTree, hRoot, TVE_EXPAND);
+	HWND hTree = GetDlgItem(m_hWnd, IDC_TREE_DRIVES);
+	CDrivesList::iterator iter = m_listDrives.begin();
+	
+	TVITEM item;
+	TVINSERTSTRUCT insItem;
+	
+	ZeroMemory(&insItem, sizeof(insItem));
+	ZeroMemory(&item, sizeof(item));
+
+	item.mask = TVIF_TEXT|TVIF_PARAM;
+	item.pszText = _T("Removable media volumes");
+
+	insItem.item = item;
+	insItem.hParent = NULL;
+
+	HTREEITEM hRoot = (HTREEITEM)SendMessage(hTree, TVM_INSERTITEM, 0, (LPARAM)(LPTVINSERTSTRUCT)&insItem); 
+
+	insItem.hParent = hRoot;
+	insItem.hInsertAfter = TVI_SORT;
+
+	for(iter; iter != m_listDrives.end(); ++iter)
+	{
+		insItem.item.pszText = const_cast<LPTSTR>((*iter).c_str());
+		insItem.item.lParam = (LPARAM) ((*iter).c_str());
+		SendMessage(hTree, TVM_INSERTITEM, 0, (LPARAM)(LPTVINSERTSTRUCT)&insItem);
+	}
+
+	TreeView_Expand(hTree, hRoot, TVE_EXPAND);
 }

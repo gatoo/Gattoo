@@ -8,6 +8,8 @@
 #include "Filters/HalfToneFilter.h"
 
 #include "ImgConverters/ImgConverter.h"
+#include "StorageRoutine/CVolumeAccess.h"
+#include "DriveBrowseDlg.h"
 
 CGattooImg::CGattooImg(void)
 {
@@ -717,6 +719,17 @@ bool CGattooImg::Load(LPCSTR lpszFilePath)
 	return !m_Img.empty();
 }
 
+bool CGattooImg::getDriveToSave(std::basic_string<TCHAR> &strDrive)
+{
+	TCHAR chDrive = 0;
+
+	CDriveBrowseDlg dlg;
+	if (dlg.browseDrive(chDrive))
+		strDrive = chDrive;
+
+	return chDrive != 0;
+}
+
 bool CGattooImg::Process()
 {
 	std::vector<IImgFilter*> filters;
@@ -724,7 +737,7 @@ bool CGattooImg::Process()
 	filters.push_back(new CEqulizeFilter());
 	filters.push_back(new CHalfToneFilter());
 
-	for(int i=0; i<filters.size(); ++i)
+	for(size_t i=0; i<filters.size(); ++i)
 	{
 		filters[i]->Apply(m_Img);
 	}
@@ -741,6 +754,35 @@ bool CGattooImg::Process()
  	converter.CreateBitmap(strPath.c_str());
 
 	cv::cvtColor(m_Img, m_Img, CV_GRAY2RGB);
+
+	std::string strDrive;
+	getDriveToSave(strDrive);
+	if (0 == strDrive.size()) return false;
+
+	CVolumeAccess::setWorkingDriveLetter(strDrive[0]);
+	CVolumeAccess *vol = CVolumeAccess::getInstance();
+
+	if (!vol->checkVolumeParams())
+	{
+		if (IDYES != MessageBox(nullptr, _T("Volume parameters are not valid. Reformat drive (all data will be lost)?"), _T("Warning"), MB_YESNO|MB_ICONWARNING))
+			return false;
+
+		//formatDrive(strDrive[0]);
+
+		return true;
+	}
+
+	const DWORD dwSatrtSector = 70000;
+	if (!vol->saveDataToSector(strPath.c_str(), dwSatrtSector))
+	{
+		return false;
+	}
+
+	// strPath.erase(strPath.rfind("."));
+	// strPath.append(".bmp");
+	DeleteFile(strPath.c_str());
+
+	CVolumeAccess::cleanResources();
 
 	return true;
 }

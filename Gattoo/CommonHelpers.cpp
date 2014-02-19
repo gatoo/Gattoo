@@ -36,6 +36,8 @@ bool CCommonHelpers::getTempFilePath(std::string& strPath)
 		return false;
 	}
 
+	strPath.erase(strPath.length()-1);
+
 	char buffer[L_tmpnam];
 	tmpnam(buffer);
 
