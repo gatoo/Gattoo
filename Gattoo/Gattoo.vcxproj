@@ -101,6 +101,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
+    <None Include="res\eraser.cur" />
     <None Include="res\Gattoo.ico" />
     <None Include="res\Gattoo.rc2" />
     <None Include="res\GattooDoc.ico" />
@@ -112,7 +113,6 @@
     <None Include="res\properties_wnd_hc.ico" />
     <None Include="res\Toolbar.bmp" />
     <None Include="res\Toolbar256.bmp" />
-    <None Include="UserImages.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonHelpers.h" />

@@ -38,20 +38,6 @@ CGattooDoc::~CGattooDoc()
 {
 }
 
-//BOOL CGattooDoc::OnNewDocument()
-//{
-//	if (!CDocument::OnNewDocument())
-//		return FALSE;
-//
-//	// TODO: add reinitialization code here
-//	// (SDI documents will reuse this document)
-//
-//	return TRUE;
-//}
-
-
-
-
 // CGattooDoc serialization
 
 void CGattooDoc::Serialize(CArchive& ar)
@@ -136,8 +122,6 @@ void CGattooDoc::Dump(CDumpContext& dc) const
 
 
 // CGattooDoc commands
-
-
 BOOL CGattooDoc::OnOpenDocument(LPCTSTR lpszPathName)
 {
 	if (!CDocument::OnOpenDocument(lpszPathName))
@@ -156,19 +140,22 @@ void const * CGattooDoc::getImgData() const
 	return m_Img.getImgData();
 }
 
-
-//BOOL CGattooDoc::OnSaveDocument(LPCTSTR lpszPathName)
-//{
-//	return CDocument::OnSaveDocument(lpszPathName);
-//}
-
-
 void CGattooDoc::OnFileSave()
 {
-	m_Img.Process();
+	//m_Img.saveToSD();
 }
 
 void CGattooDoc::PerformDrawing(CDC* pDC, CRect const &rc)
 {
 	m_Img.Draw(pDC, rc);
+}
+
+void CGattooDoc::OnToolsHalftone()
+{
+	m_Img.doHalfTone();
+}
+
+void CGattooDoc::OnToolsSaveToSD()
+{
+	m_Img.saveToSD();
 }

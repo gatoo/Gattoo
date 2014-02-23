@@ -52,9 +52,6 @@
     <None Include="res\properties_hc.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="UserImages.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\Gattoo.rc2">
       <Filter>Resource Files</Filter>
     </None>
@@ -68,6 +65,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\Toolbar256.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\eraser.cur">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

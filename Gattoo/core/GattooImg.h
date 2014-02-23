@@ -18,7 +18,8 @@ public:
 	void const * getImgData() const;
 
 	bool Load(LPCSTR lpszFilePath);
-	bool Process();
+	bool doHalfTone();
+	bool saveToSD();
 
 	void Draw(CDC* pDC, CRect const &rc);
 
@@ -27,8 +28,11 @@ protected:
 	static unsigned char getColor(unsigned char chLevel);
 	static char getLevel(uchar intencity);
 	//static void getSideDots(cv::Mat &img, int &iMinX, int &iMaxX, int &iMinY, int &iMaxY);
-	bool doHalfTone();
+	
 	bool getDriveToSave(std::basic_string<TCHAR> &strDrive);
+	bool m_bIsChanged;
+	
+	BYTE* m_BMPBuff;
 	cv::Mat m_Img;
 	CDC m_memDC;
 };
