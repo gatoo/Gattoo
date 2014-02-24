@@ -19,5 +19,9 @@ bool CEqulizeFilter::Apply(cv::Mat &img)
 
 	cv::cvtColor(img, img, CV_GRAY2RGB);
 
+#ifdef _DEBUG
+	cv::imshow("Equalized", img);
+#endif
+
 	return true;
 }

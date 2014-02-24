@@ -43,6 +43,10 @@ bool CHalfToneFilter::Apply(cv::Mat & img)
 
 	cv::cvtColor(img, img, CV_GRAY2RGB);
 
+#ifdef _DEBUG
+	cv::imshow("Halftoned", img);
+#endif
+
 	return true;
 }
 
