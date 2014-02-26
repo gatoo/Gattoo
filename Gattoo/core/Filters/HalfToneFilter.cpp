@@ -11,7 +11,7 @@ CHalfToneFilter::~CHalfToneFilter(void)
 
 bool CHalfToneFilter::Apply(cv::Mat & img)
 {
-	cv::cvtColor(img, img, CV_RGB2GRAY);
+	if (img.empty()) return true;
 
 	int Error = 0;
 
@@ -40,8 +40,6 @@ bool CHalfToneFilter::Apply(cv::Mat & img)
 			Trans(Error, *img.ptr<UCHAR>(i+1, j), (double)5/16);
 			Trans(Error, *img.ptr<UCHAR>(i+1, j-1), (double)3/16);
 		}
-
-	cv::cvtColor(img, img, CV_GRAY2RGB);
 
 	return true;
 }
