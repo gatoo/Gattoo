@@ -113,6 +113,10 @@
     <None Include="res\properties_wnd_hc.ico" />
     <None Include="res\Toolbar.bmp" />
     <None Include="res\Toolbar256.bmp" />
+    <None Include="res\toolbar_.bmp" />
+    <None Include="res\toolbar_256.bmp" />
+    <None Include="res\toolbar_imgedit.bmp" />
+    <None Include="res\toolbar_imgedit_256.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonHelpers.h" />

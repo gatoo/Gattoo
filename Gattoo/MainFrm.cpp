@@ -83,6 +83,17 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	ASSERT(bNameValid);
 	m_wndToolBar.EnableCustomizeButton(TRUE, ID_VIEW_CUSTOMIZE, strCustomize);
 
+	if (!m_wndImgToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
+		!m_wndImgToolBar.LoadToolBar(theApp.m_bHiColorIcons ? IDR_TOOLBAR_IMGEDIT_256 : IDR_TOOLBAR_IMGEDIT))
+	{
+		TRACE0("Failed to create toolbar\n");
+		return -1;      // fail to create
+	}
+
+	bNameValid = strToolBarName.LoadString(IDS_TOOLBAR_IMGEDIT);
+	ASSERT(bNameValid);
+	m_wndImgToolBar.SetWindowText(strToolBarName);
+
 	// Allow user-defined toolbars operations:
 	InitUserToolbars(NULL, uiFirstUserToolBarId, uiLastUserToolBarId);
 
@@ -96,10 +107,11 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// TODO: Delete these five lines if you don't want the toolbar and menubar to be dockable
 	m_wndMenuBar.EnableDocking(CBRS_ALIGN_ANY);
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
+	m_wndImgToolBar.EnableDocking(CBRS_ALIGN_ANY);
 	EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndMenuBar);
 	DockPane(&m_wndToolBar);
-
+	DockPane(&m_wndImgToolBar);
 
 	// enable Visual Studio 2005 style docking window behavior
 	CDockingManager::SetDockingMode(DT_SMART);

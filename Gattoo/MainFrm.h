@@ -35,6 +35,7 @@ public:
 protected:  // control bar embedded members
 	CMFCMenuBar       m_wndMenuBar;
 	CMFCToolBar       m_wndToolBar;
+	CMFCToolBar       m_wndImgToolBar;
 	CMFCStatusBar     m_wndStatusBar;
 	CMFCToolBarImages m_UserImages;
 	COutputWnd        m_wndOutput;

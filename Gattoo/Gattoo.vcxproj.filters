@@ -70,6 +70,18 @@
     <None Include="res\eraser.cur">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\toolbar_imgedit.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\toolbar_.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\toolbar_256.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\toolbar_imgedit_256.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Gattoo.h">
