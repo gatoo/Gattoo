@@ -23,6 +23,10 @@ IMPLEMENT_DYNCREATE(CGattooDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CGattooDoc, CDocument)
 	ON_COMMAND(ID_FILE_SAVE, &CGattooDoc::OnFileSave)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_CROP, &CGattooDoc::OnUpdateToolsCrop)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_ERASER, &CGattooDoc::OnUpdateToolsEraser)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_ZOOM_IN, &CGattooDoc::OnUpdateToolsZoomIn)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_ZOOM_OUT, &CGattooDoc::OnUpdateToolsZoomOut)
 END_MESSAGE_MAP()
 
 
@@ -158,4 +162,28 @@ void CGattooDoc::OnToolsHalftone()
 void CGattooDoc::OnToolsSaveToSD()
 {
 	m_Img.saveToSD();
+}
+
+
+void CGattooDoc::OnUpdateToolsCrop(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(m_Img.IsLoaded());
+}
+
+
+void CGattooDoc::OnUpdateToolsEraser(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(m_Img.IsLoaded());
+}
+
+
+void CGattooDoc::OnUpdateToolsZoomIn(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(m_Img.IsLoaded());
+}
+
+
+void CGattooDoc::OnUpdateToolsZoomOut(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(m_Img.IsLoaded());
 }

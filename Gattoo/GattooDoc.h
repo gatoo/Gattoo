@@ -53,4 +53,8 @@ public:
 	afx_msg void OnFileSave();
 	afx_msg void OnToolsHalftone();
 	afx_msg void OnToolsSaveToSD();
+	afx_msg void OnUpdateToolsCrop(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateToolsEraser(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateToolsZoomIn(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateToolsZoomOut(CCmdUI *pCmdUI);
 };

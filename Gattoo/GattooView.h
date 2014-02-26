@@ -43,8 +43,7 @@ protected:
 public:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg void OnToolsHalftone();
-	afx_msg void OnToolsSaveToSD();
-	afx_msg void OnUpdateToolsEraser(CCmdUI *pCmdUI);
+	afx_msg void OnToolsSaveToSD();	
 };
 
 #ifndef _DEBUG  // debug version in GattooView.cpp

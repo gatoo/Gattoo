@@ -14,6 +14,7 @@
 CGattooImg::CGattooImg(void)
 	: m_bIsChanged(false)
 	, m_BMPBuff(nullptr)
+	, m_ZoomFactor(1)
 {
 }
 
@@ -212,4 +213,9 @@ void CGattooImg::Draw(CDC* pDC, CRect const &rc)
 	}
 
 	pDC->BitBlt(0, 0, rc.Width(), rc.Height(), &m_memDC, 0, 0, SRCCOPY);
+}
+
+bool CGattooImg::IsLoaded()
+{
+	return !m_Img.empty();
 }

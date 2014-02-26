@@ -27,27 +27,22 @@ class COutputWnd : public CDockablePane
 {
 // Construction
 public:
+	
 	COutputWnd();
-
 	void UpdateFonts();
 
 // Attributes
 protected:
-	CMFCTabCtrl	m_wndTabs;
+	
+	COutputList m_wndOutputLog;	
 
-	COutputList m_wndOutputBuild;
-	COutputList m_wndOutputDebug;
-	COutputList m_wndOutputFind;
-
-protected:
-	void FillBuildWindow();
-	void FillDebugWindow();
-	void FillFindWindow();
+	void FillLogWindow();
 
 	void AdjustHorzScroll(CListBox& wndListBox);
 
 // Implementation
 public:
+
 	virtual ~COutputWnd();
 
 protected:

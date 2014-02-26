@@ -26,7 +26,6 @@ BEGIN_MESSAGE_MAP(CGattooView, CView)
 	ON_WM_ERASEBKGND()
 	ON_COMMAND(ID_TOOLS_HALFTONE, &CGattooView::OnToolsHalftone)
 	ON_COMMAND(ID_TOOLS_SAVETOSD, &CGattooView::OnToolsSaveToSD)
-	ON_UPDATE_COMMAND_UI(ID_TOOLS_ERASER, &CGattooView::OnUpdateToolsEraser)
 END_MESSAGE_MAP()
 
 // CGattooView construction/destruction
@@ -121,11 +120,4 @@ void CGattooView::OnToolsSaveToSD()
 	CGattooDoc* pDoc = GetDocument();
 	pDoc->OnToolsSaveToSD();
 	Invalidate();
-}
-
-
-void CGattooView::OnUpdateToolsEraser(CCmdUI *pCmdUI)
-{
-	pCmdUI->SetCheck();
-	pCmdUI->Enable();
 }

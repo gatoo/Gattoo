@@ -74,14 +74,14 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 
 	CString strToolBarName;
-	bNameValid = strToolBarName.LoadString(IDS_TOOLBAR_STANDARD);
-	ASSERT(bNameValid);
-	m_wndToolBar.SetWindowText(strToolBarName);
+// 	bNameValid = strToolBarName.LoadString(IDS_TOOLBAR_STANDARD);
+// 	ASSERT(bNameValid);
+// 	m_wndToolBar.SetWindowText(strToolBarName);
 
 	CString strCustomize;
-	bNameValid = strCustomize.LoadString(IDS_TOOLBAR_CUSTOMIZE);
-	ASSERT(bNameValid);
-	m_wndToolBar.EnableCustomizeButton(TRUE, ID_VIEW_CUSTOMIZE, strCustomize);
+// 	bNameValid = strCustomize.LoadString(IDS_TOOLBAR_CUSTOMIZE);
+// 	ASSERT(bNameValid);
+// 	m_wndToolBar.EnableCustomizeButton(TRUE, ID_VIEW_CUSTOMIZE, strCustomize);
 
 	if (!m_wndImgToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
 		!m_wndImgToolBar.LoadToolBar(theApp.m_bHiColorIcons ? IDR_TOOLBAR_IMGEDIT_256 : IDR_TOOLBAR_IMGEDIT))
@@ -94,6 +94,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	ASSERT(bNameValid);
 	m_wndImgToolBar.SetWindowText(strToolBarName);
 
+	bNameValid = strCustomize.LoadString(IDS_TOOLBAR_CUSTOMIZE);
+	ASSERT(bNameValid);
+	m_wndImgToolBar.EnableCustomizeButton(TRUE, ID_VIEW_CUSTOMIZE, strCustomize);
+	
 	// Allow user-defined toolbars operations:
 	InitUserToolbars(NULL, uiFirstUserToolBarId, uiLastUserToolBarId);
 
@@ -106,11 +110,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// TODO: Delete these five lines if you don't want the toolbar and menubar to be dockable
 	m_wndMenuBar.EnableDocking(CBRS_ALIGN_ANY);
-	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
+	/*m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);*/
 	m_wndImgToolBar.EnableDocking(CBRS_ALIGN_ANY);
+	
 	EnableDocking(CBRS_ALIGN_ANY);
+	
 	DockPane(&m_wndMenuBar);
-	DockPane(&m_wndToolBar);
+	/*DockPane(&m_wndToolBar);*/
 	DockPane(&m_wndImgToolBar);
 
 	// enable Visual Studio 2005 style docking window behavior
@@ -127,6 +133,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_wndOutput.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndOutput);
+	
 	m_wndProperties.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndProperties);
 	
@@ -160,6 +167,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	lstBasicCommands.AddTail(ID_TOOLS_HALFTONE);
 	lstBasicCommands.AddTail(ID_TOOLS_SAVETOSD);
 	lstBasicCommands.AddTail(ID_TOOLS_ERASER);
+	lstBasicCommands.AddTail(ID_TOOLS_CROP);
+	lstBasicCommands.AddTail(ID_TOOLS_ZOOM_IN);
+	lstBasicCommands.AddTail(ID_TOOLS_ZOOM_OUT);
 
 	CMFCToolBar::SetBasicCommands(lstBasicCommands);
 

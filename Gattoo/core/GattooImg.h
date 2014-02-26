@@ -23,6 +23,8 @@ public:
 
 	void Draw(CDC* pDC, CRect const &rc);
 
+	bool IsLoaded();
+
 protected:
 
 	static unsigned char getColor(unsigned char chLevel);
@@ -31,6 +33,8 @@ protected:
 	
 	bool getDriveToSave(std::basic_string<TCHAR> &strDrive);
 	bool m_bIsChanged;
+
+	int m_ZoomFactor;
 	
 	BYTE* m_BMPBuff;
 	cv::Mat m_Img;
