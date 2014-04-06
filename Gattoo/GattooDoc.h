@@ -57,4 +57,6 @@ public:
 	afx_msg void OnUpdateToolsEraser(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateToolsZoomIn(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateToolsZoomOut(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateToolsHalftone(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateToolsSavetosd(CCmdUI *pCmdUI);
 };

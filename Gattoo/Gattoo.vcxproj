@@ -127,6 +127,8 @@
     <ClInclude Include="core\GattooImg.h" />
     <ClInclude Include="core\ImgConverters\IIMgConverter.h" />
     <ClInclude Include="core\ImgConverters\ImgConverter.h" />
+    <ClInclude Include="core\IProgress.h" />
+    <ClInclude Include="core\ProgressDlg.h" />
     <ClInclude Include="core\StorageRoutine\CVolumeAccess.h" />
     <ClInclude Include="Gattoo.h" />
     <ClInclude Include="GattooDoc.h" />
@@ -148,6 +150,7 @@
     <ClCompile Include="core\GattooImg.cpp" />
     <ClCompile Include="core\ImgConverters\ImgConverter.cpp" />
     <ClCompile Include="core\ImgSaver.cpp" />
+    <ClCompile Include="core\ProgressDlg.cpp" />
     <ClCompile Include="core\StorageRoutine\CVolumeAccess.cpp" />
     <ClCompile Include="Gattoo.cpp" />
     <ClCompile Include="GattooDoc.cpp" />

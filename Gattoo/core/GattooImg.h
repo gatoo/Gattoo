@@ -14,6 +14,14 @@ public:
 // 	static void ConvertBitmapWithMaxMin(char const * const szInImgFile);
 // 	static void ConvertBitmapByColor(char const * const szInImgFile);
 
+	enum EImageState
+	{
+		enUnknown,
+		enInitial,
+		enHalftone,
+		enCompleted
+	};
+
 	CSize getImgSize() const;
 	void const * getImgData() const;
 
@@ -23,7 +31,9 @@ public:
 
 	void Draw(CDC* pDC, CRect const &rc);
 
-	bool IsLoaded();
+	//bool IsLoaded();
+
+	EImageState getState() const;
 
 protected:
 
@@ -35,6 +45,8 @@ protected:
 	bool m_bIsChanged;
 
 	int m_ZoomFactor;
+
+	EImageState m_enState;
 	
 	BYTE* m_BMPBuff;
 	cv::Mat m_Img;

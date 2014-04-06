@@ -11,10 +11,13 @@
 #include "StorageRoutine/CVolumeAccess.h"
 #include "DriveBrowseDlg.h"
 
+#include "ProgressDlg.h"
+
 CGattooImg::CGattooImg(void)
 	: m_bIsChanged(false)
 	, m_BMPBuff(nullptr)
 	, m_ZoomFactor(1)
+	, m_enState(enUnknown)
 {
 }
 
@@ -68,6 +71,9 @@ bool CGattooImg::doHalfTone()
 	bool bResult = true;
 	std::vector<IImgFilter*> filters;
 
+	if (m_Img.empty())
+		return false;
+
 	filters.push_back(new CEqulizeFilter());
 	filters.push_back(new CHalfToneFilter());
 
@@ -79,6 +85,7 @@ bool CGattooImg::doHalfTone()
 	cv::cvtColor(m_Img, m_Img, CV_GRAY2RGB);
 
 	m_bIsChanged = bResult;
+	m_enState = enHalftone;
 
 	return bResult;
 }
@@ -97,6 +104,9 @@ bool CGattooImg::Load(LPCSTR lpszFilePath)
 {
 	m_Img = cv::imread(lpszFilePath);
 	m_bIsChanged = true;
+
+	m_enState = enInitial;
+
 	return !m_Img.empty();
 }
 
@@ -104,6 +114,7 @@ bool CGattooImg::getDriveToSave(std::basic_string<TCHAR> &strDrive)
 {
 	TCHAR chDrive = 0;
 
+	// TODO: Make it modal
 	CDriveBrowseDlg dlg;
 	if (dlg.browseDrive(chDrive))
 		strDrive = chDrive;
@@ -145,11 +156,8 @@ bool CGattooImg::saveToSD()
 		return true;
 	}
 
-	const DWORD dwSatrtSector = 70000;
-	if (!vol->saveDataToSector(strPath.c_str(), dwSatrtSector))
-	{
-		return false;
-	}
+	CProgressDlg progress;
+	progress.startSave(strPath);
 
 	DeleteFile(strPath.c_str());
 
@@ -215,7 +223,7 @@ void CGattooImg::Draw(CDC* pDC, CRect const &rc)
 	pDC->BitBlt(0, 0, rc.Width(), rc.Height(), &m_memDC, 0, 0, SRCCOPY);
 }
 
-bool CGattooImg::IsLoaded()
+CGattooImg::EImageState CGattooImg::getState() const
 {
-	return !m_Img.empty();
+	return m_enState;
 }

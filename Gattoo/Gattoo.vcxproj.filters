@@ -144,6 +144,12 @@
     <ClInclude Include="CommonHelpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="core\IProgress.h">
+      <Filter>core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\ProgressDlg.h">
+      <Filter>core\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Gattoo.cpp">
@@ -193,6 +199,9 @@
     </ClCompile>
     <ClCompile Include="CommonHelpers.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\ProgressDlg.cpp">
+      <Filter>core\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

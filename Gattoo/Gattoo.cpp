@@ -154,6 +154,8 @@ protected:
 // Implementation
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+//	afx_msg void OnUpdateToolsHalftone(CCmdUI *pCmdUI);
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
@@ -166,6 +168,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+//	ON_UPDATE_COMMAND_UI(ID_TOOLS_HALFTONE, &CAboutDlg::OnUpdateToolsHalftone)
 END_MESSAGE_MAP()
 
 // App command to run the dialog
@@ -198,3 +201,9 @@ void CGattooApp::SaveCustomState()
 
 
 
+
+
+//void CAboutDlg::OnUpdateToolsHalftone(CCmdUI *pCmdUI)
+//{
+//	// TODO: Add your command update UI handler code here
+//}

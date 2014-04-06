@@ -27,6 +27,8 @@ BEGIN_MESSAGE_MAP(CGattooDoc, CDocument)
 	ON_UPDATE_COMMAND_UI(ID_TOOLS_ERASER, &CGattooDoc::OnUpdateToolsEraser)
 	ON_UPDATE_COMMAND_UI(ID_TOOLS_ZOOM_IN, &CGattooDoc::OnUpdateToolsZoomIn)
 	ON_UPDATE_COMMAND_UI(ID_TOOLS_ZOOM_OUT, &CGattooDoc::OnUpdateToolsZoomOut)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_HALFTONE, &CGattooDoc::OnUpdateToolsHalftone)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_SAVETOSD, &CGattooDoc::OnUpdateToolsSavetosd)
 END_MESSAGE_MAP()
 
 
@@ -164,26 +166,32 @@ void CGattooDoc::OnToolsSaveToSD()
 	m_Img.saveToSD();
 }
 
-
 void CGattooDoc::OnUpdateToolsCrop(CCmdUI *pCmdUI)
 {
-	pCmdUI->Enable(m_Img.IsLoaded());
+	pCmdUI->Enable(m_Img.getState() != CGattooImg::enUnknown);
 }
-
 
 void CGattooDoc::OnUpdateToolsEraser(CCmdUI *pCmdUI)
 {
-	pCmdUI->Enable(m_Img.IsLoaded());
+	pCmdUI->Enable(m_Img.getState() != CGattooImg::enUnknown);
 }
-
 
 void CGattooDoc::OnUpdateToolsZoomIn(CCmdUI *pCmdUI)
 {
-	pCmdUI->Enable(m_Img.IsLoaded());
+	pCmdUI->Enable(m_Img.getState() != CGattooImg::enUnknown);
 }
-
 
 void CGattooDoc::OnUpdateToolsZoomOut(CCmdUI *pCmdUI)
 {
-	pCmdUI->Enable(m_Img.IsLoaded());
+	pCmdUI->Enable(m_Img.getState() != CGattooImg::enUnknown);
+}
+
+void CGattooDoc::OnUpdateToolsHalftone(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(m_Img.getState() == CGattooImg::enInitial);
+}
+
+void CGattooDoc::OnUpdateToolsSavetosd(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(m_Img.getState() == CGattooImg::enHalftone);
 }
