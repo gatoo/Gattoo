@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+
 using namespace std;
 
 CVolumeAccess* CVolumeAccess::s_instance = NULL;
@@ -447,14 +448,18 @@ bool CVolumeAccess::checkVolumeParams()
 	return true;
 }
 
-bool CVolumeAccess::saveDataToSector(LPCTSTR szFilePath, DWORD dwStartSector)
+bool CVolumeAccess::saveDataToSector(LPCTSTR szFilePath, DWORD dwStartSector, IProgress* pProgress)
 {
 	if (nullptr == szFilePath) return false;
 	
 	FILE* pFile = NULL;
 
-	_tfopen_s(&pFile, szFilePath, _T("rb+"));
+	_tfopen_s(&pFile, szFilePath, _T("rb"));
 	if (nullptr == pFile) return false;
+
+	fseek(pFile, 0, SEEK_END);
+	long lTotal = ftell(pFile);
+	fseek(pFile, 0, SEEK_SET);
 
 	size_t readData = 0;
 	const size_t iBufSize = m_sectorSize;
@@ -462,11 +467,14 @@ bool CVolumeAccess::saveDataToSector(LPCTSTR szFilePath, DWORD dwStartSector)
 	
 	readData = fread(&vecData[0], sizeof(BYTE), iBufSize, pFile);
 
+	pProgress->init(lTotal, 512);
+
 	dwStartSector -= m_bootSector.BPB_RsvdSecCnt;
 	while(readData == 512)
 	{
 		writeBytesToDeviceSector(&vecData[0], m_sectorSize, dwStartSector++);
 		readData = fread(&vecData[0], sizeof(BYTE), iBufSize, pFile);
+		pProgress->doStep();
 	}
 
 	if (readData)

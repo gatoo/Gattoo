@@ -21,7 +21,11 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>NotSet</CharacterSet>
     <UseOfMfc>Static</UseOfMfc>
+<<<<<<< HEAD
     <PlatformToolset>v100</PlatformToolset>
+=======
+    <PlatformToolset>v110_xp</PlatformToolset>
+>>>>>>> e6abbf49b7966bdd2191543b52485f160d6a140c
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -101,6 +105,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
+    <None Include="res\eraser.cur" />
     <None Include="res\Gattoo.ico" />
     <None Include="res\Gattoo.rc2" />
     <None Include="res\GattooDoc.ico" />
@@ -112,7 +117,10 @@
     <None Include="res\properties_wnd_hc.ico" />
     <None Include="res\Toolbar.bmp" />
     <None Include="res\Toolbar256.bmp" />
-    <None Include="UserImages.bmp" />
+    <None Include="res\toolbar_.bmp" />
+    <None Include="res\toolbar_256.bmp" />
+    <None Include="res\toolbar_imgedit.bmp" />
+    <None Include="res\toolbar_imgedit_256.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonHelpers.h" />
@@ -123,6 +131,8 @@
     <ClInclude Include="core\GattooImg.h" />
     <ClInclude Include="core\ImgConverters\IIMgConverter.h" />
     <ClInclude Include="core\ImgConverters\ImgConverter.h" />
+    <ClInclude Include="core\IProgress.h" />
+    <ClInclude Include="core\ProgressDlg.h" />
     <ClInclude Include="core\StorageRoutine\CVolumeAccess.h" />
     <ClInclude Include="Gattoo.h" />
     <ClInclude Include="GattooDoc.h" />
@@ -144,6 +154,7 @@
     <ClCompile Include="core\GattooImg.cpp" />
     <ClCompile Include="core\ImgConverters\ImgConverter.cpp" />
     <ClCompile Include="core\ImgSaver.cpp" />
+    <ClCompile Include="core\ProgressDlg.cpp" />
     <ClCompile Include="core\StorageRoutine\CVolumeAccess.cpp" />
     <ClCompile Include="Gattoo.cpp" />
     <ClCompile Include="GattooDoc.cpp" />

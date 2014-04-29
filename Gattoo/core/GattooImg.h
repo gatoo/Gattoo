@@ -14,21 +14,41 @@ public:
 // 	static void ConvertBitmapWithMaxMin(char const * const szInImgFile);
 // 	static void ConvertBitmapByColor(char const * const szInImgFile);
 
+	enum EImageState
+	{
+		enUnknown,
+		enInitial,
+		enHalftone,
+		enCompleted
+	};
+
 	CSize getImgSize() const;
 	void const * getImgData() const;
 
 	bool Load(LPCSTR lpszFilePath);
-	bool Process();
+	bool doHalfTone();
+	bool saveToSD();
 
 	void Draw(CDC* pDC, CRect const &rc);
+
+	//bool IsLoaded();
+
+	EImageState getState() const;
 
 protected:
 
 	static unsigned char getColor(unsigned char chLevel);
 	static char getLevel(uchar intencity);
 	//static void getSideDots(cv::Mat &img, int &iMinX, int &iMaxX, int &iMinY, int &iMaxY);
-	bool doHalfTone();
+	
 	bool getDriveToSave(std::basic_string<TCHAR> &strDrive);
+	bool m_bIsChanged;
+
+	int m_ZoomFactor;
+
+	EImageState m_enState;
+	
+	BYTE* m_BMPBuff;
 	cv::Mat m_Img;
 	CDC m_memDC;
 };

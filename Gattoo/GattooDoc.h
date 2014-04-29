@@ -51,4 +51,12 @@ protected:
 public:
 //	virtual BOOL OnSaveDocument(LPCTSTR lpszPathName);
 	afx_msg void OnFileSave();
+	afx_msg void OnToolsHalftone();
+	afx_msg void OnToolsSaveToSD();
+	afx_msg void OnUpdateToolsCrop(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateToolsEraser(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateToolsZoomIn(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateToolsZoomOut(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateToolsHalftone(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateToolsSavetosd(CCmdUI *pCmdUI);
 };

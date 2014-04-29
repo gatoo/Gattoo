@@ -89,7 +89,7 @@ BOOL CGattooApp::InitInstance()
 	// Change the registry key under which our settings are stored
 	// TODO: You should modify this string to be something appropriate
 	// such as the name of your company or organization
-	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
+	SetRegistryKey(_T("Iukysh"));
 	LoadStdProfileSettings(4);  // Load standard INI file options (including MRU)
 
 
@@ -154,6 +154,8 @@ protected:
 // Implementation
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+//	afx_msg void OnUpdateToolsHalftone(CCmdUI *pCmdUI);
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
@@ -166,6 +168,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+//	ON_UPDATE_COMMAND_UI(ID_TOOLS_HALFTONE, &CAboutDlg::OnUpdateToolsHalftone)
 END_MESSAGE_MAP()
 
 // App command to run the dialog
@@ -198,3 +201,9 @@ void CGattooApp::SaveCustomState()
 
 
 
+
+
+//void CAboutDlg::OnUpdateToolsHalftone(CCmdUI *pCmdUI)
+//{
+//	// TODO: Add your command update UI handler code here
+//}

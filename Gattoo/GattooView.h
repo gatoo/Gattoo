@@ -42,6 +42,8 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	afx_msg void OnToolsHalftone();
+	afx_msg void OnToolsSaveToSD();	
 };
 
 #ifndef _DEBUG  // debug version in GattooView.cpp

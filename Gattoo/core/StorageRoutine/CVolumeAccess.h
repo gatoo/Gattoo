@@ -1,6 +1,7 @@
 #pragma once
 
 #include <winioctl.h>
+#include "../IProgress.h"
 
 #pragma pack(push,1)
 struct FATBootSector
@@ -92,5 +93,5 @@ public:
 	~CVolumeAccess();
 
 	bool checkVolumeParams();
-	bool saveDataToSector(LPCTSTR szFilePath, DWORD dwStartSector);
+	bool saveDataToSector(LPCTSTR szFilePath, DWORD dwStartSector, IProgress* pProgress);
 };

@@ -66,7 +66,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// prevent the menu bar from taking the focus on activation
 	CMFCPopupMenu::SetForceMenuFocus(FALSE);
 
-	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
+	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(1, 1, 1, 1), IDR_MAINFRAME) ||
 		!m_wndToolBar.LoadToolBar(theApp.m_bHiColorIcons ? IDR_MAINFRAME_256 : IDR_MAINFRAME))
 	{
 		TRACE0("Failed to create toolbar\n");
@@ -83,8 +83,23 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	ASSERT(bNameValid);
 	m_wndToolBar.EnableCustomizeButton(TRUE, ID_VIEW_CUSTOMIZE, strCustomize);
 
-	// Allow user-defined toolbars operations:
-	InitUserToolbars(NULL, uiFirstUserToolBarId, uiLastUserToolBarId);
+	if (!m_wndImgToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC, CRect(1, 1, 1, 1), IDR_TOOLBAR_IMGEDIT) ||
+		!m_wndImgToolBar.LoadToolBar(theApp.m_bHiColorIcons ? IDR_TOOLBAR_IMGEDIT_256 : IDR_TOOLBAR_IMGEDIT))
+	{
+		TRACE0("Failed to create toolbar\n");
+		return -1;      // fail to create
+	}
+
+	bNameValid = strToolBarName.LoadString(IDS_TOOLBAR_IMGEDIT);
+	ASSERT(bNameValid);
+	m_wndImgToolBar.SetWindowText(strToolBarName);
+
+	bNameValid = strCustomize.LoadString(IDS_TOOLBAR_CUSTOMIZE);
+	ASSERT(bNameValid);
+	m_wndImgToolBar.EnableCustomizeButton(TRUE, ID_VIEW_CUSTOMIZE, strCustomize);
+	
+// 	// Allow user-defined toolbars operations:
+ 	InitUserToolbars(NULL, uiFirstUserToolBarId, uiLastUserToolBarId);
 
 	if (!m_wndStatusBar.Create(this))
 	{
@@ -93,13 +108,16 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 	m_wndStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(UINT));
 
-	// TODO: Delete these five lines if you don't want the toolbar and menubar to be dockable
+ 	// TODO: Delete these five lines if you don't want the toolbar and menubar to be dockable
 	m_wndMenuBar.EnableDocking(CBRS_ALIGN_ANY);
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
+	m_wndImgToolBar.EnableDocking(CBRS_ALIGN_ANY);
+
 	EnableDocking(CBRS_ALIGN_ANY);
+	
 	DockPane(&m_wndMenuBar);
 	DockPane(&m_wndToolBar);
-
+	DockPane(&m_wndImgToolBar);
 
 	// enable Visual Studio 2005 style docking window behavior
 	CDockingManager::SetDockingMode(DT_SMART);
@@ -115,42 +133,36 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_wndOutput.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndOutput);
+	
 	m_wndProperties.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndProperties);
-
-
+	
 	// Enable toolbar and docking window menu replacement
 	EnablePaneMenu(TRUE, ID_VIEW_CUSTOMIZE, strCustomize, ID_VIEW_TOOLBAR);
 
-	// enable quick (Alt+drag) toolbar customization
-	CMFCToolBar::EnableQuickCustomization();
-
-	if (CMFCToolBar::GetUserImages() == NULL)
-	{
-		// load user-defined toolbar images
-		if (m_UserImages.Load(_T(".\\UserImages.bmp")))
-		{
-			CMFCToolBar::SetUserImages(&m_UserImages);
-		}
-	}
-
-	// enable menu personalization (most-recently used commands)
-	// TODO: define your own basic commands, ensuring that each pulldown menu has at least one basic command.
-	CList<UINT, UINT> lstBasicCommands;
-
-	lstBasicCommands.AddTail(ID_FILE_NEW);
-	lstBasicCommands.AddTail(ID_FILE_OPEN);
-	lstBasicCommands.AddTail(ID_FILE_SAVE);
-	lstBasicCommands.AddTail(ID_FILE_PRINT);
-	lstBasicCommands.AddTail(ID_APP_EXIT);
-	lstBasicCommands.AddTail(ID_EDIT_CUT);
-	lstBasicCommands.AddTail(ID_EDIT_PASTE);
-	lstBasicCommands.AddTail(ID_EDIT_UNDO);
-	lstBasicCommands.AddTail(ID_APP_ABOUT);
-	lstBasicCommands.AddTail(ID_VIEW_STATUS_BAR);
-	lstBasicCommands.AddTail(ID_VIEW_TOOLBAR);
-
-	CMFCToolBar::SetBasicCommands(lstBasicCommands);
+// 	// enable quick (Alt+drag) toolbar customization
+// 	CMFCToolBar::EnableQuickCustomization();
+// 
+// 	// enable menu personalization (most-recently used commands)
+// 	// TODO: define your own basic commands, ensuring that each pulldown menu has at least one basic command.
+// 	CList<UINT, UINT> lstBasicCommands;
+// 
+// 	lstBasicCommands.AddTail(ID_FILE_OPEN);
+// 	lstBasicCommands.AddTail(ID_FILE_SAVE);
+// 	lstBasicCommands.AddTail(ID_FILE_PRINT);
+// 	lstBasicCommands.AddTail(ID_APP_EXIT);
+// 	lstBasicCommands.AddTail(ID_EDIT_UNDO);
+// 	lstBasicCommands.AddTail(ID_APP_ABOUT);
+// 	lstBasicCommands.AddTail(ID_VIEW_STATUS_BAR);
+// 	lstBasicCommands.AddTail(ID_VIEW_TOOLBAR);
+// 	lstBasicCommands.AddTail(ID_TOOLS_HALFTONE);
+// 	lstBasicCommands.AddTail(ID_TOOLS_SAVETOSD);
+// 	lstBasicCommands.AddTail(ID_TOOLS_ERASER);
+// 	lstBasicCommands.AddTail(ID_TOOLS_CROP);
+// 	lstBasicCommands.AddTail(ID_TOOLS_ZOOM_IN);
+// 	lstBasicCommands.AddTail(ID_TOOLS_ZOOM_OUT);
+// 
+// 	CMFCToolBar::SetBasicCommands(lstBasicCommands);
 
 	return 0;
 }

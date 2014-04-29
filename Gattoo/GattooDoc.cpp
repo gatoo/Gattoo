@@ -23,6 +23,12 @@ IMPLEMENT_DYNCREATE(CGattooDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CGattooDoc, CDocument)
 	ON_COMMAND(ID_FILE_SAVE, &CGattooDoc::OnFileSave)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_CROP, &CGattooDoc::OnUpdateToolsCrop)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_ERASER, &CGattooDoc::OnUpdateToolsEraser)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_ZOOM_IN, &CGattooDoc::OnUpdateToolsZoomIn)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_ZOOM_OUT, &CGattooDoc::OnUpdateToolsZoomOut)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_HALFTONE, &CGattooDoc::OnUpdateToolsHalftone)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_SAVETOSD, &CGattooDoc::OnUpdateToolsSavetosd)
 END_MESSAGE_MAP()
 
 
@@ -37,20 +43,6 @@ CGattooDoc::CGattooDoc()
 CGattooDoc::~CGattooDoc()
 {
 }
-
-//BOOL CGattooDoc::OnNewDocument()
-//{
-//	if (!CDocument::OnNewDocument())
-//		return FALSE;
-//
-//	// TODO: add reinitialization code here
-//	// (SDI documents will reuse this document)
-//
-//	return TRUE;
-//}
-
-
-
 
 // CGattooDoc serialization
 
@@ -136,8 +128,6 @@ void CGattooDoc::Dump(CDumpContext& dc) const
 
 
 // CGattooDoc commands
-
-
 BOOL CGattooDoc::OnOpenDocument(LPCTSTR lpszPathName)
 {
 	if (!CDocument::OnOpenDocument(lpszPathName))
@@ -156,19 +146,52 @@ void const * CGattooDoc::getImgData() const
 	return m_Img.getImgData();
 }
 
-
-//BOOL CGattooDoc::OnSaveDocument(LPCTSTR lpszPathName)
-//{
-//	return CDocument::OnSaveDocument(lpszPathName);
-//}
-
-
 void CGattooDoc::OnFileSave()
 {
-	m_Img.Process();
+	//m_Img.saveToSD();
 }
 
 void CGattooDoc::PerformDrawing(CDC* pDC, CRect const &rc)
 {
 	m_Img.Draw(pDC, rc);
+}
+
+void CGattooDoc::OnToolsHalftone()
+{
+	m_Img.doHalfTone();
+}
+
+void CGattooDoc::OnToolsSaveToSD()
+{
+	m_Img.saveToSD();
+}
+
+void CGattooDoc::OnUpdateToolsCrop(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(m_Img.getState() != CGattooImg::enUnknown);
+}
+
+void CGattooDoc::OnUpdateToolsEraser(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(m_Img.getState() != CGattooImg::enUnknown);
+}
+
+void CGattooDoc::OnUpdateToolsZoomIn(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(m_Img.getState() != CGattooImg::enUnknown);
+}
+
+void CGattooDoc::OnUpdateToolsZoomOut(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(m_Img.getState() != CGattooImg::enUnknown);
+}
+
+void CGattooDoc::OnUpdateToolsHalftone(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(m_Img.getState() == CGattooImg::enInitial);
+}
+
+void CGattooDoc::OnUpdateToolsSavetosd(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(m_Img.getState() == CGattooImg::enHalftone);
 }

@@ -59,8 +59,6 @@ INT_PTR CALLBACK CDriveBrowseDlg::DialogProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 	if (NULL == pDlg) return FALSE;
 
-	
-
 	switch(uMsg)
 	{
 	case WM_COMMAND:
