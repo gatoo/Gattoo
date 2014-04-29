@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <opencvdir>D:\Downloads\opencv\build\</opencvdir>
     <opencv_ver Condition="$(Configuration) == 'Debug'">246d</opencv_ver>
     <opencv_ver Condition="$(Configuration) == 'Release'">246</opencv_ver>
     <VS_ver Condition="$(PlatformToolSetVersion) == 100">10</VS_ver>
@@ -28,9 +27,6 @@ copy $(opencv_bin_dir)opencv_imgproc$(opencv_ver).dll $(TargetDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <BuildMacro Include="opencvdir">
-      <Value>$(opencvdir)</Value>
-    </BuildMacro>
     <BuildMacro Include="VS_ver">
       <Value>$(VS_ver)</Value>
     </BuildMacro>

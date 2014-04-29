@@ -125,10 +125,10 @@ void CPropertiesWnd::InitPropList()
 	m_wndPropList.SetVSDotNetLook();
 	m_wndPropList.MarkModifiedProperties();
 
-	UpdateData();
+	m_propInfo.GetAllProperties(m_wndPropList);
 
-	for(int i=0; i<m_wndPropList.GetPropertyCount(); i++)
-		EnableGroup(*m_wndPropList.GetProperty(i), FALSE);
+// 	for(int i=0; i<m_wndPropList.GetPropertyCount(); i++)
+// 		EnableGroup(*m_wndPropList.GetProperty(i), FALSE);
 }
 
 void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)
@@ -178,7 +178,7 @@ bool CPropertiesWnd::SetPropValue(LPCTSTR lpszGroup, LPCTSTR lpszName, _variant_
 
 void CPropertiesWnd::UpdateData()
 {
-	m_propInfo.GetAllProperties(m_wndPropList);
+	//m_propInfo.GetAllProperties(m_wndPropList);
 
-
+	//Invalidate(FALSE);
 }
