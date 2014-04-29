@@ -150,6 +150,12 @@
     <ClInclude Include="core\ProgressDlg.h">
       <Filter>core\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PropertiesInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImgPropertiesInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Gattoo.cpp">
@@ -202,6 +208,12 @@
     </ClCompile>
     <ClCompile Include="core\ProgressDlg.cpp">
       <Filter>core\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertiesInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImgPropertiesInfo.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

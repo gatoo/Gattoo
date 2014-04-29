@@ -2,13 +2,13 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <opencv_ver>246</opencv_ver>
+    <opencvdir>D:\Downloads\opencv\build\</opencvdir>
   </PropertyGroup>
   <PropertyGroup />
   <ItemDefinitionGroup />
   <ItemGroup>
-    <BuildMacro Include="opencv_ver">
-      <Value>$(opencv_ver)</Value>
+    <BuildMacro Include="opencvdir">
+      <Value>$(opencvdir)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>

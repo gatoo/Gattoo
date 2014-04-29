@@ -23,6 +23,7 @@ public:
 	};
 
 	CSize getImgSize() const;
+	std::string const & getImagePath() const;
 	void const * getImgData() const;
 
 	bool Load(LPCSTR lpszFilePath);
@@ -47,6 +48,8 @@ protected:
 	int m_ZoomFactor;
 
 	EImageState m_enState;
+
+	std::string m_strImgPath;
 	
 	BYTE* m_BMPBuff;
 	cv::Mat m_Img;

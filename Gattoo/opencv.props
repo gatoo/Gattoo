@@ -3,8 +3,11 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
     <opencvdir>D:\Downloads\opencv\build\</opencvdir>
-    <VS_ver>10</VS_ver>
-    <opencv_platform>x86</opencv_platform>
+    <opencv_ver Condition="$(Configuration) == 'Debug'">246d</opencv_ver>
+    <opencv_ver Condition="$(Configuration) == 'Release'">246</opencv_ver>
+    <VS_ver Condition="$(PlatformToolSetVersion) == 100">10</VS_ver>
+    <VS_ver Condition="$(PlatformToolSetVersion) == 110">11</VS_ver>
+    <opencv_platform>$(PlatformShortName)</opencv_platform>
     <opencv_lib_dir>$(opencvdir)$(opencv_platform)\vc$(VS_ver)\lib\</opencv_lib_dir>
     <opencv_inc_dir>$(opencvdir)include\</opencv_inc_dir>
     <opencv_bin_dir>$(opencvdir)$(opencv_platform)\vc$(VS_ver)\bin\</opencv_bin_dir>

@@ -37,12 +37,12 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="opencv.props" />
-    <Import Project="opencvd.props" />
+    <Import Project="local_settings.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="opencv.props" />
-    <Import Project="opencvr.props" />
+    <Import Project="local_settings.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -134,9 +134,11 @@
     <ClInclude Include="GattooDoc.h" />
     <ClInclude Include="GattooView.h" />
     <ClInclude Include="ILogger.h" />
+    <ClInclude Include="ImgPropertiesInfo.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="OutputLogger.h" />
     <ClInclude Include="OutputWnd.h" />
+    <ClInclude Include="PropertiesInfo.h" />
     <ClInclude Include="PropertiesWnd.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -155,9 +157,11 @@
     <ClCompile Include="Gattoo.cpp" />
     <ClCompile Include="GattooDoc.cpp" />
     <ClCompile Include="GattooView.cpp" />
+    <ClCompile Include="ImgPropertiesInfo.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="OutputLogger.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
+    <ClCompile Include="PropertiesInfo.cpp" />
     <ClCompile Include="PropertiesWnd.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

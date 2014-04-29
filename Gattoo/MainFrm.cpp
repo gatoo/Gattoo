@@ -24,6 +24,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_VIEW_CUSTOMIZE, &CMainFrame::OnViewCustomize)
 	ON_REGISTERED_MESSAGE(AFX_WM_CREATETOOLBAR, &CMainFrame::OnToolbarCreateNew)
 	ON_WM_SETTINGCHANGE()
+	ON_MESSAGE(IDM_USER_IMG_LOADED, &CMainFrame::OnIdmUserImgLoaded)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -116,8 +117,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	EnableDocking(CBRS_ALIGN_ANY);
 	
 	DockPane(&m_wndMenuBar);
-	DockPane(&m_wndToolBar);
 	DockPane(&m_wndImgToolBar);
+	DockPaneLeftOf(&m_wndToolBar, &m_wndImgToolBar);
 
 	// enable Visual Studio 2005 style docking window behavior
 	CDockingManager::SetDockingMode(DT_SMART);
@@ -291,4 +292,12 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 {
 	CFrameWndEx::OnSettingChange(uFlags, lpszSection);
 	m_wndOutput.UpdateFonts();
+}
+
+
+afx_msg LRESULT CMainFrame::OnIdmUserImgLoaded(WPARAM wParam, LPARAM lParam)
+{
+	m_wndProperties.SetPropValue(_T("Original Image"), _T("Path"), (_variant_t)_T("Test Path"), _T("No Desc"));
+	m_wndProperties.UpdateData();
+	return 0;
 }

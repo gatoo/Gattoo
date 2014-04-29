@@ -105,6 +105,8 @@ bool CGattooImg::Load(LPCSTR lpszFilePath)
 	m_Img = cv::imread(lpszFilePath);
 	m_bIsChanged = true;
 
+	m_strImgPath = lpszFilePath;
+
 	m_enState = enInitial;
 
 	return !m_Img.empty();
@@ -226,4 +228,9 @@ void CGattooImg::Draw(CDC* pDC, CRect const &rc)
 CGattooImg::EImageState CGattooImg::getState() const
 {
 	return m_enState;
+}
+
+std::string const & CGattooImg::getImagePath() const
+{
+	return m_strImgPath;
 }

@@ -133,7 +133,11 @@ BOOL CGattooDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	if (!CDocument::OnOpenDocument(lpszPathName))
 		return FALSE;
 
-	return m_Img.Load(lpszPathName);
+	if (!m_Img.Load(lpszPathName)) return FALSE;
+
+	SendMessage(AfxGetMainWnd()->GetSafeHwnd(), IDM_USER_IMG_LOADED, 0, 0);
+
+	return TRUE;
 }
 
 CSize CGattooDoc::getImgSize() const

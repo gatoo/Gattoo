@@ -39,7 +39,7 @@
 
 
 
-
+#define IDM_USER_IMG_LOADED	(WM_USER+100)
 
 
 
