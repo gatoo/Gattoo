@@ -21,11 +21,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>NotSet</CharacterSet>
     <UseOfMfc>Static</UseOfMfc>
-<<<<<<< HEAD
     <PlatformToolset>v100</PlatformToolset>
-=======
-    <PlatformToolset>v110_xp</PlatformToolset>
->>>>>>> e6abbf49b7966bdd2191543b52485f160d6a140c
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
