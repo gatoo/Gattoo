@@ -16,6 +16,8 @@ protected: // create from serialization only
 // Attributes
 public:
 
+	
+
 // Operations
 public:
 
@@ -33,6 +35,7 @@ public:
 #endif
 
 protected:  // control bar embedded members
+
 	CMFCMenuBar       m_wndMenuBar;
 	CMFCToolBar       m_wndToolBar;
 	CMFCToolBar       m_wndImgToolBar;
@@ -43,6 +46,7 @@ protected:  // control bar embedded members
 
 // Generated message map functions
 protected:
+
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnViewCustomize();
 	afx_msg LRESULT OnToolbarCreateNew(WPARAM wp, LPARAM lp);

@@ -24,6 +24,8 @@ public:
 
 	CSize getImgSize() const;
 	std::string const & getImagePath() const;
+	char getImageDepth() const;
+
 	void const * getImgData() const;
 
 	bool Load(LPCSTR lpszFilePath);

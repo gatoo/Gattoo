@@ -20,7 +20,15 @@ public:
 	CPropertiesWnd();
 	void AdjustLayout();
 
-	bool SetPropValue(LPCTSTR lpszGroup, LPCTSTR lpszName, _variant_t &value, LPCTSTR lpszDescription);
+	enum EProperty
+	{
+		enPath,
+		enDepth,
+		enSize,
+		enModification
+	};
+
+	bool SetPropValue(EProperty propType, _variant_t &value);
 
 	void UpdateData();
 
@@ -32,6 +40,8 @@ protected:
 
 // Implementation
 public:
+
+	
 
 	virtual ~CPropertiesWnd();
 

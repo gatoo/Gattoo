@@ -297,6 +297,7 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 
 afx_msg LRESULT CMainFrame::OnIdmUserImgLoaded(WPARAM wParam, LPARAM lParam)
 {
+
 	m_wndProperties.SetPropValue(_T("Original Image"), _T("Path"), (_variant_t)_T("Test Path"), _T("No Desc"));
 	m_wndProperties.UpdateData();
 	return 0;

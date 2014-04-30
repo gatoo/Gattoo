@@ -175,10 +175,3 @@ bool CPropertiesWnd::SetPropValue(LPCTSTR lpszGroup, LPCTSTR lpszName, _variant_
 {
 	return m_propInfo.SetValue(lpszGroup, lpszName, value, lpszDescription);
 }
-
-void CPropertiesWnd::UpdateData()
-{
-	//m_propInfo.GetAllProperties(m_wndPropList);
-
-	//Invalidate(FALSE);
-}
