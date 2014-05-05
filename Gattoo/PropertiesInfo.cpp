@@ -16,7 +16,7 @@ void CPropertiesInfo::GetAllProperties(CMFCPropertyGridCtrl &grid) const
 	CMFCPropertyGridProperty* pGroup = nullptr;
 
 	CGroupsMap::const_iterator iterGroup = m_Props.begin();
-
+	
 	while(iterGroup != m_Props.end())
 	{
 		pGroup = new CMFCPropertyGridProperty(iterGroup->first.c_str());
@@ -32,7 +32,9 @@ void CPropertiesInfo::GetAllProperties(CMFCPropertyGridCtrl &grid) const
 			++iterProp;
 		}
 
-		grid.AddProperty(pGroup);
+		//grid.AddProperty(pGroup);
+
+		delete pGroup;
 
 		++iterGroup;
 	}
@@ -40,7 +42,7 @@ void CPropertiesInfo::GetAllProperties(CMFCPropertyGridCtrl &grid) const
 
 bool CPropertiesInfo::SetValue(LPCTSTR lpszGroup, LPCTSTR lpszName, _variant_t &value, LPCTSTR lpszDescription)
 {
-	CGroupsMap::iterator iterGroup = m_Props.find(lpszGroup);
+	/*CGroupsMap::iterator iterGroup = m_Props.find(lpszGroup);
 
 	if (iterGroup == m_Props.end())
 	{
@@ -63,7 +65,7 @@ bool CPropertiesInfo::SetValue(LPCTSTR lpszGroup, LPCTSTR lpszName, _variant_t &
 			iterProp->second->SetDescription(lpszDescription);
 		}
 		
-	}
+	}*/
 
 	return true;
 }

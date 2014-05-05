@@ -20,17 +20,7 @@ public:
 	CPropertiesWnd();
 	void AdjustLayout();
 
-	enum EProperty
-	{
-		enPath,
-		enDepth,
-		enSize,
-		enModification
-	};
-
-	bool SetPropValue(EProperty propType, _variant_t &value);
-
-	void UpdateData();
+	bool SetPropValue(CImgPropertiesInfo::EProperty propType, _variant_t &value);
 
 protected:
 	CFont m_fntPropList;

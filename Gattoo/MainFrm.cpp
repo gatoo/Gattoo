@@ -6,6 +6,7 @@
 #include "Gattoo.h"
 
 #include "MainFrm.h"
+#include "ImgPropertiesInfo.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -298,7 +299,6 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 afx_msg LRESULT CMainFrame::OnIdmUserImgLoaded(WPARAM wParam, LPARAM lParam)
 {
 
-	m_wndProperties.SetPropValue(_T("Original Image"), _T("Path"), (_variant_t)_T("Test Path"), _T("No Desc"));
-	m_wndProperties.UpdateData();
+	m_wndProperties.SetPropValue(CImgPropertiesInfo::enOIPath, (_variant_t)_T("Test"));
 	return 0;
 }
