@@ -20,7 +20,7 @@ public:
 	CPropertiesWnd();
 	void AdjustLayout();
 
-	bool SetPropValue(CImgPropertiesInfo::EProperty propType, _variant_t &value);
+	bool SetPropValue(CImgPropertiesInfo::EProperty propType, _variant_t const &value);
 
 protected:
 	CFont m_fntPropList;

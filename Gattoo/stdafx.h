@@ -41,7 +41,9 @@
 
 #define IDM_USER_IMG_LOADED	(WM_USER+100)
 
-
+#define LogInf(msg, ...) ;
+#define LogWrn(msg, ...) ;
+#define LogErr(msg, ...) ;
 
 
 #ifdef _UNICODE

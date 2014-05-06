@@ -7,6 +7,7 @@
 
 #include "MainFrm.h"
 #include "ImgPropertiesInfo.h"
+#include "GattooDoc.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -298,7 +299,14 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 
 afx_msg LRESULT CMainFrame::OnIdmUserImgLoaded(WPARAM wParam, LPARAM lParam)
 {
+	CGattooDoc* pDoc = (CGattooDoc*) GetActiveDocument();
 
-	m_wndProperties.SetPropValue(CImgPropertiesInfo::enOIPath, (_variant_t)_T("Test"));
+	m_wndProperties.SetPropValue(CImgPropertiesInfo::enOIPath, (_variant_t)pDoc->GetPathName());
+	m_wndProperties.SetPropValue(CImgPropertiesInfo::enOISize, (_variant_t)pDoc->getImgDimension().c_str());
+	m_wndProperties.SetPropValue(CImgPropertiesInfo::enOIDepth, (_variant_t)pDoc->getImgDepth().c_str());
+	m_wndProperties.SetPropValue(CImgPropertiesInfo::enOIModification, (_variant_t)pDoc->getImgModification().c_str());
+
+	m_wndProperties.SetPropValue(CImgPropertiesInfo::enPISize, (_variant_t)pDoc->getImgPrintDimension().c_str());
+
 	return 0;
 }

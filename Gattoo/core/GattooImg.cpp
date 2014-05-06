@@ -105,6 +105,8 @@ bool CGattooImg::Load(LPCSTR lpszFilePath)
 	m_Img = cv::imread(lpszFilePath);
 	m_bIsChanged = true;
 
+	assert(CV_8U == m_Img.depth());
+
 	m_strImgPath = lpszFilePath;
 
 	m_enState = enInitial;
@@ -233,4 +235,9 @@ CGattooImg::EImageState CGattooImg::getState() const
 std::string const & CGattooImg::getImagePath() const
 {
 	return m_strImgPath;
+}
+
+char CGattooImg::getImageDepth() const
+{
+	return (m_Img.empty()) ? 0 : m_Img.channels() * 8;
 }

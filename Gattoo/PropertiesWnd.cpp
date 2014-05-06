@@ -171,7 +171,7 @@ void CPropertiesWnd::EnableGroup(CMFCPropertyGridProperty &refGroup, BOOL bEnabl
 		refGroup.GetSubItem(i)->Enable(bEnable);
 }
 
-bool CPropertiesWnd::SetPropValue(CImgPropertiesInfo::EProperty propType, _variant_t &value)
+bool CPropertiesWnd::SetPropValue(CImgPropertiesInfo::EProperty propType, _variant_t const &value)
 {
-	return 1;//m_propInfo.SetValue(propType, value);
+	return m_propInfo.SetValue(propType, value);
 }

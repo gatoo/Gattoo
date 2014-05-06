@@ -34,6 +34,17 @@ public:
 
 protected:
 
+	enum ETool
+	{
+		enNone,
+		enCrop,
+		enErase,
+		enZoomIn,
+		enZoomOut
+	};
+
+	ETool m_enCurrentTool;
+
 // Generated message map functions
 protected:
 	afx_msg void OnFilePrintPreview();
@@ -44,6 +55,8 @@ public:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg void OnToolsHalftone();
 	afx_msg void OnToolsSaveToSD();	
+	afx_msg void OnToolsCrop();
+	afx_msg void OnUpdateToolsCrop(CCmdUI *pCmdUI);
 };
 
 #ifndef _DEBUG  // debug version in GattooView.cpp

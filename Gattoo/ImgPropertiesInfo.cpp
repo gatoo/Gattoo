@@ -14,27 +14,18 @@ CImgPropertiesInfo::~CImgPropertiesInfo(void)
 
 void CImgPropertiesInfo::FillDefaultValues()
 {
-	m_Props.clear();
+	ClearProps();
 
-	std::pair<CGroupsMap::iterator,bool> group;
-	std::pair<LPCTSTR, CMFCPropertyGridProperty*> valueData;
+	CMFCPropertyGridProperty* pGroup = AddValue(enOIPath);
 
-	group = m_Props.insert(CGroupsMap::value_type(_T("Original Image"), CPropsMap()));
-	group.first->second.insert(CPropsMap::value_type(_T("Path"), new CMFCPropertyGridProperty(_T("Path"), (_variant_t) _T(""), _T("File location."))));
-	group.first->second.insert(CPropsMap::value_type(_T("Date"), new CMFCPropertyGridProperty(_T("Date"), (_variant_t) _T(""), _T("File modification time."))));
-	group.first->second.insert(CPropsMap::value_type(_T("Depth"), new CMFCPropertyGridProperty(_T("Depth"), (_variant_t) _T(""), _T("Bits per pixel."))));
-	group.first->second.insert(CPropsMap::value_type(_T("Size"), new CMFCPropertyGridProperty(_T("Size"), (_variant_t) _T(""), _T("Specifies the original image size, px."))));
+	AddValue(enOIPath, pGroup, (_variant_t) _T(""), _T("File location."));
+	AddValue(enOIDepth, pGroup, (_variant_t) _T(""), _T("Bits per pixel."));
+	AddValue(enOISize, pGroup, (_variant_t) _T(""), _T("Specifies the original image size, px."));
+	AddValue(enOIModification, pGroup, (_variant_t) _T(""), _T("File modification time."));
 
+	pGroup = AddValue(enPISize);
 
-	/***********/
-
-	group = m_Props.insert(CGroupsMap::value_type(_T("Image to print"), CPropsMap()));
-	group.first->second.insert(CPropsMap::value_type(_T("Size"), new CMFCPropertyGridProperty(_T("Size"), (_variant_t) _T(""), _T("Specifies the printing image size, mm."))));
-}
-
-bool CImgPropertiesInfo::GetPropInfoByID(int propType, LPCTSTR* lpszGroup, LPCTSTR* lpszName, LPCTSTR* lpszDescription)
-{
-	throw std::exception("The method or operation is not implemented.");
+	AddValue(enPISize, pGroup, (_variant_t) _T(""), _T("Specifies the printing image size, mm."));
 }
 
 LPCTSTR CImgPropertiesInfo::getGroupName(int enProp)

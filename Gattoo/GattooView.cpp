@@ -26,11 +26,14 @@ BEGIN_MESSAGE_MAP(CGattooView, CView)
 	ON_WM_ERASEBKGND()
 	ON_COMMAND(ID_TOOLS_HALFTONE, &CGattooView::OnToolsHalftone)
 	ON_COMMAND(ID_TOOLS_SAVETOSD, &CGattooView::OnToolsSaveToSD)
+	ON_COMMAND(ID_TOOLS_CROP, &CGattooView::OnToolsCrop)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_CROP, &CGattooView::OnUpdateToolsCrop)
 END_MESSAGE_MAP()
 
 // CGattooView construction/destruction
 
 CGattooView::CGattooView()
+	: m_enCurrentTool(enNone)
 {
 	// TODO: add construction code here
 
@@ -120,4 +123,16 @@ void CGattooView::OnToolsSaveToSD()
 	CGattooDoc* pDoc = GetDocument();
 	pDoc->OnToolsSaveToSD();
 	Invalidate();
+}
+
+
+void CGattooView::OnToolsCrop()
+{
+	m_enCurrentTool = enCrop;
+}
+
+
+void CGattooView::OnUpdateToolsCrop(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(enCrop == m_enCurrentTool);
 }

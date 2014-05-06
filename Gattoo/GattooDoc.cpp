@@ -12,6 +12,8 @@
 #include "GattooDoc.h"
 
 #include <propkey.h>
+#include <sstream>
+#include <iomanip>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -135,6 +137,8 @@ BOOL CGattooDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 	if (!m_Img.Load(lpszPathName)) return FALSE;
 
+	SetPathName(lpszPathName);
+
 	SendMessage(AfxGetMainWnd()->GetSafeHwnd(), IDM_USER_IMG_LOADED, 0, 0);
 
 	return TRUE;
@@ -198,4 +202,62 @@ void CGattooDoc::OnUpdateToolsHalftone(CCmdUI *pCmdUI)
 void CGattooDoc::OnUpdateToolsSavetosd(CCmdUI *pCmdUI)
 {
 	pCmdUI->Enable(m_Img.getState() == CGattooImg::enHalftone);
+}
+
+std::string const CGattooDoc::getImgDimension() const
+{
+	std::stringstream str;
+
+	CSize sz = getImgSize();
+	str << sz.cx << "x" << sz.cy;
+
+	return str.str();
+}
+
+std::string const CGattooDoc::getImgPrintDimension() const
+{
+	const double dScale = 0.25;
+	std::stringstream str;
+
+	CSize sz = getImgSize();
+	str << sz.cx * dScale << "x" << sz.cy * dScale;
+
+	return str.str();
+}
+
+std::string const CGattooDoc::getImgModification() const
+{
+	WIN32_FILE_ATTRIBUTE_DATA fileAttrData = {0};
+	GetFileAttributesEx(GetPathName(), GetFileExInfoStandard, &fileAttrData);
+
+	SYSTEMTIME stLocal = {0};
+	FILETIME ftLastModifiedDate = fileAttrData.ftLastWriteTime;
+
+	FileTimeToLocalFileTime(&ftLastModifiedDate, &ftLastModifiedDate);
+	FileTimeToSystemTime(&ftLastModifiedDate, &stLocal);
+
+	std::stringstream str;
+
+	str << std::setw(2) << std::setfill('0');
+	str << stLocal.wHour << ":";
+	str << std::setw(2) << std::setfill('0');
+	str << stLocal.wMinute << ":";
+	str << std::setw(2) << std::setfill('0');
+	str << stLocal.wSecond;
+	str << " ";
+	str << std::setw(2) << std::setfill('0');
+	str << stLocal.wDay << ".";
+	str << std::setw(2) << std::setfill('0');
+	str << stLocal.wMonth << ".";
+	str << std::setw(2) << std::setfill('0');
+	str << stLocal.wYear;
+
+	return str.str();
+}
+
+std::string const CGattooDoc::getImgDepth() const
+{
+	std::stringstream str;
+	str << (int) m_Img.getImageDepth();
+	return str.str();
 }

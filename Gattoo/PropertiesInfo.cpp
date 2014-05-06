@@ -8,64 +8,62 @@ CPropertiesInfo::CPropertiesInfo(void)
 
 CPropertiesInfo::~CPropertiesInfo(void)
 {
+	ClearProps();
 }
 
-void CPropertiesInfo::GetAllProperties(CMFCPropertyGridCtrl &grid) const
+void CPropertiesInfo::GetAllProperties(CMFCPropertyGridCtrl &grid)
 {
-	CMFCPropertyGridProperty* pProp = nullptr;
-	CMFCPropertyGridProperty* pGroup = nullptr;
+	CGroupsSet::iterator iter = m_setGroups.begin();
 
-	CGroupsMap::const_iterator iterGroup = m_Props.begin();
-	
-	while(iterGroup != m_Props.end())
+	while(iter != m_setGroups.end())
 	{
-		pGroup = new CMFCPropertyGridProperty(iterGroup->first.c_str());
-
-		CPropsMap::const_iterator iterProp = iterGroup->second.begin();
-
-		while(iterProp != iterGroup->second.end())
-		{
-			pProp = iterProp->second;
-			pProp->AllowEdit(FALSE);
-			pGroup->AddSubItem(pProp);
-
-			++iterProp;
-		}
-
-		//grid.AddProperty(pGroup);
-
-		delete pGroup;
-
-		++iterGroup;
+		grid.AddProperty(*iter);
+		iter = m_setGroups.erase(iter);
 	}
 }
 
-bool CPropertiesInfo::SetValue(LPCTSTR lpszGroup, LPCTSTR lpszName, _variant_t &value, LPCTSTR lpszDescription)
+CMFCPropertyGridProperty* CPropertiesInfo::AddValue(int propType, CMFCPropertyGridProperty* pGroup /*= nullptr*/, _variant_t &value /*= _variant_t()*/, LPCTSTR lpszDescription /*= nullptr*/)
 {
-	/*CGroupsMap::iterator iterGroup = m_Props.find(lpszGroup);
-
-	if (iterGroup == m_Props.end())
+	if (pGroup == nullptr)
 	{
-		CPropsMap tmpProp;
-
-		tmpProp[lpszName] = new CMFCPropertyGridProperty(lpszName, value, lpszDescription);
-		m_Props[lpszGroup] = tmpProp;
+		// Create group
+		pGroup = *m_setGroups.insert(new CMFCPropertyGridProperty(getGroupName(propType))).first;
 	}
 	else
 	{
-		CPropsMap::iterator iterProp = iterGroup->second.find(lpszName);
-
-		if (iterProp == iterGroup->second.end())
-		{
-			iterGroup->second.insert(CPropsMap::value_type(lpszName, new CMFCPropertyGridProperty(lpszName, value, lpszDescription)));
-		}
-		else
-		{
-			iterProp->second->SetValue(value);
-			iterProp->second->SetDescription(lpszDescription);
-		}
+		// Create property
+		CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty(getPropName(propType), value, lpszDescription);
+		m_mapProps[propType] = pProp;
 		
-	}*/
+		pProp->AllowEdit(FALSE);
 
+		pGroup->AddSubItem(pProp);
+		pGroup = nullptr;
+	}
+
+	return pGroup;
+}
+
+bool CPropertiesInfo::SetValue(int propType, _variant_t const &value)
+{
+	CPropertiesMap::iterator iter = m_mapProps.find(propType);
+
+	if (m_mapProps.end() == iter)
+	{
+		LogErr(_T("Failed to find property with id=%d"), propType);
+		return false;
+	}
+
+	iter->second->SetValue(value);
 	return true;
+}
+
+void CPropertiesInfo::ClearProps()
+{
+	CGroupsSet::iterator iter = m_setGroups.begin();
+
+	for(iter; iter != m_setGroups.end(); ++iter)
+		delete (*iter);
+
+	m_setGroups.clear();
 }
