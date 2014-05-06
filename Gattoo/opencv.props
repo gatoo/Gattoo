@@ -2,9 +2,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <opencv_ver Condition="$(Configuration) == 'Debug'">249d</opencv_ver>
+    <opencv_ver Condition="$(Configuration) == 'Debug'">246d</opencv_ver>
     <opencv_ver Condition="$(Configuration) == 'Release'">249</opencv_ver>
-    <VS_ver>10</VS_ver>
+    <VS_ver Condition="$(PlatformToolsetVersion) == 100">10</VS_ver>
+    <VS_ver Condition="$(PlatformToolsetVersion) == 110">11</VS_ver>
     <opencv_platform>$(PlatformShortName)</opencv_platform>
     <opencv_lib_dir>$(opencvdir)$(opencv_platform)\vc$(VS_ver)\lib\</opencv_lib_dir>
     <opencv_inc_dir>$(opencvdir)include\</opencv_inc_dir>
