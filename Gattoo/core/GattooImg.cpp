@@ -11,7 +11,9 @@
 #include "StorageRoutine/CVolumeAccess.h"
 #include "DriveBrowseDlg.h"
 
-#include "ProgressDlg.h"
+#include "../resource.h"
+
+#include <sstream>
 
 CGattooImg::CGattooImg(void)
 	: m_bIsChanged(false)
@@ -157,15 +159,88 @@ bool CGattooImg::saveToSD()
 
 		//formatDrive(strDrive[0]);
 
-		return true;
+		//return true;
 	}
 
-	CProgressDlg progress;
-	progress.startSave(strPath);
+	CUPDialog progress(AfxGetMainWnd()->GetSafeHwnd(), ThreadProc, (LPVOID)strPath.c_str());
+
+	progress.SetDialogTemplate(nullptr, MAKEINTRESOURCE(IDD_DIALOG_SAVE_PROGRESS), IDC_STATIC_PROGRESS, IDC_PROGRESS, IDC_BUTTON_CANCEL);
+
+	if (IDOK == progress.DoModal())
+		MessageBox(AfxGetMainWnd()->GetSafeHwnd(), _T("Image was saved to SD card successfully."), _T("Information"), MB_OK|MB_ICONINFORMATION);
+	else
+		MessageBox(AfxGetMainWnd()->GetSafeHwnd(), _T("Image saving to SD card was interrupted."), _T("Warning"), MB_OK|MB_ICONEXCLAMATION);
+	//startSave(strPath);
 
 	DeleteFile(strPath.c_str());
 
 	CVolumeAccess::cleanResources();
+
+	return true;
+}
+
+bool CGattooImg::ThreadProc(const CUPDUPDATA* pCUPDUPData)
+{
+	CVolumeAccess *vol = CVolumeAccess::getInstance();
+
+	LPCTSTR szFilePath = (LPCTSTR) pCUPDUPData->GetAppData();
+	if (nullptr == szFilePath) return false;
+
+	FILE* pFile = NULL;
+
+	_tfopen_s(&pFile, szFilePath, _T("rb"));
+	if (nullptr == pFile) return false;
+
+	fseek(pFile, 0, SEEK_END);
+	long lTotal = ftell(pFile);
+	fseek(pFile, 0, SEEK_SET);
+
+	DWORD dwStartSector = 70000;
+	size_t readData = 0;
+	const size_t iBufSize = vol->getSectorSize();
+	std::vector<BYTE> vecData(iBufSize);
+
+	readData = fread(&vecData[0], sizeof(BYTE), iBufSize, pFile);
+
+	const double iProgressStep = 100.0 / ceil((double)lTotal/iBufSize);
+	double dCurProgress = iProgressStep;
+
+	std::stringstream strInfo;
+	
+	strInfo << _T("Completed ");
+
+	std::streampos const iUpdtPos = strInfo.tellp();
+	strInfo << "0%";
+
+ 	dwStartSector -= vol->getResrvdSctCount();
+	while(readData == iBufSize && !pCUPDUPData->ShouldTerminate())
+	{
+		vol->writeBytesToDeviceSector(&vecData[0], iBufSize, dwStartSector++);
+		readData = fread(&vecData[0], sizeof(BYTE), iBufSize, pFile);
+
+
+		pCUPDUPData->SetProgress(strInfo.str().c_str(), (int)dCurProgress);
+		dCurProgress += iProgressStep;
+
+		strInfo.seekp(iUpdtPos);
+		strInfo << (int)dCurProgress << _T("%");
+
+#ifdef _DEBUG
+		Sleep(50);
+#elif
+		Sleep(0);
+#endif
+
+	}
+
+	if (readData)
+	{
+		memset(&vecData[0] + readData, 0, iBufSize - readData);
+		vol->writeBytesToDeviceSector(&vecData[0], iBufSize, dwStartSector);
+		pCUPDUPData->SetProgress((int)dCurProgress);
+	}
+
+	fclose(pFile);
 
 	return true;
 }

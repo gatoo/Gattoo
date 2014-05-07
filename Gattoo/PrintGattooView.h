@@ -4,12 +4,13 @@
 
 #pragma once
 
+#include "GattooDoc.h"
 
-class CGattooView : public CView
+class CPrintGattooView : public CView
 {
 protected: // create from serialization only
-	CGattooView();
-	DECLARE_DYNCREATE(CGattooView)
+	CPrintGattooView();
+	DECLARE_DYNCREATE(CPrintGattooView)
 
 // Attributes
 public:
@@ -26,7 +27,7 @@ protected:
 
 // Implementation
 public:
-	virtual ~CGattooView();
+	virtual ~CPrintGattooView();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
@@ -60,7 +61,7 @@ public:
 };
 
 #ifndef _DEBUG  // debug version in GattooView.cpp
-inline CGattooDoc* CGattooView::GetDocument() const
+inline CGattooDoc* CPrintGattooView::GetDocument() const
    { return reinterpret_cast<CGattooDoc*>(m_pDocument); }
 #endif
 

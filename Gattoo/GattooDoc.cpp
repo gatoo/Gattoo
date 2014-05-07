@@ -156,7 +156,7 @@ void const * CGattooDoc::getImgData() const
 
 void CGattooDoc::OnFileSave()
 {
-	//m_Img.saveToSD();
+	m_Img.saveToSD();
 }
 
 void CGattooDoc::PerformDrawing(CDC* pDC, CRect const &rc)

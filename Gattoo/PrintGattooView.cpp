@@ -10,7 +10,7 @@
 #endif
 
 #include "GattooDoc.h"
-#include "GattooView.h"
+#include "PrintGattooView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -18,32 +18,32 @@
 
 // CGattooView
 
-IMPLEMENT_DYNCREATE(CGattooView, CView)
+IMPLEMENT_DYNCREATE(CPrintGattooView, CView)
 
-BEGIN_MESSAGE_MAP(CGattooView, CView)
+BEGIN_MESSAGE_MAP(CPrintGattooView, CView)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
 	ON_WM_ERASEBKGND()
-	ON_COMMAND(ID_TOOLS_HALFTONE, &CGattooView::OnToolsHalftone)
-	ON_COMMAND(ID_TOOLS_SAVETOSD, &CGattooView::OnToolsSaveToSD)
-	ON_COMMAND(ID_TOOLS_CROP, &CGattooView::OnToolsCrop)
-	ON_UPDATE_COMMAND_UI(ID_TOOLS_CROP, &CGattooView::OnUpdateToolsCrop)
+	ON_COMMAND(ID_TOOLS_HALFTONE, &CPrintGattooView::OnToolsHalftone)
+	ON_COMMAND(ID_TOOLS_SAVETOSD, &CPrintGattooView::OnToolsSaveToSD)
+	ON_COMMAND(ID_TOOLS_CROP, &CPrintGattooView::OnToolsCrop)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_CROP, &CPrintGattooView::OnUpdateToolsCrop)
 END_MESSAGE_MAP()
 
 // CGattooView construction/destruction
 
-CGattooView::CGattooView()
+CPrintGattooView::CPrintGattooView()
 	: m_enCurrentTool(enNone)
 {
 	// TODO: add construction code here
 
 }
 
-CGattooView::~CGattooView()
+CPrintGattooView::~CPrintGattooView()
 {
 }
 
-BOOL CGattooView::PreCreateWindow(CREATESTRUCT& cs)
+BOOL CPrintGattooView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
@@ -53,7 +53,7 @@ BOOL CGattooView::PreCreateWindow(CREATESTRUCT& cs)
 
 // CGattooView drawing
 
-void CGattooView::OnDraw(CDC* pDC)
+void CPrintGattooView::OnDraw(CDC* pDC)
 {
 	CGattooDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
@@ -65,13 +65,13 @@ void CGattooView::OnDraw(CDC* pDC)
 	pDoc->PerformDrawing(pDC, rc);
 }
 
-void CGattooView::OnRButtonUp(UINT /* nFlags */, CPoint point)
+void CPrintGattooView::OnRButtonUp(UINT /* nFlags */, CPoint point)
 {
 	ClientToScreen(&point);
 	OnContextMenu(this, point);
 }
 
-void CGattooView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
+void CPrintGattooView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 {
 #ifndef SHARED_HANDLERS
 	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EDIT, point.x, point.y, this, TRUE);
@@ -82,17 +82,17 @@ void CGattooView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 // CGattooView diagnostics
 
 #ifdef _DEBUG
-void CGattooView::AssertValid() const
+void CPrintGattooView::AssertValid() const
 {
 	CView::AssertValid();
 }
 
-void CGattooView::Dump(CDumpContext& dc) const
+void CPrintGattooView::Dump(CDumpContext& dc) const
 {
 	CView::Dump(dc);
 }
 
-CGattooDoc* CGattooView::GetDocument() const // non-debug version is inline
+CGattooDoc* CPrintGattooView::GetDocument() const // non-debug version is inline
 {
 	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CGattooDoc)));
 	return (CGattooDoc*)m_pDocument;
@@ -103,7 +103,7 @@ CGattooDoc* CGattooView::GetDocument() const // non-debug version is inline
 // CGattooView message handlers
 
 
-BOOL CGattooView::OnEraseBkgnd(CDC* pDC)
+BOOL CPrintGattooView::OnEraseBkgnd(CDC* pDC)
 {
 	return 0;// TODO: Add your message handler code here and/or call default
 
@@ -111,14 +111,14 @@ BOOL CGattooView::OnEraseBkgnd(CDC* pDC)
 }
 
 
-void CGattooView::OnToolsHalftone()
+void CPrintGattooView::OnToolsHalftone()
 {
 	CGattooDoc* pDoc = GetDocument();
 	pDoc->OnToolsHalftone();
 	Invalidate();
 }
 
-void CGattooView::OnToolsSaveToSD()
+void CPrintGattooView::OnToolsSaveToSD()
 {
 	CGattooDoc* pDoc = GetDocument();
 	pDoc->OnToolsSaveToSD();
@@ -126,13 +126,13 @@ void CGattooView::OnToolsSaveToSD()
 }
 
 
-void CGattooView::OnToolsCrop()
+void CPrintGattooView::OnToolsCrop()
 {
 	m_enCurrentTool = enCrop;
 }
 
 
-void CGattooView::OnUpdateToolsCrop(CCmdUI *pCmdUI)
+void CPrintGattooView::OnUpdateToolsCrop(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(enCrop == m_enCurrentTool);
 }

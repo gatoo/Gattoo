@@ -130,9 +130,12 @@
     <ClInclude Include="core\IProgress.h" />
     <ClInclude Include="core\ProgressDlg.h" />
     <ClInclude Include="core\StorageRoutine\CVolumeAccess.h" />
+    <ClInclude Include="external\progress\UPDialog.h" />
     <ClInclude Include="Gattoo.h" />
     <ClInclude Include="GattooDoc.h" />
-    <ClInclude Include="GattooView.h" />
+    <ClInclude Include="GattooTabView.h" />
+    <ClInclude Include="OrigGattooView.h" />
+    <ClInclude Include="PrintGattooView.h" />
     <ClInclude Include="ILogger.h" />
     <ClInclude Include="ImgPropertiesInfo.h" />
     <ClInclude Include="MainFrm.h" />
@@ -154,9 +157,12 @@
     <ClCompile Include="core\ImgSaver.cpp" />
     <ClCompile Include="core\ProgressDlg.cpp" />
     <ClCompile Include="core\StorageRoutine\CVolumeAccess.cpp" />
+    <ClCompile Include="external\progress\UPDialog.cpp" />
     <ClCompile Include="Gattoo.cpp" />
     <ClCompile Include="GattooDoc.cpp" />
-    <ClCompile Include="GattooView.cpp" />
+    <ClCompile Include="GattooTabView.cpp" />
+    <ClCompile Include="OrigGattooView.cpp" />
+    <ClCompile Include="PrintGattooView.cpp" />
     <ClCompile Include="ImgPropertiesInfo.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="OutputLogger.cpp" />

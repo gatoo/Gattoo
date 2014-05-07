@@ -9,7 +9,7 @@
 #include "MainFrm.h"
 
 #include "GattooDoc.h"
-#include "GattooView.h"
+#include "GattooTabView.h"
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -110,7 +110,7 @@ BOOL CGattooApp::InitInstance()
 		IDR_MAINFRAME,
 		RUNTIME_CLASS(CGattooDoc),
 		RUNTIME_CLASS(CMainFrame),       // main SDI frame window
-		RUNTIME_CLASS(CGattooView));
+		RUNTIME_CLASS(CGattooTabView));
 	if (!pDocTemplate)
 		return FALSE;
 	AddDocTemplate(pDocTemplate);

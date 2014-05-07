@@ -1,6 +1,7 @@
 #pragma once
 
 #include <opencv2/opencv.hpp>
+#include "../external/progress/UPDialog.h"
 
 class CGattooImg
 {
@@ -45,6 +46,7 @@ protected:
 	//static void getSideDots(cv::Mat &img, int &iMinX, int &iMaxX, int &iMinY, int &iMaxY);
 	
 	bool getDriveToSave(std::basic_string<TCHAR> &strDrive);
+	static bool ThreadProc(const CUPDUPDATA*);
 	bool m_bIsChanged;
 
 	int m_ZoomFactor;

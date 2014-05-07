@@ -31,6 +31,9 @@
     <Filter Include="core\Source Files\ImgConverters">
       <UniqueIdentifier>{a552764b-da5c-43b8-8375-2132268f7665}</UniqueIdentifier>
     </Filter>
+    <Filter Include="progress">
+      <UniqueIdentifier>{7c373bdf-5114-49be-8bdf-a1e97ab45076}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -99,9 +102,6 @@
     <ClInclude Include="GattooDoc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GattooView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -156,6 +156,18 @@
     <ClInclude Include="ImgPropertiesInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GattooTabView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PrintGattooView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OrigGattooView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="external\progress\UPDialog.h">
+      <Filter>progress</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Gattoo.cpp">
@@ -168,9 +180,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GattooDoc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GattooView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OutputWnd.cpp">
@@ -214,6 +223,18 @@
     </ClCompile>
     <ClCompile Include="ImgPropertiesInfo.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GattooTabView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintGattooView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OrigGattooView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="external\progress\UPDialog.cpp">
+      <Filter>progress</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

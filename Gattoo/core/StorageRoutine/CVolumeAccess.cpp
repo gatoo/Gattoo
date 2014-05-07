@@ -488,5 +488,15 @@ bool CVolumeAccess::saveDataToSector(LPCTSTR szFilePath, DWORD dwStartSector, IP
 	return true;
 }
 
+DWORD CVolumeAccess::getSectorSize() const
+{
+	return m_sectorSize;
+}
+
+DWORD CVolumeAccess::getResrvdSctCount() const
+{
+	return m_bootSector.BPB_RsvdSecCnt;
+}
+
 
 

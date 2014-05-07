@@ -66,7 +66,7 @@ private:
 	bool readBytesFromDeviceCluster(BYTE* aBuffer, DWORD aSizeOfData, DWORD aStartCluster);
 	bool readBytesFromDeviceSector(BYTE* aBuffer, DWORD aSizeOfData, DWORD aStartSector);
 	bool writeBytesToDeviceCluster(BYTE* aBuffer, DWORD aSizeOfData, DWORD aStartCluster);
-	bool writeBytesToDeviceSector(BYTE* aBuffer, DWORD aSizeOfData, DWORD aStartSector);
+	
 	
 	void printData(byte* aData, long aSize);
 	void writeDataToFile(BYTE* aData, long aSize, TCHAR* aFileName);
@@ -76,6 +76,8 @@ private:
 
 public:
 
+	bool writeBytesToDeviceSector(BYTE* aBuffer, DWORD aSizeOfData, DWORD aStartSector);
+
 	DWORD getRootDirCluster();
 	DWORD getSectorNumFromCluster(DWORD adwClusterNum);
 
@@ -83,6 +85,9 @@ public:
 	bool writeChainedClusters(DWORD aStartClusterNum, BYTE* aiChainedClustersData, DWORD aSizeOfData);
 	
 	void dumpFatsData(TCHAR* aDestPath);
+
+	DWORD getSectorSize() const;
+	DWORD getResrvdSctCount() const;
 
 	// Static members
 	static void setWorkingDriveLetter(TCHAR aDriveLetter);
