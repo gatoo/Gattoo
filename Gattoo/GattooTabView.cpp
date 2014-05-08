@@ -14,7 +14,6 @@ IMPLEMENT_DYNCREATE(CGattooTabView, CTabView)
 
 CGattooTabView::CGattooTabView()
 {
-
 }
 
 CGattooTabView::~CGattooTabView()
@@ -42,25 +41,13 @@ void CGattooTabView::Dump(CDumpContext& dc) const
 #endif
 #endif //_DEBUG
 
-
-// CGattooTabView message handlers
-
-
-//BOOL CGattooTabView::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext)
-//{
-//	// TODO: Add your specialized code here and/or call the base class
-//
-//	return CTabView::Create(lpszClassName, lpszWindowName, dwStyle, rect, pParentWnd, nID, pContext);
-//}
-
-
 int CGattooTabView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CTabView::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
 	AddView (RUNTIME_CLASS (COrigGattooView), _T("Original"), -1);
-	AddView (RUNTIME_CLASS (CPrintGattooView), _T("Print"), -1);	
+	AddView (RUNTIME_CLASS (CPrintGattooView), _T("Print"), -1);
 
 	return 0;
 }

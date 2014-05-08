@@ -58,6 +58,7 @@ public:
 	afx_msg void OnToolsSaveToSD();	
 	afx_msg void OnToolsCrop();
 	afx_msg void OnUpdateToolsCrop(CCmdUI *pCmdUI);
+	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
 };
 
 #ifndef _DEBUG  // debug version in GattooView.cpp

@@ -136,3 +136,12 @@ void CPrintGattooView::OnUpdateToolsCrop(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(enCrop == m_enCurrentTool);
 }
+
+
+void CPrintGattooView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView)
+{
+	CGattooDoc* pDoc = GetDocument();
+	pDoc->SwitchToOriginal(FALSE);
+
+	CView::OnActivateView(bActivate, pActivateView, pDeactiveView);
+}

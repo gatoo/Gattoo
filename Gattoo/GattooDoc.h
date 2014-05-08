@@ -43,7 +43,10 @@ public:
 // Generated message map functions
 protected:
 	
-	CGattooImg m_Img;
+	CGattooImg m_ImgOrig;
+	CGattooImg m_ImgForPrint;
+
+	CGattooImg* m_pCurrImg;
 
 	DECLARE_MESSAGE_MAP()
 
@@ -63,4 +66,7 @@ public:
 	afx_msg void OnUpdateToolsZoomOut(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateToolsHalftone(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateToolsSavetosd(CCmdUI *pCmdUI);
+
+	void SwitchToOriginal(BOOL bOrig);
+
 };

@@ -36,7 +36,7 @@ END_MESSAGE_MAP()
 
 // CGattooDoc construction/destruction
 
-CGattooDoc::CGattooDoc()
+CGattooDoc::CGattooDoc() : m_pCurrImg(nullptr)
 {
 	// TODO: add one-time construction code here
 
@@ -135,7 +135,13 @@ BOOL CGattooDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	if (!CDocument::OnOpenDocument(lpszPathName))
 		return FALSE;
 
-	if (!m_Img.Load(lpszPathName)) return FALSE;
+	if (!m_ImgOrig.Load(lpszPathName)) return FALSE;
+	if (!m_ImgForPrint.Load(lpszPathName)) return FALSE;
+	 
+
+	m_ImgForPrint.doHalfTone();
+
+	m_pCurrImg = &m_ImgOrig;
 
 	SetPathName(lpszPathName);
 
@@ -146,62 +152,63 @@ BOOL CGattooDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 CSize CGattooDoc::getImgSize() const
 {
-	return m_Img.getImgSize();
+	return m_ImgOrig.getImgSize();
 }
 
 void const * CGattooDoc::getImgData() const
 {
-	return m_Img.getImgData();
+	return m_ImgOrig.getImgData();
 }
 
 void CGattooDoc::OnFileSave()
 {
-	m_Img.saveToSD();
+	m_ImgOrig.saveToSD();
 }
 
 void CGattooDoc::PerformDrawing(CDC* pDC, CRect const &rc)
 {
-	m_Img.Draw(pDC, rc);
+	if (m_pCurrImg)
+		m_pCurrImg->Draw(pDC, rc);
 }
 
 void CGattooDoc::OnToolsHalftone()
 {
-	m_Img.doHalfTone();
+	m_ImgOrig.doHalfTone();
 }
 
 void CGattooDoc::OnToolsSaveToSD()
 {
-	m_Img.saveToSD();
+	m_ImgOrig.saveToSD();
 }
 
 void CGattooDoc::OnUpdateToolsCrop(CCmdUI *pCmdUI)
 {
-	pCmdUI->Enable(m_Img.getState() != CGattooImg::enUnknown);
+	pCmdUI->Enable(m_ImgOrig.getState() != CGattooImg::enUnknown);
 }
 
 void CGattooDoc::OnUpdateToolsEraser(CCmdUI *pCmdUI)
 {
-	pCmdUI->Enable(m_Img.getState() != CGattooImg::enUnknown);
+	pCmdUI->Enable(m_ImgOrig.getState() != CGattooImg::enUnknown);
 }
 
 void CGattooDoc::OnUpdateToolsZoomIn(CCmdUI *pCmdUI)
 {
-	pCmdUI->Enable(m_Img.getState() != CGattooImg::enUnknown);
+	pCmdUI->Enable(m_ImgOrig.getState() != CGattooImg::enUnknown);
 }
 
 void CGattooDoc::OnUpdateToolsZoomOut(CCmdUI *pCmdUI)
 {
-	pCmdUI->Enable(m_Img.getState() != CGattooImg::enUnknown);
+	pCmdUI->Enable(m_ImgOrig.getState() != CGattooImg::enUnknown);
 }
 
 void CGattooDoc::OnUpdateToolsHalftone(CCmdUI *pCmdUI)
 {
-	pCmdUI->Enable(m_Img.getState() == CGattooImg::enInitial);
+	pCmdUI->Enable(m_ImgOrig.getState() == CGattooImg::enInitial);
 }
 
 void CGattooDoc::OnUpdateToolsSavetosd(CCmdUI *pCmdUI)
 {
-	pCmdUI->Enable(m_Img.getState() == CGattooImg::enHalftone);
+	pCmdUI->Enable(m_ImgOrig.getState() == CGattooImg::enHalftone);
 }
 
 std::string const CGattooDoc::getImgDimension() const
@@ -258,6 +265,11 @@ std::string const CGattooDoc::getImgModification() const
 std::string const CGattooDoc::getImgDepth() const
 {
 	std::stringstream str;
-	str << (int) m_Img.getImageDepth();
+	str << (int) m_ImgOrig.getImageDepth();
 	return str.str();
+}
+
+void CGattooDoc::SwitchToOriginal(BOOL bOrig)
+{
+	m_pCurrImg = bOrig ? &m_ImgOrig : &m_ImgForPrint;
 }

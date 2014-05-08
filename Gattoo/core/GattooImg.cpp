@@ -227,7 +227,7 @@ bool CGattooImg::ThreadProc(const CUPDUPDATA* pCUPDUPData)
 
 #ifdef _DEBUG
 		Sleep(50);
-#elif
+#else
 		Sleep(0);
 #endif
 
