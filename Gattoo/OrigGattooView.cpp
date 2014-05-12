@@ -13,7 +13,6 @@ IMPLEMENT_DYNCREATE(COrigGattooView, CView)
 
 COrigGattooView::COrigGattooView()
 {
-
 }
 
 COrigGattooView::~COrigGattooView()
@@ -21,12 +20,8 @@ COrigGattooView::~COrigGattooView()
 }
 
 BEGIN_MESSAGE_MAP(COrigGattooView, CView)
-	ON_UPDATE_COMMAND_UI(ID_TOOLS_CROP, &COrigGattooView::OnUpdateToolsCrop)
-	ON_UPDATE_COMMAND_UI(ID_TOOLS_ERASER, &COrigGattooView::OnUpdateToolsEraser)
-	ON_UPDATE_COMMAND_UI(ID_TOOLS_ZOOM_IN, &COrigGattooView::OnUpdateToolsZoomIn)
-	ON_UPDATE_COMMAND_UI(ID_TOOLS_ZOOM_OUT, &COrigGattooView::OnUpdateToolsZoomOut)
-	ON_UPDATE_COMMAND_UI(ID_TOOLS_HALFTONE, &COrigGattooView::OnUpdateToolsHalftone)
-	ON_UPDATE_COMMAND_UI(ID_TOOLS_SAVETOSD, &COrigGattooView::OnUpdateToolsSavetosd)
+	ON_UPDATE_COMMAND_UI_RANGE(ID_TOOLS_ERASER, ID_TOOLS_INVERT, &COrigGattooView::OnUpdateTools)
+	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 
@@ -66,32 +61,7 @@ CGattooDoc* COrigGattooView::GetDocument() const // non-debug version is inline
 #endif //_DEBUG
 
 // COrigGattooView message handlers
-void COrigGattooView::OnUpdateToolsCrop(CCmdUI *pCmdUI)
-{
-	pCmdUI->Enable(FALSE);
-}
-
-void COrigGattooView::OnUpdateToolsEraser(CCmdUI *pCmdUI)
-{
-	pCmdUI->Enable(FALSE);
-}
-
-void COrigGattooView::OnUpdateToolsZoomIn(CCmdUI *pCmdUI)
-{
-	pCmdUI->Enable(FALSE);
-}
-
-void COrigGattooView::OnUpdateToolsZoomOut(CCmdUI *pCmdUI)
-{
-	pCmdUI->Enable(FALSE);
-}
-
-void COrigGattooView::OnUpdateToolsHalftone(CCmdUI *pCmdUI)
-{
-	pCmdUI->Enable(FALSE);
-}
-
-void COrigGattooView::OnUpdateToolsSavetosd(CCmdUI *pCmdUI)
+void COrigGattooView::OnUpdateTools(CCmdUI *pCmdUI)
 {
 	pCmdUI->Enable(FALSE);
 }
@@ -102,4 +72,15 @@ void COrigGattooView::OnActivateView(BOOL bActivate, CView* pActivateView, CView
 	pDoc->SwitchToOriginal(TRUE);
 
 	CView::OnActivateView(bActivate, pActivateView, pDeactiveView);
+
+	Invalidate();
+}
+
+
+BOOL COrigGattooView::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: Add your message handler code here and/or call default
+	return 0;
+
+	return CView::OnEraseBkgnd(pDC);
 }

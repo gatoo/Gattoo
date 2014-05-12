@@ -7,7 +7,7 @@ class CDriveBrowseDlg
 {
 public:
 	
-	CDriveBrowseDlg(void);
+	CDriveBrowseDlg(HWND hParent = nullptr);
 	~CDriveBrowseDlg(void);
 
 	bool browseDrive(TCHAR &chDrive);
@@ -18,6 +18,8 @@ protected:
 		
 	bool FillDrivesList(std::list<std::basic_string<TCHAR> > &listDrives);
 	void FillDrivesTree();
+
+	char GetDriveLetter();
 		
 	typedef std::list<std::basic_string<TCHAR> > CDrivesList;
 	

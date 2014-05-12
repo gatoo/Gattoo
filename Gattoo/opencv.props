@@ -25,9 +25,6 @@ copy $(opencv_bin_dir)opencv_imgproc$(opencv_ver).dll $(TargetDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <BuildMacro Include="opencv_ver">
-      <Value>$(opencv_ver)</Value>
-    </BuildMacro>
     <BuildMacro Include="VS_ver">
       <Value>$(VS_ver)</Value>
     </BuildMacro>

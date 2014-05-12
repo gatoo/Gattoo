@@ -154,6 +154,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 //	afx_msg void OnUpdateToolsHalftone(CCmdUI *pCmdUI);
+//	afx_msg void OnToolsEraser();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
@@ -167,6 +168,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 //	ON_UPDATE_COMMAND_UI(ID_TOOLS_HALFTONE, &CAboutDlg::OnUpdateToolsHalftone)
+//	ON_COMMAND(ID_TOOLS_ERASER, &CAboutDlg::OnToolsEraser)
 END_MESSAGE_MAP()
 
 // App command to run the dialog
@@ -196,12 +198,3 @@ void CGattooApp::SaveCustomState()
 }
 
 // CGattooApp message handlers
-
-
-
-
-
-//void CAboutDlg::OnUpdateToolsHalftone(CCmdUI *pCmdUI)
-//{
-//	// TODO: Add your command update UI handler code here
-//}

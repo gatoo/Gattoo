@@ -49,5 +49,21 @@ int CGattooTabView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	AddView (RUNTIME_CLASS (COrigGattooView), _T("Original"), -1);
 	AddView (RUNTIME_CLASS (CPrintGattooView), _T("Print"), -1);
 
+	GetTabControl().ShowWindow(SW_HIDE);
+	m_bInitialState = true;
+
 	return 0;
+}
+
+
+void CGattooTabView::OnDraw(CDC* pDC)
+{
+	if (m_bInitialState)
+	{
+		CRect rc;
+		GetClientRect(&rc);
+		pDC->FillSolidRect(&rc, GetSysColor(COLOR_APPWORKSPACE));
+	}
+	else
+		CTabView::OnDraw(pDC);
 }

@@ -40,6 +40,7 @@ protected:
 		enNone,
 		enCrop,
 		enErase,
+		enInverse,
 		enZoomIn,
 		enZoomOut
 	};
@@ -53,12 +54,19 @@ protected:
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-	afx_msg void OnToolsHalftone();
-	afx_msg void OnToolsSaveToSD();	
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);	
 	afx_msg void OnToolsCrop();
+
 	afx_msg void OnUpdateToolsCrop(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateToolsEraser(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateToolsZoomIn(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateToolsZoomOut(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateToolsInverse(CCmdUI *pCmdUI);
+
 	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
+	afx_msg void OnToolInverse();
+	afx_msg void OnToolsEraser();
+	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
 };
 
 #ifndef _DEBUG  // debug version in GattooView.cpp

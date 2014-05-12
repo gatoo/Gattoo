@@ -21,8 +21,16 @@ public:
 
 protected:
 	DECLARE_MESSAGE_MAP()
+
+	bool m_bInitialState;
+
 public:
+
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	virtual void OnDraw(CDC* /*pDC*/);
+
+protected:
+	afx_msg LRESULT OnIdmUserImgLoad(WPARAM wParam, LPARAM lParam);
 };
 
 

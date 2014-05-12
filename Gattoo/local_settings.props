@@ -13,6 +13,9 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <BuildMacro Include="opencv_ver">
+      <Value>$(opencv_ver)</Value>
+    </BuildMacro>
     <BuildMacro Include="opencvdir">
       <Value>$(opencvdir)</Value>
     </BuildMacro>

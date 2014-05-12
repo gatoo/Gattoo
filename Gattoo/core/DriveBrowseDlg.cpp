@@ -8,8 +8,8 @@
 #include <Commctrl.h>
 #include <vector>
 
-CDriveBrowseDlg::CDriveBrowseDlg(void)
-	: m_hWnd(NULL)
+CDriveBrowseDlg::CDriveBrowseDlg(HWND hParent /* = nullptr*/)
+	: m_hWnd(hParent)
 	, m_chDrive(0)
 {
 }
@@ -28,10 +28,9 @@ bool CDriveBrowseDlg::browseDrive(TCHAR &chDrive)
 
 	InitCommonControlsEx(&icc);
 
-	m_hWnd = NULL;
 	m_chDrive = 0;
 
-	INT_PTR res = DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_DRIVES), NULL, DialogProc, (LPARAM) this);
+	INT_PTR res = DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_DRIVES), m_hWnd, DialogProc, (LPARAM) this);
 
 	if (IDOK == res)
 		chDrive = m_chDrive;
@@ -63,29 +62,10 @@ INT_PTR CALLBACK CDriveBrowseDlg::DialogProc(HWND hwnd, UINT uMsg, WPARAM wParam
 	{
 	case WM_COMMAND:
 		{
-			pDlg->m_chDrive = 0;
-
-			if (LOWORD(wParam) == 1)
-			{
-
-				HWND hTree = GetDlgItem(pDlg->m_hWnd, IDC_TREE_DRIVES);
-				HTREEITEM hItem = TreeView_GetSelection(hTree);
-				HTREEITEM hRoot = TreeView_GetRoot(hTree);
-
-				if (hItem != hRoot)
-				{
-					TVITEM item;
-					ZeroMemory(&item, sizeof(item));
-					item.hItem = hItem;
-					item.mask = TVIF_PARAM;
-					
-					BOOL b = TreeView_GetItem(hTree, &item);
-
-					pDlg->m_chDrive = ((LPCTSTR) item.lParam)[0];
-				}
-				else
-					pDlg->m_chDrive = 0;
-			}
+			if (LOWORD(wParam) == IDOK)
+				pDlg->m_chDrive = pDlg->GetDriveLetter();
+			else
+				pDlg->m_chDrive = 0;
 			
 			EndDialog(pDlg->m_hWnd, LOWORD(wParam));				
 		}
@@ -98,7 +78,8 @@ INT_PTR CALLBACK CDriveBrowseDlg::DialogProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			{
 				if (reinterpret_cast<LPNMHDR>(lParam)->code == NM_DBLCLK)
 				{
-					int y= 0;// double-click
+						pDlg->m_chDrive = pDlg->GetDriveLetter();
+						EndDialog(pDlg->m_hWnd, IDOK);
 				}
 			}
 		}
@@ -179,4 +160,27 @@ void CDriveBrowseDlg::FillDrivesTree()
 	}
 
 	TreeView_Expand(hTree, hRoot, TVE_EXPAND);
+}
+
+char CDriveBrowseDlg::GetDriveLetter()
+{
+	HWND hTree = GetDlgItem(m_hWnd, IDC_TREE_DRIVES);
+	HTREEITEM hItem = TreeView_GetSelection(hTree);
+	HTREEITEM hRoot = TreeView_GetRoot(hTree);
+
+	if (hItem != hRoot)
+	{
+		TVITEM item;
+		ZeroMemory(&item, sizeof(item));
+		item.hItem = hItem;
+		item.mask = TVIF_PARAM;
+
+		BOOL b = TreeView_GetItem(hTree, &item);
+
+		m_chDrive = ((LPCTSTR) item.lParam)[0];
+	}
+	else
+		m_chDrive = 0;
+
+	return m_chDrive;
 }

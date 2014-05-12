@@ -31,6 +31,7 @@ public:
 
 	bool Load(LPCSTR lpszFilePath);
 	bool doHalfTone();
+	bool doInverse();
 	bool saveToSD();
 
 	void Draw(CDC* pDC, CRect const &rc);

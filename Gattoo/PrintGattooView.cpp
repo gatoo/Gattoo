@@ -24,10 +24,18 @@ BEGIN_MESSAGE_MAP(CPrintGattooView, CView)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
 	ON_WM_ERASEBKGND()
-	ON_COMMAND(ID_TOOLS_HALFTONE, &CPrintGattooView::OnToolsHalftone)
-	ON_COMMAND(ID_TOOLS_SAVETOSD, &CPrintGattooView::OnToolsSaveToSD)
-	ON_COMMAND(ID_TOOLS_CROP, &CPrintGattooView::OnToolsCrop)
+
 	ON_UPDATE_COMMAND_UI(ID_TOOLS_CROP, &CPrintGattooView::OnUpdateToolsCrop)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_ERASER, &CPrintGattooView::OnUpdateToolsEraser)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_ZOOM_IN, &CPrintGattooView::OnUpdateToolsZoomIn)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_ZOOM_OUT, &CPrintGattooView::OnUpdateToolsZoomOut)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_INVERT, &CPrintGattooView::OnUpdateToolsInverse)
+
+	ON_COMMAND(ID_TOOLS_CROP, &CPrintGattooView::OnToolsCrop)
+	ON_COMMAND(ID_TOOLS_INVERT, &CPrintGattooView::OnToolInverse)
+
+	ON_COMMAND(ID_TOOLS_ERASER, &CPrintGattooView::OnToolsEraser)
+	ON_WM_SETCURSOR()
 END_MESSAGE_MAP()
 
 // CGattooView construction/destruction
@@ -110,38 +118,69 @@ BOOL CPrintGattooView::OnEraseBkgnd(CDC* pDC)
 	return CView::OnEraseBkgnd(pDC);
 }
 
-
-void CPrintGattooView::OnToolsHalftone()
-{
-	CGattooDoc* pDoc = GetDocument();
-	pDoc->OnToolsHalftone();
-	Invalidate();
-}
-
-void CPrintGattooView::OnToolsSaveToSD()
-{
-	CGattooDoc* pDoc = GetDocument();
-	pDoc->OnToolsSaveToSD();
-	Invalidate();
-}
-
-
-void CPrintGattooView::OnToolsCrop()
-{
-	m_enCurrentTool = enCrop;
-}
-
-
-void CPrintGattooView::OnUpdateToolsCrop(CCmdUI *pCmdUI)
-{
-	pCmdUI->SetCheck(enCrop == m_enCurrentTool);
-}
-
-
 void CPrintGattooView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView)
 {
 	CGattooDoc* pDoc = GetDocument();
 	pDoc->SwitchToOriginal(FALSE);
 
 	CView::OnActivateView(bActivate, pActivateView, pDeactiveView);
+
+	Invalidate();
+}
+
+void CPrintGattooView::OnUpdateToolsCrop(CCmdUI *pCmdUI)
+{
+	CGattooDoc* pDoc = GetDocument();
+	pCmdUI->Enable(pDoc->GetDocumentState() != CGattooImg::enUnknown);
+}
+
+void CPrintGattooView::OnUpdateToolsEraser(CCmdUI *pCmdUI)
+{
+	CGattooDoc* pDoc = GetDocument();
+	pCmdUI->Enable(pDoc->GetDocumentState() != CGattooImg::enUnknown);
+}
+
+void CPrintGattooView::OnUpdateToolsZoomIn(CCmdUI *pCmdUI)
+{
+	CGattooDoc* pDoc = GetDocument();
+	pCmdUI->Enable(pDoc->GetDocumentState() != CGattooImg::enUnknown);
+}
+
+void CPrintGattooView::OnUpdateToolsZoomOut(CCmdUI *pCmdUI)
+{
+	CGattooDoc* pDoc = GetDocument();
+	pCmdUI->Enable(pDoc->GetDocumentState() != CGattooImg::enUnknown);
+}
+
+void CPrintGattooView::OnUpdateToolsInverse(CCmdUI *pCmdUI)
+{
+	CGattooDoc* pDoc = GetDocument();
+	pCmdUI->Enable(pDoc->GetDocumentState() != CGattooImg::enUnknown);
+}
+
+void CPrintGattooView::OnToolsCrop()
+{
+	m_enCurrentTool = enCrop;
+}
+
+void CPrintGattooView::OnToolInverse()
+{
+	GetDocument()->doInverse();
+	Invalidate();
+}
+
+void CPrintGattooView::OnToolsEraser()
+{
+	m_enCurrentTool = enErase;
+}
+
+BOOL CPrintGattooView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
+{
+	if (m_enCurrentTool == enErase)
+	{
+		SetCursor(nullptr);
+		return TRUE;
+	}
+
+	return CView::OnSetCursor(pWnd, nHitTest, message);
 }

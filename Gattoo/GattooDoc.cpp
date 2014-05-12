@@ -25,12 +25,6 @@ IMPLEMENT_DYNCREATE(CGattooDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CGattooDoc, CDocument)
 	ON_COMMAND(ID_FILE_SAVE, &CGattooDoc::OnFileSave)
-	ON_UPDATE_COMMAND_UI(ID_TOOLS_CROP, &CGattooDoc::OnUpdateToolsCrop)
-	ON_UPDATE_COMMAND_UI(ID_TOOLS_ERASER, &CGattooDoc::OnUpdateToolsEraser)
-	ON_UPDATE_COMMAND_UI(ID_TOOLS_ZOOM_IN, &CGattooDoc::OnUpdateToolsZoomIn)
-	ON_UPDATE_COMMAND_UI(ID_TOOLS_ZOOM_OUT, &CGattooDoc::OnUpdateToolsZoomOut)
-	ON_UPDATE_COMMAND_UI(ID_TOOLS_HALFTONE, &CGattooDoc::OnUpdateToolsHalftone)
-	ON_UPDATE_COMMAND_UI(ID_TOOLS_SAVETOSD, &CGattooDoc::OnUpdateToolsSavetosd)
 END_MESSAGE_MAP()
 
 
@@ -144,7 +138,6 @@ BOOL CGattooDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	m_pCurrImg = &m_ImgOrig;
 
 	SetPathName(lpszPathName);
-
 	SendMessage(AfxGetMainWnd()->GetSafeHwnd(), IDM_USER_IMG_LOADED, 0, 0);
 
 	return TRUE;
@@ -169,46 +162,6 @@ void CGattooDoc::PerformDrawing(CDC* pDC, CRect const &rc)
 {
 	if (m_pCurrImg)
 		m_pCurrImg->Draw(pDC, rc);
-}
-
-void CGattooDoc::OnToolsHalftone()
-{
-	m_ImgOrig.doHalfTone();
-}
-
-void CGattooDoc::OnToolsSaveToSD()
-{
-	m_ImgOrig.saveToSD();
-}
-
-void CGattooDoc::OnUpdateToolsCrop(CCmdUI *pCmdUI)
-{
-	pCmdUI->Enable(m_ImgOrig.getState() != CGattooImg::enUnknown);
-}
-
-void CGattooDoc::OnUpdateToolsEraser(CCmdUI *pCmdUI)
-{
-	pCmdUI->Enable(m_ImgOrig.getState() != CGattooImg::enUnknown);
-}
-
-void CGattooDoc::OnUpdateToolsZoomIn(CCmdUI *pCmdUI)
-{
-	pCmdUI->Enable(m_ImgOrig.getState() != CGattooImg::enUnknown);
-}
-
-void CGattooDoc::OnUpdateToolsZoomOut(CCmdUI *pCmdUI)
-{
-	pCmdUI->Enable(m_ImgOrig.getState() != CGattooImg::enUnknown);
-}
-
-void CGattooDoc::OnUpdateToolsHalftone(CCmdUI *pCmdUI)
-{
-	pCmdUI->Enable(m_ImgOrig.getState() == CGattooImg::enInitial);
-}
-
-void CGattooDoc::OnUpdateToolsSavetosd(CCmdUI *pCmdUI)
-{
-	pCmdUI->Enable(m_ImgOrig.getState() == CGattooImg::enHalftone);
 }
 
 std::string const CGattooDoc::getImgDimension() const
@@ -272,4 +225,14 @@ std::string const CGattooDoc::getImgDepth() const
 void CGattooDoc::SwitchToOriginal(BOOL bOrig)
 {
 	m_pCurrImg = bOrig ? &m_ImgOrig : &m_ImgForPrint;
+}
+
+CGattooImg::EImageState CGattooDoc::GetDocumentState()
+{
+	return m_pCurrImg->getState();
+}
+
+void CGattooDoc::doInverse()
+{
+	m_pCurrImg->doInverse();
 }

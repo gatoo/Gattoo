@@ -15,13 +15,7 @@ public:
 
 	CGattooDoc* GetDocument() const;
 
-	afx_msg void OnUpdateToolsCrop(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateToolsEraser(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateToolsZoomIn(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateToolsZoomOut(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateToolsHalftone(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateToolsSavetosd(CCmdUI *pCmdUI);
-
+	afx_msg void OnUpdateTools(CCmdUI *pCmdUI);
 	virtual void OnDraw(CDC* pDC);      // overridden to draw this view
 
 	virtual ~COrigGattooView();
@@ -34,6 +28,8 @@ public:
 protected:
 	DECLARE_MESSAGE_MAP()
 	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
+public:
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };
 
 #ifndef _DEBUG  // debug version in GattooView.cpp

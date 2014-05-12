@@ -311,5 +311,7 @@ afx_msg LRESULT CMainFrame::OnIdmUserImgLoaded(WPARAM wParam, LPARAM lParam)
 		m_wndProperties.SetPropValue(CImgPropertiesInfo::enPISize, (_variant_t)pDoc->getImgPrintDimension().c_str());
 	}
 
+	GetActiveView()->GetParent()->ShowWindow(SW_SHOW);
+
 	return 0;
 }

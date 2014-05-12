@@ -316,3 +316,9 @@ char CGattooImg::getImageDepth() const
 {
 	return (m_Img.empty()) ? 0 : m_Img.channels() * 8;
 }
+
+bool CGattooImg::doInverse()
+{
+	cv::bitwise_not(m_Img, m_Img);
+	return true;
+}
