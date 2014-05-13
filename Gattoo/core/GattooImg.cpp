@@ -309,3 +309,10 @@ bool CGattooImg::doInverse()
 	cv::bitwise_not(m_Img, m_Img);
 	return true;
 }
+
+bool CGattooImg::EraseRect(CRect &rcErase)
+{
+	cv::Mat t = m_Img(cv::Range(rcErase.top, rcErase.bottom), cv::Range(rcErase.left, rcErase.right));
+	t = 0;
+	return true;
+}

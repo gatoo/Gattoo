@@ -236,3 +236,8 @@ void CGattooDoc::doInverse()
 {
 	m_pCurrImg->doInverse();
 }
+
+bool CGattooDoc::EraseRect(CRect &rcErase)
+{
+	return m_pCurrImg->EraseRect(rcErase);
+}

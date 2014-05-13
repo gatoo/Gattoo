@@ -36,6 +36,8 @@ public:
 
 	void Draw(CDC* pDC);
 
+	bool EraseRect(CRect &rcErase);
+
 	//bool IsLoaded();
 
 	EImageState getState() const;
@@ -48,6 +50,7 @@ protected:
 	
 	bool getDriveToSave(std::basic_string<TCHAR> &strDrive);
 	static bool ThreadProc(const CUPDUPDATA*);
+	
 	bool m_bIsChanged;
 
 	int m_ZoomFactor;

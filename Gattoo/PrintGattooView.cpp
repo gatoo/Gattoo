@@ -16,6 +16,9 @@
 #define new DEBUG_NEW
 #endif
 
+int const CPrintGattooView::ERASER_BLOCK_SIZE = 20;
+
+
 // CGattooView
 
 IMPLEMENT_DYNCREATE(CPrintGattooView, CView)
@@ -39,6 +42,7 @@ BEGIN_MESSAGE_MAP(CPrintGattooView, CView)
 	ON_WM_MOUSEMOVE()
 	ON_WM_NCMOUSELEAVE()
 	ON_WM_MOUSELEAVE()
+	ON_WM_LBUTTONDOWN()
 END_MESSAGE_MAP()
 
 // CGattooView construction/destruction
@@ -47,7 +51,7 @@ CPrintGattooView::CPrintGattooView()
 	: m_enCurrentTool(enNone)
 {
 	// TODO: add construction code here
-
+	m_rcEraser.SetRect(0, 0, ERASER_BLOCK_SIZE, ERASER_BLOCK_SIZE);
 }
 
 CPrintGattooView::~CPrintGattooView()
@@ -79,17 +83,25 @@ void CPrintGattooView::OnDraw(CDC* pDC)
 	pDoc->PerformDrawing(pDC);
 
 	if (m_enCurrentTool == enErase && m_bInClient)
-	{
-		CRect rec;
-		POINT pt;
-		GetCursorPos(&pt);
+		DrawEraser(pDC);
+}
 
-		ScreenToClient(&pt);
+void CPrintGattooView::DrawEraser(CDC* pDC)
+{
+	POINT pt;
+	CPen pen;
+	CRect const rcFrame(1, 1, 1, 1);
+	
+	GetCursorPos(&pt);
+	ScreenToClient(&pt);
 
-		rec.SetRect(pt, CPoint(pt.x+10, pt.y + 10));
+	m_rcEraser.MoveToXY(pt);
 
-		pDC->FillSolidRect(rec,  RGB(0xFF, 0, 0));
-	}
+	pen.CreatePen(PS_SOLID, 1, RGB(0xFF, 0xFF, 0xFF));
+
+	pDC->SelectObject(pen);
+	pDC->Rectangle(m_rcEraser);
+	pDC->FillSolidRect(m_rcEraser - rcFrame,  RGB(0, 0, 0));
 }
 
 void CPrintGattooView::OnRButtonUp(UINT /* nFlags */, CPoint point)
@@ -217,7 +229,19 @@ BOOL CPrintGattooView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 
 void CPrintGattooView::OnMouseMove(UINT nFlags, CPoint point)
 {
-	if(m_enCurrentTool == enErase && m_bInClient) Invalidate(FALSE);
+	if(m_enCurrentTool == enErase && m_bInClient)
+	{
+		if (nFlags & MK_LBUTTON)
+		{
+			CGattooDoc* pDoc = GetDocument();
+			CRect rcErase(m_rcEraser);
+
+			rcErase.MoveToXY(point);
+			pDoc->EraseRect(rcErase);
+		}
+
+		Invalidate(FALSE);
+	}
 
 	CView::OnMouseMove(nFlags, point);
 }
@@ -251,4 +275,18 @@ void CPrintGattooView::OnMouseLeave()
 	TrackMouseEvent(&ev);
 
 	CView::OnMouseLeave();
+}
+
+void CPrintGattooView::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	if(m_enCurrentTool == enErase && m_bInClient)
+	{
+		CGattooDoc* pDoc = GetDocument();
+		CRect rcErase(m_rcEraser);
+
+		rcErase.MoveToXY(point);
+		pDoc->EraseRect(rcErase);
+	}
+
+	CView::OnLButtonDown(nFlags, point);
 }

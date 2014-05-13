@@ -51,11 +51,18 @@ protected:
 
 	CDC m_memDC;
 
+	static int const ERASER_BLOCK_SIZE;
+
+	CRect m_rcEraser;
+
 // Generated message map functions
 protected:
 	afx_msg void OnFilePrintPreview();
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
+	
+	void DrawEraser(CDC* pDC);
+
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);	
@@ -74,6 +81,7 @@ public:
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnNcMouseLeave();
 	afx_msg void OnMouseLeave();
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 };
 
 #ifndef _DEBUG  // debug version in GattooView.cpp

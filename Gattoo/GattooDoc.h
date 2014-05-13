@@ -65,5 +65,5 @@ public:
 	
 	void SwitchToOriginal(BOOL bOrig);
 	void doInverse();
-
+	bool EraseRect(CRect &rcErase);
 };
