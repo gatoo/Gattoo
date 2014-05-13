@@ -36,7 +36,11 @@ void COrigGattooView::OnDraw(CDC* pDC)
 	CRect rc;
 	GetClientRect(&rc);
 
-	pDoc->PerformDrawing(pDC, rc);
+	CMemDC memdc(*pDC, this);
+	pDC = &memdc.GetDC();
+
+	pDC->FillSolidRect(&rc, GetSysColor(COLOR_APPWORKSPACE));
+	pDoc->PerformDrawing(pDC);
 }
 
 

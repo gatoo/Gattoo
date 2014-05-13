@@ -47,6 +47,10 @@ protected:
 
 	ETool m_enCurrentTool;
 
+	bool m_bInClient;
+
+	CDC m_memDC;
+
 // Generated message map functions
 protected:
 	afx_msg void OnFilePrintPreview();
@@ -67,6 +71,9 @@ public:
 	afx_msg void OnToolInverse();
 	afx_msg void OnToolsEraser();
 	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	afx_msg void OnNcMouseLeave();
+	afx_msg void OnMouseLeave();
 };
 
 #ifndef _DEBUG  // debug version in GattooView.cpp

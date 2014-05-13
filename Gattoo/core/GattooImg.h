@@ -34,7 +34,7 @@ public:
 	bool doInverse();
 	bool saveToSD();
 
-	void Draw(CDC* pDC, CRect const &rc);
+	void Draw(CDC* pDC);
 
 	//bool IsLoaded();
 
@@ -58,6 +58,5 @@ protected:
 	
 	BYTE* m_BMPBuff;
 	cv::Mat m_Img;
-	CDC m_memDC;
 };
 

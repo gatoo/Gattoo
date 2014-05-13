@@ -158,10 +158,10 @@ void CGattooDoc::OnFileSave()
 	m_ImgOrig.saveToSD();
 }
 
-void CGattooDoc::PerformDrawing(CDC* pDC, CRect const &rc)
+void CGattooDoc::PerformDrawing(CDC* pDC)
 {
 	if (m_pCurrImg)
-		m_pCurrImg->Draw(pDC, rc);
+		m_pCurrImg->Draw(pDC);
 }
 
 std::string const CGattooDoc::getImgDimension() const

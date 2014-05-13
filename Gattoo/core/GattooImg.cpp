@@ -245,62 +245,49 @@ bool CGattooImg::ThreadProc(const CUPDUPDATA* pCUPDUPData)
 	return true;
 }
 
-void CGattooImg::Draw(CDC* pDC, CRect const &rc)
+void CGattooImg::Draw(CDC* pDC)
 {
-	if (NULL == m_memDC.GetSafeHdc())
-		m_memDC.CreateCompatibleDC(pDC);
+	BITMAPINFO bi;
+	ZeroMemory(&bi, sizeof(bi));
+	bi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+	bi.bmiHeader.biCompression = BI_RGB;
+	bi.bmiHeader.biBitCount = 24;
+	bi.bmiHeader.biPlanes = 1;
+	bi.bmiHeader.biWidth = m_Img.cols+1;// rc.Width();
+	bi.bmiHeader.biHeight = -m_Img.rows; //rc.Height();
 
-	BITMAP memBitMap;
-	CBitmap* memBMP = m_memDC.GetCurrentBitmap();
-
-	HBITMAP bmp = (HBITMAP) memBMP->GetSafeHandle();
-	
-	memBMP->GetBitmap(&memBitMap);
-
-	if (memBitMap.bmWidth != rc.Width() || memBitMap.bmHeight != rc.Height())
+	for(int i=0; i<m_Img.rows; i++)
 	{
-		BITMAPINFO bi;
-		ZeroMemory(&bi, sizeof(bi));
-		bi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-		bi.bmiHeader.biCompression = BI_RGB;
-		bi.bmiHeader.biBitCount = 24;
-		bi.bmiHeader.biPlanes = 1;
-		bi.bmiHeader.biWidth = rc.Width();
-		bi.bmiHeader.biHeight = -rc.Height();
-		bi.bmiHeader.biSizeImage = 0;
-		
-		bmp = ::CreateDIBSection(NULL, &bi, DIB_RGB_COLORS, (void**) &m_BMPBuff, NULL, 0);
-		m_memDC.SelectObject(bmp);
-
-		m_bIsChanged = true;
+		SetDIBitsToDevice(pDC->GetSafeHdc(), 0, 0, m_Img.cols,
+			m_Img.rows, 0, 0, m_Img.rows - i - 1, 1, m_Img.data + i * m_Img.cols*3, &bi,
+			DIB_RGB_COLORS);
 	}
-
-	if (m_bIsChanged)
-	{
-		int iPadding = 4 -((rc.Width()*3) % 4);
-		iPadding = (iPadding == 4) ? 0 : iPadding;
-
-		int iSrcLineLen = m_Img.cols*3;
-		int iDstLineLen = rc.Width()*3 + iPadding;		
-
-		int iXStart = (rc.Width() - m_Img.cols)  / 2;
-		int iYStart = (rc.Height() - m_Img.rows) / 2;
-
-		BYTE* pDstBuf = m_BMPBuff + iYStart*iDstLineLen + iXStart*3;
-		BYTE* pSrcBuf = m_Img.data;
-
-		m_memDC.FillSolidRect(&rc, GetSysColor(COLOR_APPWORKSPACE));
-
-		for(int i=0; i<m_Img.rows; i++)
-		{
-			memcpy(pDstBuf, pSrcBuf, iSrcLineLen);
-			pDstBuf += iDstLineLen;
-			pSrcBuf += iSrcLineLen;
-		}
-	}
-
-	pDC->BitBlt(0, 0, rc.Width(), rc.Height(), &m_memDC, 0, 0, SRCCOPY);
 }
+
+// 	if (m_bIsChanged)
+//	{
+// 		int iPadding = 4 -((rc.Width()*3) % 4);
+// 		iPadding = (iPadding == 4) ? 0 : iPadding;
+// 
+// 		int iSrcLineLen = m_Img.cols*3;
+// 		int iDstLineLen = rc.Width()*3 + iPadding;		
+// 
+// 		int iXStart = (rc.Width() - m_Img.cols)  / 2;
+// 		int iYStart = (rc.Height() - m_Img.rows) / 2;
+// 
+// 		BYTE* pDstBuf = m_BMPBuff + iYStart*iDstLineLen + iXStart*3;
+// 		BYTE* pSrcBuf = m_Img.data;
+// 
+
+// 
+// 		for(int i=0; i<m_Img.rows; i++)
+// 		{
+// 			memcpy(pDstBuf, pSrcBuf, iSrcLineLen);
+// 			pDstBuf += iDstLineLen;
+// 			pSrcBuf += iSrcLineLen;
+// 		}
+// 	}
+// }
 
 CGattooImg::EImageState CGattooImg::getState() const
 {

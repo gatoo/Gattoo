@@ -155,6 +155,7 @@ protected:
 public:
 //	afx_msg void OnUpdateToolsHalftone(CCmdUI *pCmdUI);
 //	afx_msg void OnToolsEraser();
+//	afx_msg void OnNcMouseLeave();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
@@ -169,6 +170,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 //	ON_UPDATE_COMMAND_UI(ID_TOOLS_HALFTONE, &CAboutDlg::OnUpdateToolsHalftone)
 //	ON_COMMAND(ID_TOOLS_ERASER, &CAboutDlg::OnToolsEraser)
+//	ON_WM_NCMOUSELEAVE()
 END_MESSAGE_MAP()
 
 // App command to run the dialog
@@ -198,3 +200,13 @@ void CGattooApp::SaveCustomState()
 }
 
 // CGattooApp message handlers
+
+
+//void CAboutDlg::OnNcMouseLeave()
+//{
+//	// This feature requires Windows 2000 or greater.
+//	// The symbols _WIN32_WINNT and WINVER must be >= 0x0500.
+//	// TODO: Add your message handler code here and/or call default
+//
+//	CDialogEx::OnNcMouseLeave();
+//}
