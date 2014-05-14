@@ -49,6 +49,12 @@ protected:
 
 	bool m_bInClient;
 
+	bool m_bToolStarted;
+
+	CPoint m_ptStart;
+	CPoint m_ptEnd;
+	CPoint m_ptMoveStart;
+
 	CDC m_memDC;
 
 	static int const ERASER_BLOCK_SIZE;
@@ -79,9 +85,11 @@ public:
 	afx_msg void OnToolsEraser();
 	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-	afx_msg void OnNcMouseLeave();
 	afx_msg void OnMouseLeave();
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	void DrawCropFrame(CDC* pDC);
+	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 };
 
 #ifndef _DEBUG  // debug version in GattooView.cpp

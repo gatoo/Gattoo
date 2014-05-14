@@ -82,7 +82,10 @@ bool CGattooImg::doHalfTone()
 	cv::cvtColor(m_Img, m_Img, CV_RGB2GRAY);
 
 	for(size_t i=0; i<filters.size() && bResult; ++i)
+	{
 		bResult = filters[i]->Apply(m_Img);
+		delete filters[i];
+	}
 
 	cv::cvtColor(m_Img, m_Img, CV_GRAY2RGB);
 
@@ -315,4 +318,10 @@ bool CGattooImg::EraseRect(CRect &rcErase)
 	cv::Mat t = m_Img(cv::Range(rcErase.top, rcErase.bottom), cv::Range(rcErase.left, rcErase.right));
 	t = 0;
 	return true;
+}
+
+void CGattooImg::CropImage(CRect & rc)
+{
+	cv::Mat cropped = m_Img(cv::Rect(rc.left, rc.top, rc.Width(), rc.Height()));
+	cropped.copyTo(m_Img);
 }

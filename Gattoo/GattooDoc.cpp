@@ -145,17 +145,17 @@ BOOL CGattooDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 CSize CGattooDoc::getImgSize() const
 {
-	return m_ImgOrig.getImgSize();
+	return m_pCurrImg->getImgSize();
 }
 
 void const * CGattooDoc::getImgData() const
 {
-	return m_ImgOrig.getImgData();
+	return m_pCurrImg->getImgData();
 }
 
 void CGattooDoc::OnFileSave()
 {
-	m_ImgOrig.saveToSD();
+	m_ImgForPrint.saveToSD();
 }
 
 void CGattooDoc::PerformDrawing(CDC* pDC)
@@ -168,7 +168,7 @@ std::string const CGattooDoc::getImgDimension() const
 {
 	std::stringstream str;
 
-	CSize sz = getImgSize();
+	CSize sz = m_ImgOrig.getImgSize();
 	str << sz.cx << "x" << sz.cy;
 
 	return str.str();
@@ -179,7 +179,7 @@ std::string const CGattooDoc::getImgPrintDimension() const
 	const double dScale = 0.25;
 	std::stringstream str;
 
-	CSize sz = getImgSize();
+	CSize sz = m_ImgForPrint.getImgSize();
 	str << sz.cx * dScale << "x" << sz.cy * dScale;
 
 	return str.str();
@@ -240,4 +240,10 @@ void CGattooDoc::doInverse()
 bool CGattooDoc::EraseRect(CRect &rcErase)
 {
 	return m_pCurrImg->EraseRect(rcErase);
+}
+
+void CGattooDoc::CropImage(CRect &rc)
+{
+	m_pCurrImg->CropImage(rc);
+	SendMessage(AfxGetMainWnd()->GetSafeHwnd(), IDM_USER_IMG_LOADED, 0, 0);
 }

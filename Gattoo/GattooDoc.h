@@ -66,4 +66,5 @@ public:
 	void SwitchToOriginal(BOOL bOrig);
 	void doInverse();
 	bool EraseRect(CRect &rcErase);
+	void CropImage(CRect &rc);
 };
