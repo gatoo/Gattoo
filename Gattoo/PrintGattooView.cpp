@@ -84,7 +84,7 @@ void CPrintGattooView::OnDraw(CDC* pDC)
 	pDC->FillSolidRect(&rc, GetSysColor(COLOR_APPWORKSPACE));
 	pDoc->PerformDrawing(pDC);
 
-	if (m_enCurrentTool == enErase /*&& m_bInClient*/)
+	if (m_enCurrentTool == enErase && m_bInClient)
 		DrawEraser(pDC);
 	else if (m_enCurrentTool == enCrop && m_ptEnd != m_ptStart)
 		DrawCropFrame(pDC);
@@ -229,6 +229,10 @@ BOOL CPrintGattooView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
 	m_bInClient = true;
 
+	//TRACE("OnSetCursor\n");
+
+	ASSERT(HTCLIENT & nHitTest);
+
 	if (m_enCurrentTool == enErase)
 	{
 		SetCursor(nullptr);
@@ -248,7 +252,7 @@ BOOL CPrintGattooView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 
 void CPrintGattooView::OnMouseMove(UINT nFlags, CPoint point)
 {
-	if(m_enCurrentTool == enErase /*&& m_bInClient*/)
+	if(m_enCurrentTool == enErase && m_bInClient)
 	{
 		if (nFlags & MK_LBUTTON)
 		{
@@ -265,6 +269,8 @@ void CPrintGattooView::OnMouseMove(UINT nFlags, CPoint point)
 		}
 
 		Invalidate(FALSE);
+
+		//TRACE("OnMouseMove\n");
 	}
 	else if (m_enCurrentTool == enCrop)
 	{
@@ -280,7 +286,7 @@ void CPrintGattooView::OnMouseMove(UINT nFlags, CPoint point)
 			m_ptMoveStart = point;
 		}
 
-		Invalidate(0);
+		Invalidate(FALSE);
 	}
 
 	CView::OnMouseMove(nFlags, point);
@@ -291,7 +297,7 @@ void CPrintGattooView::OnMouseLeave()
 	// TODO: Add your message handler code here and/or call default
 
 	TRACE("OnMouseLeave\n");
-
+	
 	m_bInClient = false;
 	Invalidate(FALSE);
 
@@ -301,7 +307,7 @@ void CPrintGattooView::OnMouseLeave()
 	ev.dwFlags = TME_CANCEL;
 	ev.hwndTrack = m_hWnd;
 
-	//TrackMouseEvent(&ev);
+	TrackMouseEvent(&ev);
 
 	CView::OnMouseLeave();
 }
@@ -323,6 +329,8 @@ void CPrintGattooView::OnLButtonDown(UINT nFlags, CPoint point)
 
 			pDoc->EraseRect(rcErase);
 
+			SetCapture();
+
 		} else if (m_enCurrentTool == enCrop)
 		{
 			CRect rcFrame(m_ptStart, m_ptEnd);
@@ -343,6 +351,7 @@ void CPrintGattooView::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CPrintGattooView::OnLButtonUp(UINT nFlags, CPoint point)
 {
+	TRACE("OnLButtonUp %d\n", m_bInClient);
 	if (m_bInClient)
 	{
 		if (m_enCurrentTool == enCrop && m_bToolStarted)
@@ -352,8 +361,11 @@ void CPrintGattooView::OnLButtonUp(UINT nFlags, CPoint point)
 		}
 	}
 	else
+	{
 		m_bToolStarted = false;
+	}
 
+	ReleaseCapture();
 	CView::OnLButtonUp(nFlags, point);
 }
 
