@@ -168,6 +168,9 @@
     <ClInclude Include="external\progress\UPDialog.h">
       <Filter>progress</Filter>
     </ClInclude>
+    <ClInclude Include="TempFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Gattoo.cpp">
@@ -235,6 +238,9 @@
     </ClCompile>
     <ClCompile Include="external\progress\UPDialog.cpp">
       <Filter>progress</Filter>
+    </ClCompile>
+    <ClCompile Include="TempFile.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

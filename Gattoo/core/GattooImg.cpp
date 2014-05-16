@@ -2,6 +2,7 @@
 #include "GattooImg.h"
 
 #include "../CommonHelpers.h"
+#include "../TempFile.h"
 
 #include "Filters/IImgFilter.h"
 #include "Filters/EqulizeFilter.h"
@@ -142,9 +143,13 @@ bool CGattooImg::saveToSD()
 
 	cv::cvtColor(m_Img, m_Img, CV_RGB2GRAY);
 
+	CTempFile tmpFile;
+
+	tmpFile.Create();
+
 	strPath.append("pix");
- 	converter.Convert(m_Img, strPath.c_str());
- 	converter.CreateBitmap(strPath.c_str());
+	converter.Convert(m_Img, tmpFile);
+//	converter.CreateBitmap(strPath.c_str());
 
 	cv::cvtColor(m_Img, m_Img, CV_GRAY2RGB);
 
@@ -174,8 +179,6 @@ bool CGattooImg::saveToSD()
 	else
 		MessageBox(AfxGetMainWnd()->GetSafeHwnd(), _T("Image saving to SD card was interrupted."), _T("Warning"), MB_OK|MB_ICONEXCLAMATION);
 	//startSave(strPath);
-
-	DeleteFile(strPath.c_str());
 
 	CVolumeAccess::cleanResources();
 
@@ -248,49 +251,38 @@ bool CGattooImg::ThreadProc(const CUPDUPDATA* pCUPDUPData)
 	return true;
 }
 
-void CGattooImg::Draw(CDC* pDC)
+void CGattooImg::Draw(CDC* pDC, CPoint const &ptOrigin)
 {
+	BITMAP bmp;
+	CBitmap * pBmp = pDC->GetCurrentBitmap();
+
+	if (!pBmp || !pBmp->GetBitmap(&bmp))
+	{
+		assert(false);
+		return;
+	}
+
 	BITMAPINFO bi;
 	ZeroMemory(&bi, sizeof(bi));
 	bi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	bi.bmiHeader.biCompression = BI_RGB;
 	bi.bmiHeader.biBitCount = 24;
 	bi.bmiHeader.biPlanes = 1;
-	bi.bmiHeader.biWidth = m_Img.cols+1;// rc.Width();
-	bi.bmiHeader.biHeight = -m_Img.rows; //rc.Height();
+	bi.bmiHeader.biWidth = bmp.bmWidth;
+	bi.bmiHeader.biHeight = -bmp.bmHeight;
+
+	int iCurLine = 0;
+	LPVOID lpData = nullptr;
 
 	for(int i=0; i<m_Img.rows; i++)
 	{
-		SetDIBitsToDevice(pDC->GetSafeHdc(), 0, 0, m_Img.cols,
-			m_Img.rows, 0, 0, m_Img.rows - i - 1, 1, m_Img.data + i * m_Img.cols*3, &bi,
-			DIB_RGB_COLORS);
+		iCurLine = m_Img.rows - i - 1;
+		lpData = m_Img.data + i * m_Img.cols*3;
+
+		SetDIBitsToDevice(pDC->GetSafeHdc(), ptOrigin.x, ptOrigin.y, m_Img.cols,
+			m_Img.rows, 0, 0, iCurLine, 1, lpData, &bi, DIB_RGB_COLORS);
 	}
 }
-
-// 	if (m_bIsChanged)
-//	{
-// 		int iPadding = 4 -((rc.Width()*3) % 4);
-// 		iPadding = (iPadding == 4) ? 0 : iPadding;
-// 
-// 		int iSrcLineLen = m_Img.cols*3;
-// 		int iDstLineLen = rc.Width()*3 + iPadding;		
-// 
-// 		int iXStart = (rc.Width() - m_Img.cols)  / 2;
-// 		int iYStart = (rc.Height() - m_Img.rows) / 2;
-// 
-// 		BYTE* pDstBuf = m_BMPBuff + iYStart*iDstLineLen + iXStart*3;
-// 		BYTE* pSrcBuf = m_Img.data;
-// 
-
-// 
-// 		for(int i=0; i<m_Img.rows; i++)
-// 		{
-// 			memcpy(pDstBuf, pSrcBuf, iSrcLineLen);
-// 			pDstBuf += iDstLineLen;
-// 			pSrcBuf += iSrcLineLen;
-// 		}
-// 	}
-// }
 
 CGattooImg::EImageState CGattooImg::getState() const
 {

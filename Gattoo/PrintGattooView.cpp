@@ -44,6 +44,7 @@ BEGIN_MESSAGE_MAP(CPrintGattooView, CView)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_WM_LBUTTONDBLCLK()
+	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_RAW, &CPrintGattooView::OnUpdateFileSaveRaw)
 END_MESSAGE_MAP()
 
 // CGattooView construction/destruction
@@ -82,7 +83,7 @@ void CPrintGattooView::OnDraw(CDC* pDC)
 	pDC = &memDC.GetDC();
 
 	pDC->FillSolidRect(&rc, GetSysColor(COLOR_APPWORKSPACE));
-	pDoc->PerformDrawing(pDC);
+	pDoc->PerformDrawing(pDC, GetDrawOrigin());
 
 	if (m_enCurrentTool == enErase && m_bInClient)
 		DrawEraser(pDC);
@@ -176,6 +177,11 @@ void CPrintGattooView::OnActivateView(BOOL bActivate, CView* pActivateView, CVie
 	Invalidate();
 }
 
+void CPrintGattooView::OnUpdateFileSaveRaw(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable();
+}
+
 void CPrintGattooView::OnUpdateToolsCrop(CCmdUI *pCmdUI)
 {
 	CGattooDoc* pDoc = GetDocument();
@@ -255,22 +261,9 @@ void CPrintGattooView::OnMouseMove(UINT nFlags, CPoint point)
 	if(m_enCurrentTool == enErase && m_bInClient)
 	{
 		if (nFlags & MK_LBUTTON)
-		{
-			CGattooDoc* pDoc = GetDocument();
-			CRect rcErase(m_rcEraser);
-
-			rcErase.MoveToXY(point);
-
-			CSize size = pDoc->getImgSize();
-			CRect imgRect(0, 0, size.cx, size.cy);
-			rcErase.IntersectRect(imgRect, rcErase);
-
-			pDoc->EraseRect(rcErase);
-		}
+			DoErase(point);
 
 		Invalidate(FALSE);
-
-		//TRACE("OnMouseMove\n");
 	}
 	else if (m_enCurrentTool == enCrop)
 	{
@@ -318,17 +311,7 @@ void CPrintGattooView::OnLButtonDown(UINT nFlags, CPoint point)
 	{
 		if(m_enCurrentTool == enErase)
 		{
-			CGattooDoc* pDoc = GetDocument();
-			CRect rcErase(m_rcEraser);
-
-			rcErase.MoveToXY(point);
-
-			CSize size = pDoc->getImgSize();
-			CRect imgRect(0, 0, size.cx, size.cy);
-			rcErase.IntersectRect(imgRect, rcErase);
-
-			pDoc->EraseRect(rcErase);
-
+			DoErase(point);
 			SetCapture();
 
 		} else if (m_enCurrentTool == enCrop)
@@ -369,7 +352,6 @@ void CPrintGattooView::OnLButtonUp(UINT nFlags, CPoint point)
 	CView::OnLButtonUp(nFlags, point);
 }
 
-
 void CPrintGattooView::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 	if (m_bInClient)
@@ -380,11 +362,11 @@ void CPrintGattooView::OnLButtonDblClk(UINT nFlags, CPoint point)
 		if (rcCropFrame.PtInRect(point))
 		{
 			CGattooDoc* pDoc = GetDocument();
-
 			CSize size = pDoc->getImgSize();
 
 			CRect imgRect(0, 0, size.cx-1, size.cy-1);
 
+			rcCropFrame -= GetDrawOrigin();
 			rcCropFrame.IntersectRect(imgRect, rcCropFrame);
 
 			pDoc->CropImage(rcCropFrame);
@@ -394,4 +376,33 @@ void CPrintGattooView::OnLButtonDblClk(UINT nFlags, CPoint point)
 	}
 
 	CView::OnLButtonDblClk(nFlags, point);
+}
+
+void CPrintGattooView::DoErase(CPoint const &pt)
+{
+	CGattooDoc* pDoc = GetDocument();
+	CRect rcErase(m_rcEraser);
+
+	rcErase.MoveToXY(pt);
+	rcErase -= GetDrawOrigin();
+
+	CSize size = pDoc->getImgSize();
+	CRect imgRect(0, 0, size.cx, size.cy);
+	rcErase.IntersectRect(imgRect, rcErase);
+
+	pDoc->EraseRect(rcErase);
+}
+
+CPoint CPrintGattooView::GetDrawOrigin()
+{
+	CRect rc;
+	CSize imSize;
+
+	imSize = GetDocument()->getImgSize();
+	GetClientRect(&rc);
+
+	int const iXDest = std::max<int>(0, (rc.Width() - imSize.cx)/2);
+	int const iYDest = std::max<int>(0, (rc.Height() - imSize.cy)/2);
+
+	return CPoint(iXDest, iYDest);
 }

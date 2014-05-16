@@ -28,8 +28,12 @@ public:
 protected:
 	DECLARE_MESSAGE_MAP()
 	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
+
+	CPoint GetDrawOrigin();
 public:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	afx_msg void OnUpdateFileSave(CCmdUI *pCmdUI);
+
 };
 
 #ifndef _DEBUG  // debug version in GattooView.cpp

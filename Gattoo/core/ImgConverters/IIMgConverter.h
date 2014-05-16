@@ -25,5 +25,5 @@ public:
 
 	static const int BLOCK_SIZE;
 
-	virtual bool Convert(cv::Mat const & img, LPCTSTR lpszConvertedFile) = 0;
+	virtual bool Convert(cv::Mat const & img, FILE *fOut) = 0;
 };

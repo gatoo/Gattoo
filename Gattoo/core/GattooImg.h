@@ -34,7 +34,7 @@ public:
 	bool doInverse();
 	bool saveToSD();
 
-	void Draw(CDC* pDC);
+	void Draw(CDC* pDC, CPoint const &ptOrigin);
 
 	bool EraseRect(CRect &rcErase);
 	void CropImage(CRect & rc);

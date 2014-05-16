@@ -68,6 +68,9 @@ protected:
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	
 	void DrawEraser(CDC* pDC);
+	void DoErase(CPoint const &pt);
+
+	CPoint GetDrawOrigin();
 
 	DECLARE_MESSAGE_MAP()
 public:
@@ -90,6 +93,7 @@ public:
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	void DrawCropFrame(CDC* pDC);
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
+	afx_msg void OnUpdateFileSaveRaw(CCmdUI *pCmdUI);
 };
 
 #ifndef _DEBUG  // debug version in GattooView.cpp

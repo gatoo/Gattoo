@@ -11,8 +11,10 @@ CImgConverter::~CImgConverter(void)
 {
 }
 
-bool CImgConverter::Convert(cv::Mat const & img, LPCTSTR lpszConvertedFile)
+bool CImgConverter::Convert(cv::Mat const & img, FILE *fOut)
 {
+	if (nullptr == fOut) return false;
+
 	std::map<uchar, uchar> levels;
 	
 	uchar intensity;
@@ -41,10 +43,6 @@ bool CImgConverter::Convert(cv::Mat const & img, LPCTSTR lpszConvertedFile)
 
 	header.shXSize = MAKE_LE(header.shXSize);
 	header.shYSize = MAKE_LE(header.shYSize);
-
-	FILE *fOut = NULL;
-	fOut = fopen(lpszConvertedFile, "wb");
-	if (nullptr == fOut) return false;
 
 	fwrite(&header, sizeof(header), 1, fOut);
 
@@ -194,7 +192,7 @@ unsigned char CImgConverter::getColor(unsigned char chLevel)
 }
 
 void CImgConverter::CreateBitmap(char const * const szInImgFile)
-{
+	{
 	cv::Mat srcImg;
 	size_t readData = 0;
 	SImgHeader header;

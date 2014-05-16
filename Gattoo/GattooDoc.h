@@ -25,7 +25,7 @@ public:
 	std::string const getImgDepth() const;
 	void const * getImgData() const;
 
-	void PerformDrawing(CDC* pDC);
+	void PerformDrawing(CDC* pDC, CPoint const &ptOrigin);
 	
 #ifdef SHARED_HANDLERS
 	virtual void InitializeSearchContent();
@@ -67,4 +67,5 @@ public:
 	void doInverse();
 	bool EraseRect(CRect &rcErase);
 	void CropImage(CRect &rc);
+	afx_msg void OnFileSaveRaw();
 };

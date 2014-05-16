@@ -22,6 +22,7 @@ COrigGattooView::~COrigGattooView()
 BEGIN_MESSAGE_MAP(COrigGattooView, CView)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_TOOLS_ERASER, ID_TOOLS_INVERT, &COrigGattooView::OnUpdateTools)
 	ON_WM_ERASEBKGND()
+	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE, &COrigGattooView::OnUpdateFileSave)
 END_MESSAGE_MAP()
 
 
@@ -40,7 +41,7 @@ void COrigGattooView::OnDraw(CDC* pDC)
 	pDC = &memdc.GetDC();
 
 	pDC->FillSolidRect(&rc, GetSysColor(COLOR_APPWORKSPACE));
-	pDoc->PerformDrawing(pDC);
+	pDoc->PerformDrawing(pDC, GetDrawOrigin());
 }
 
 
@@ -80,11 +81,29 @@ void COrigGattooView::OnActivateView(BOOL bActivate, CView* pActivateView, CView
 	Invalidate();
 }
 
-
 BOOL COrigGattooView::OnEraseBkgnd(CDC* pDC)
 {
 	// TODO: Add your message handler code here and/or call default
 	return 0;
 
 	return CView::OnEraseBkgnd(pDC);
+}
+
+void COrigGattooView::OnUpdateFileSave(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(FALSE);
+}
+
+CPoint COrigGattooView::GetDrawOrigin()
+{
+	CRect rc;
+	CSize imSize;
+
+	imSize = GetDocument()->getImgSize();
+	GetClientRect(&rc);
+
+	int const iXDest = std::max<int>(0, (rc.Width() - imSize.cx)/2);
+	int const iYDest = std::max<int>(0, (rc.Height() - imSize.cy)/2);
+
+	return CPoint(iXDest, iYDest);
 }

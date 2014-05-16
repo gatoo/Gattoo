@@ -25,6 +25,7 @@ IMPLEMENT_DYNCREATE(CGattooDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CGattooDoc, CDocument)
 	ON_COMMAND(ID_FILE_SAVE, &CGattooDoc::OnFileSave)
+	ON_COMMAND(ID_FILE_SAVE_RAW, &CGattooDoc::OnFileSaveRaw)
 END_MESSAGE_MAP()
 
 
@@ -158,10 +159,15 @@ void CGattooDoc::OnFileSave()
 	m_ImgForPrint.saveToSD();
 }
 
-void CGattooDoc::PerformDrawing(CDC* pDC)
+void CGattooDoc::OnFileSaveRaw()
+{
+	m_ImgForPrint.saveToSD();
+}
+
+void CGattooDoc::PerformDrawing(CDC* pDC, CPoint const &ptOrigin)
 {
 	if (m_pCurrImg)
-		m_pCurrImg->Draw(pDC);
+		m_pCurrImg->Draw(pDC, ptOrigin);
 }
 
 std::string const CGattooDoc::getImgDimension() const
