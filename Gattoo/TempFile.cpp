@@ -37,5 +37,5 @@ bool CTempFile::Close(bool bDelete /*= true*/)
 	fclose(m_File);
 	m_File = nullptr;
 
-	return bDelete ? (bool) DeleteFile(m_strFilePath.c_str()) : true;
+	return bDelete ? 0 != DeleteFile(m_strFilePath.c_str()) : true;
 }

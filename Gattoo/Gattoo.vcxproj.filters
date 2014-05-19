@@ -70,9 +70,6 @@
     <None Include="res\Toolbar256.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\eraser.cur">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\toolbar_imgedit.bmp">
       <Filter>Resource Files</Filter>
     </None>

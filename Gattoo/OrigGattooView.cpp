@@ -23,6 +23,7 @@ BEGIN_MESSAGE_MAP(COrigGattooView, CView)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_TOOLS_ERASER, ID_TOOLS_INVERT, &COrigGattooView::OnUpdateTools)
 	ON_WM_ERASEBKGND()
 	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE, &COrigGattooView::OnUpdateFileSave)
+	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_RAW, &COrigGattooView::OnUpdateFileSaveRaw)
 END_MESSAGE_MAP()
 
 
@@ -71,6 +72,11 @@ void COrigGattooView::OnUpdateTools(CCmdUI *pCmdUI)
 	pCmdUI->Enable(FALSE);
 }
 
+void COrigGattooView::OnUpdateFileSaveRaw(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(FALSE);
+}
+
 void COrigGattooView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView)
 {
 	CGattooDoc* pDoc = GetDocument();
@@ -107,3 +113,4 @@ CPoint COrigGattooView::GetDrawOrigin()
 
 	return CPoint(iXDest, iYDest);
 }
+

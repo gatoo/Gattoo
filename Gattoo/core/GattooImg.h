@@ -32,7 +32,9 @@ public:
 	bool Load(LPCSTR lpszFilePath);
 	bool doHalfTone();
 	bool doInverse();
+	
 	bool saveToSD();
+	bool saveToFile(LPCTSTR lpszPath);
 
 	void Draw(CDC* pDC, CPoint const &ptOrigin);
 

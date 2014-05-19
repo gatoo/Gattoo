@@ -33,18 +33,19 @@ BEGIN_MESSAGE_MAP(CPrintGattooView, CView)
 	ON_UPDATE_COMMAND_UI(ID_TOOLS_ZOOM_IN, &CPrintGattooView::OnUpdateToolsZoomIn)
 	ON_UPDATE_COMMAND_UI(ID_TOOLS_ZOOM_OUT, &CPrintGattooView::OnUpdateToolsZoomOut)
 	ON_UPDATE_COMMAND_UI(ID_TOOLS_INVERT, &CPrintGattooView::OnUpdateToolsInverse)
+	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_RAW, &CPrintGattooView::OnUpdateFileSaveRaw)
 
 	ON_COMMAND(ID_TOOLS_CROP, &CPrintGattooView::OnToolsCrop)
 	ON_COMMAND(ID_TOOLS_INVERT, &CPrintGattooView::OnToolInverse)
-
 	ON_COMMAND(ID_TOOLS_ERASER, &CPrintGattooView::OnToolsEraser)
+
 	ON_WM_SETCURSOR()
 	ON_WM_MOUSEMOVE()
 	ON_WM_MOUSELEAVE()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_WM_LBUTTONDBLCLK()
-	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_RAW, &CPrintGattooView::OnUpdateFileSaveRaw)
+	
 END_MESSAGE_MAP()
 
 // CGattooView construction/destruction
@@ -84,6 +85,9 @@ void CPrintGattooView::OnDraw(CDC* pDC)
 
 	pDC->FillSolidRect(&rc, GetSysColor(COLOR_APPWORKSPACE));
 	pDoc->PerformDrawing(pDC, GetDrawOrigin());
+
+	CPoint pt = GetDrawOrigin();
+	pDC->StretchBlt(0, 0, 382, 400, pDC, pt.x, pt.y, 191, 200, SRCCOPY);
 
 	if (m_enCurrentTool == enErase && m_bInClient)
 		DrawEraser(pDC);
@@ -179,7 +183,8 @@ void CPrintGattooView::OnActivateView(BOOL bActivate, CView* pActivateView, CVie
 
 void CPrintGattooView::OnUpdateFileSaveRaw(CCmdUI *pCmdUI)
 {
-	pCmdUI->Enable();
+	CGattooDoc* pDoc = GetDocument();
+	pCmdUI->Enable(pDoc->GetDocumentState() != CGattooImg::enUnknown);
 }
 
 void CPrintGattooView::OnUpdateToolsCrop(CCmdUI *pCmdUI)

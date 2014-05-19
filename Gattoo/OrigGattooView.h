@@ -34,6 +34,7 @@ public:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg void OnUpdateFileSave(CCmdUI *pCmdUI);
 
+	afx_msg void OnUpdateFileSaveRaw(CCmdUI *pCmdUI);
 };
 
 #ifndef _DEBUG  // debug version in GattooView.cpp

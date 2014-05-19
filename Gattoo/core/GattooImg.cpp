@@ -317,3 +317,23 @@ void CGattooImg::CropImage(CRect & rc)
 	cv::Mat cropped = m_Img(cv::Rect(rc.left, rc.top, rc.Width(), rc.Height()));
 	cropped.copyTo(m_Img);
 }
+
+bool CGattooImg::saveToFile(LPCTSTR lpszPath)
+{
+	CImgConverter conv;
+	
+	FILE* fOut = fopen(lpszPath, "wb");
+	
+	if (fOut == nullptr) return false;
+
+	cv::cvtColor(m_Img, m_Img, CV_RGB2GRAY);
+
+	conv.Convert(m_Img, fOut);
+
+	fclose(fOut);
+
+	cv::cvtColor(m_Img, m_Img, CV_GRAY2RGB);
+
+	return true;
+}
+
