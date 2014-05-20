@@ -20,7 +20,7 @@ COrigGattooView::~COrigGattooView()
 }
 
 BEGIN_MESSAGE_MAP(COrigGattooView, CView)
-	ON_UPDATE_COMMAND_UI_RANGE(ID_TOOLS_ERASER, ID_TOOLS_INVERT, &COrigGattooView::OnUpdateTools)
+	ON_UPDATE_COMMAND_UI_RANGE(ID_TOOLS_ERASER, ID_TOOLS_ZOOM_OUT, &COrigGattooView::OnUpdateTools)
 	ON_WM_ERASEBKGND()
 	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE, &COrigGattooView::OnUpdateFileSave)
 	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_RAW, &COrigGattooView::OnUpdateFileSaveRaw)

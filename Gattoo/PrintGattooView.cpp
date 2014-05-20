@@ -11,6 +11,7 @@
 
 #include "GattooDoc.h"
 #include "PrintGattooView.h"
+#include "ResizeImgDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -30,12 +31,14 @@ BEGIN_MESSAGE_MAP(CPrintGattooView, CView)
 
 	ON_UPDATE_COMMAND_UI(ID_TOOLS_CROP, &CPrintGattooView::OnUpdateToolsCrop)
 	ON_UPDATE_COMMAND_UI(ID_TOOLS_ERASER, &CPrintGattooView::OnUpdateToolsEraser)
+	ON_UPDATE_COMMAND_UI(ID_TOOLS_RESIZE, &CPrintGattooView::OnUpdateToolsResize)
 	ON_UPDATE_COMMAND_UI(ID_TOOLS_ZOOM_IN, &CPrintGattooView::OnUpdateToolsZoomIn)
 	ON_UPDATE_COMMAND_UI(ID_TOOLS_ZOOM_OUT, &CPrintGattooView::OnUpdateToolsZoomOut)
 	ON_UPDATE_COMMAND_UI(ID_TOOLS_INVERT, &CPrintGattooView::OnUpdateToolsInverse)
 	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_RAW, &CPrintGattooView::OnUpdateFileSaveRaw)
 
 	ON_COMMAND(ID_TOOLS_CROP, &CPrintGattooView::OnToolsCrop)
+	ON_COMMAND(ID_TOOLS_RESIZE, &CPrintGattooView::OnToolsResize)
 	ON_COMMAND(ID_TOOLS_INVERT, &CPrintGattooView::OnToolInverse)
 	ON_COMMAND(ID_TOOLS_ERASER, &CPrintGattooView::OnToolsEraser)
 
@@ -45,7 +48,7 @@ BEGIN_MESSAGE_MAP(CPrintGattooView, CView)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_WM_LBUTTONDBLCLK()
-	
+
 END_MESSAGE_MAP()
 
 // CGattooView construction/destruction
@@ -219,6 +222,12 @@ void CPrintGattooView::OnUpdateToolsInverse(CCmdUI *pCmdUI)
 	pCmdUI->Enable(pDoc->GetDocumentState() != CGattooImg::enUnknown);
 }
 
+void CPrintGattooView::OnUpdateToolsResize(CCmdUI *pCmdUI)
+{
+	CGattooDoc* pDoc = GetDocument();
+	pCmdUI->Enable(pDoc->GetDocumentState() != CGattooImg::enUnknown);
+}
+
 void CPrintGattooView::OnToolsCrop()
 {
 	m_enCurrentTool = (m_enCurrentTool != enCrop) ? enCrop : enNone;
@@ -234,6 +243,14 @@ void CPrintGattooView::OnToolInverse()
 void CPrintGattooView::OnToolsEraser()
 {
 	m_enCurrentTool = (m_enCurrentTool != enErase) ? enErase : enNone;
+}
+
+void CPrintGattooView::OnToolsResize()
+{
+
+	CResizeImgDlg dlg(GetDocument()->getImgSize(), 2.5);
+
+	dlg.DoModal();
 }
 
 BOOL CPrintGattooView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)

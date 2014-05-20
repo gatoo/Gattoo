@@ -94,6 +94,8 @@ public:
 	void DrawCropFrame(CDC* pDC);
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	afx_msg void OnUpdateFileSaveRaw(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateToolsResize(CCmdUI *pCmdUI);
+	afx_msg void OnToolsResize();
 };
 
 #ifndef _DEBUG  // debug version in GattooView.cpp
