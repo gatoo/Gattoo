@@ -55,7 +55,9 @@ void CResizeImgDlg::PrepareDlg(CSize szPexels, double dScale)
 
 BOOL CResizeImgDlg::OnCommand(WPARAM wParam, LPARAM lParam)
 {
-	if (HIWORD(wParam) == EN_UPDATE)
+	static bool bOk = true;
+
+	if (HIWORD(wParam) == EN_UPDATE && bOk)
 	{
 		if (LOWORD(wParam) >= IDC_EDIT_WIDTH_PX && LOWORD(wParam) <= IDC_EDIT_HEIGHT_MM)
 		{
@@ -77,32 +79,64 @@ BOOL CResizeImgDlg::OnCommand(WPARAM wParam, LPARAM lParam)
 			}
 
 			BOOL bScale = (BST_CHECKED == ((CButton*)GetDlgItem(IDC_CHECK_SCALE))->GetCheck());
-// 
-// 			
-// 
-// 			double dCurr = _tstof(strData);
-// 
-// 			if (bScale)
-// 			{
-// 				switch (LOWORD(wParam))
-// 				{
-// 				case IDC_EDIT_HEIGHT_MM:
-// 					break;
-// 				case IDC_EDIT_HEIGHT_PX:
-// 					break;
-// 				case IDC_EDIT_WIDTH_MM:
-// 					break;
-// 				case IDC_EDIT_WIDTH_PX:
-// 					break;
-// 				}
-// 			}
-// 			else
-// 			{
-// 				strData.Format(_T("%.2f"), dCurr);
-// 				pWnd->SetWindowText(strData);
-// 			}
-// 
-// 			return 0;
+			
+			double const dScale = 0.25;
+
+			double dCurr = _tstof(strData);
+
+			switch (LOWORD(wParam))
+			{
+			case IDC_EDIT_HEIGHT_MM:
+				m_dwHeightMM = dCurr;
+				m_dwHeightPX = dCurr/dScale;
+				if (bScale)
+				{
+					m_dwWidthMM = dCurr * m_dScale;
+					m_dwWidthPX = m_dwWidthMM/dScale;
+				}
+				break;
+			case IDC_EDIT_HEIGHT_PX:
+				m_dwHeightPX = dCurr;
+				m_dwHeightMM = dCurr*dScale;
+				if (bScale)
+				{
+					m_dwWidthMM = m_dwHeightMM * m_dScale;
+					m_dwWidthPX = m_dwWidthMM / dScale;
+				}
+				break;
+			case IDC_EDIT_WIDTH_MM:
+				m_dwWidthMM = dCurr;
+				m_dwWidthPX = dCurr/dScale;
+				if (bScale)
+				{
+					m_dwHeightMM = dCurr / m_dScale;
+					m_dwHeightPX = m_dwHeightMM / dScale;						
+				}
+				break;
+			case IDC_EDIT_WIDTH_PX:
+				m_dwWidthPX = dCurr;
+				m_dwWidthMM = dCurr*dScale;
+				if (bScale)
+				{
+					m_dwHeightMM = m_dwWidthMM / m_dScale;
+					m_dwHeightPX = m_dwHeightMM / dScale;						
+				}
+				break;
+			}
+
+			bOk = false;
+
+			SetDlgItemInt(IDC_EDIT_HEIGHT_MM, m_dwHeightMM);
+			SetDlgItemInt(IDC_EDIT_WIDTH_MM, m_dwWidthMM);
+
+			SetDlgItemInt(IDC_EDIT_HEIGHT_PX, m_dwHeightPX);
+			SetDlgItemInt(IDC_EDIT_WIDTH_PX, m_dwWidthPX);
+
+			bOk = true;
+
+			pEdit->SetSel(iCurPos, iCurPos);
+
+			return 0;
 		}
 	}
 
@@ -160,3 +194,44 @@ BOOL CResizeImgDlg::IsFloatAccepted(int iID)
 
 	return bAllowed;
 }
+
+/*
+// ==UserScript==
+// @name        Check
+// @namespace   swe
+// @include     https://visaservices.co.in/Sweden-Ukraine-Appointment/AppSchedulingEmb/AppSchedulingGetInfo.aspx?P=ri7FHohe3VirNKmyLaRu36t9%2fpEItw3gfYXFtDFlxVY%3d
+// @version     1
+// @grant       none
+// ==/UserScript==
+
+function checkData()
+{
+var dataElem = document.getElementById('ctl00_plhMain_lblMsg');
+
+if (dataElem == null)
+alert('Error 1');
+
+var dataStr = dataElem.innerHTML;
+
+var re = new RegExp("\.\./\.\.\./2014", "gi");
+
+var results = re.exec(dataStr);
+
+//alert(dataStr);
+
+if (results)
+{
+var parts = results[0].split('/');
+var day = parseInt(parts[0], 10);
+
+if (day < 30 && parts[1] == 'May')
+alert('Urha!!!');
+}
+else
+alert('Error 2' + results);
+
+__doPostBack('ctl00$plhMain$cboVisaCategory','');
+}
+
+setTimeout(checkData, 300000);
+*/
