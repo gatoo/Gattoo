@@ -156,6 +156,8 @@ public:
 //	afx_msg void OnUpdateToolsHalftone(CCmdUI *pCmdUI);
 //	afx_msg void OnToolsEraser();
 //	afx_msg void OnNcMouseLeave();
+//	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+//	virtual BOOL OnChildNotify(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pLResult);
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
@@ -200,13 +202,3 @@ void CGattooApp::SaveCustomState()
 }
 
 // CGattooApp message handlers
-
-
-//void CAboutDlg::OnNcMouseLeave()
-//{
-//	// This feature requires Windows 2000 or greater.
-//	// The symbols _WIN32_WINNT and WINVER must be >= 0x0500.
-//	// TODO: Add your message handler code here and/or call default
-//
-//	CDialogEx::OnNcMouseLeave();
-//}

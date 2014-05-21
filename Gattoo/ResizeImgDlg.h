@@ -28,8 +28,16 @@ protected:
 	void PrepareDlg(CSize szPexels, double dScale);
 
 	BOOL m_bKeepScale;
+
+	double m_dScale;
+
 	DWORD m_dwHeightMM;
 	DWORD m_dwHeightPX;
 	DWORD m_dwWidthMM;
 	DWORD m_dwWidthPX;
+//	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+	virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);
+	BOOL CheckForNumber(CString& strData, int iPos, BOOL bFloat) const;
+
+	BOOL IsFloatAccepted(int iID);
 };
