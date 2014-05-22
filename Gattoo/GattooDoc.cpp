@@ -10,6 +10,7 @@
 #endif
 
 #include "GattooDoc.h"
+#include "GlobalSettings.h"
 
 #include <propkey.h>
 #include <sstream>
@@ -186,11 +187,10 @@ std::string const CGattooDoc::getImgDimension() const
 
 std::string const CGattooDoc::getImgPrintDimension() const
 {
-	const double dScale = 0.25;
 	std::stringstream str;
 
 	CSize sz = m_ImgForPrint.getImgSize();
-	str << sz.cx * dScale << "x" << sz.cy * dScale;
+	str << sz.cx * CStaticSettings::HZ_SIZE_SCALE << "x" << sz.cy * CStaticSettings::VT_SIZE_SCALE;
 
 	return str.str();
 }

@@ -45,3 +45,8 @@ bool CCommonHelpers::getTempFilePath(std::string& strPath)
 
 	return true;
 }
+
+DWORD CCommonHelpers::Round(double dInput)
+{
+	return (DWORD) floor(dInput + 0.5);
+}

@@ -5,16 +5,18 @@
 #include "Gattoo.h"
 #include "ResizeImgDlg.h"
 #include "afxdialogex.h"
-
+#include "CommonHelpers.h"
 
 // CResizeImgDlg dialog
 
 IMPLEMENT_DYNAMIC(CResizeImgDlg, CDialogEx)
 
-CResizeImgDlg::CResizeImgDlg(CSize szPexels, double dScale /*= 2.5*/, CWnd* pParent /*=NULL*/)
+CResizeImgDlg::CResizeImgDlg(CSize szPexels, double dHZScale, double dVTScale, CWnd* pParent /*=NULL*/)
 	: CDialogEx(CResizeImgDlg::IDD, pParent)
+	, m_dHZScale(dHZScale)
+	, m_dVTScale(dVTScale)
 {
-	PrepareDlg(szPexels, dScale);
+	PrepareDlg(szPexels);
 }
 
 CResizeImgDlg::~CResizeImgDlg()
@@ -25,12 +27,12 @@ void CResizeImgDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Check(pDX, IDC_CHECK_SCALE, m_bKeepScale);
-	DDX_Text(pDX, IDC_EDIT_HEIGHT_MM, m_dwHeightMM);
-	DDV_MinMaxUInt(pDX, m_dwHeightMM, 0, 1500);
+	DDX_Text(pDX, IDC_EDIT_HEIGHT_MM, m_dHeightMM);
+	DDV_MinMaxDouble(pDX, m_dHeightMM, 0, 1500);
 	DDX_Text(pDX, IDC_EDIT_HEIGHT_PX, m_dwHeightPX);
 	DDV_MinMaxUInt(pDX, m_dwHeightPX, 0, 3750);
-	DDX_Text(pDX, IDC_EDIT_WIDTH_MM, m_dwWidthMM);
-	DDV_MinMaxUInt(pDX, m_dwWidthMM, 0, 1500);
+	DDX_Text(pDX, IDC_EDIT_WIDTH_MM, m_dWidthMM);
+	DDV_MinMaxDouble(pDX, m_dWidthMM, 0, 1500);
 	DDX_Text(pDX, IDC_EDIT_WIDTH_PX, m_dwWidthPX);
 	DDV_MinMaxUInt(pDX, m_dwWidthPX, 0, 3750);
 }
@@ -40,15 +42,15 @@ END_MESSAGE_MAP()
 
 // CResizeImgDlg message handlers
 
-void CResizeImgDlg::PrepareDlg(CSize szPexels, double dScale)
+void CResizeImgDlg::PrepareDlg(CSize szPexels)
 {
 	m_dwWidthPX = szPexels.cx;
 	m_dwHeightPX = szPexels.cy;
 
-	m_dwWidthMM = (DWORD)(m_dwWidthPX * dScale);
-	m_dwHeightMM = (DWORD)(m_dwHeightPX * dScale);
+	m_dWidthMM = m_dHZScale * m_dwWidthPX;
+	m_dHeightMM = m_dVTScale * m_dwHeightPX;
 
-	m_dScale = m_dwWidthPX / m_dwHeightPX;
+	m_dWidthToHeightScale = (double)m_dwWidthPX / m_dwHeightPX;
 
 	m_bKeepScale = true;
 }
@@ -79,55 +81,62 @@ BOOL CResizeImgDlg::OnCommand(WPARAM wParam, LPARAM lParam)
 			}
 
 			BOOL bScale = (BST_CHECKED == ((CButton*)GetDlgItem(IDC_CHECK_SCALE))->GetCheck());
-			
-			double const dScale = 0.25;
 
 			double dCurr = _tstof(strData);
 
 			switch (LOWORD(wParam))
 			{
 			case IDC_EDIT_HEIGHT_MM:
-				m_dwHeightMM = dCurr;
-				m_dwHeightPX = dCurr/dScale;
+				m_dHeightMM = dCurr;
+				m_dwHeightPX = CCommonHelpers::Round(dCurr/m_dVTScale);
 				if (bScale)
 				{
-					m_dwWidthMM = dCurr * m_dScale;
-					m_dwWidthPX = m_dwWidthMM/dScale;
+					m_dWidthMM = dCurr * m_dWidthToHeightScale;
+					m_dwWidthPX = CCommonHelpers::Round(m_dWidthMM/m_dHZScale);
 				}
 				break;
 			case IDC_EDIT_HEIGHT_PX:
-				m_dwHeightPX = dCurr;
-				m_dwHeightMM = dCurr*dScale;
+				m_dwHeightPX = CCommonHelpers::Round(dCurr);
+				m_dHeightMM = dCurr*m_dVTScale;
 				if (bScale)
 				{
-					m_dwWidthMM = m_dwHeightMM * m_dScale;
-					m_dwWidthPX = m_dwWidthMM / dScale;
+					m_dWidthMM = m_dHeightMM * m_dWidthToHeightScale;
+					m_dwWidthPX = CCommonHelpers::Round(m_dWidthMM/m_dHZScale);
 				}
 				break;
 			case IDC_EDIT_WIDTH_MM:
-				m_dwWidthMM = dCurr;
-				m_dwWidthPX = dCurr/dScale;
+				m_dWidthMM = dCurr;
+				m_dwWidthPX = CCommonHelpers::Round(dCurr/m_dHZScale);
 				if (bScale)
 				{
-					m_dwHeightMM = dCurr / m_dScale;
-					m_dwHeightPX = m_dwHeightMM / dScale;						
+					m_dHeightMM = dCurr / m_dWidthToHeightScale;
+					m_dwHeightPX = CCommonHelpers::Round(m_dHeightMM/m_dVTScale);
 				}
 				break;
 			case IDC_EDIT_WIDTH_PX:
-				m_dwWidthPX = dCurr;
-				m_dwWidthMM = dCurr*dScale;
+				m_dwWidthPX = CCommonHelpers::Round(dCurr);
+				m_dWidthMM = dCurr*m_dHZScale;
 				if (bScale)
 				{
-					m_dwHeightMM = m_dwWidthMM / m_dScale;
-					m_dwHeightPX = m_dwHeightMM / dScale;						
+					m_dHeightMM = m_dWidthMM / m_dWidthToHeightScale;
+					m_dwHeightPX = CCommonHelpers::Round(m_dHeightMM/m_dVTScale);
 				}
 				break;
 			}
 
 			bOk = false;
+			LPCTSTR lpszFormatFraction = _T("%.2f");
+			LPCTSTR lpszFormat = _T("%.0f");
+			LPCTSTR lpszFormatCurr = nullptr;
+			double intPart;
 
-			SetDlgItemInt(IDC_EDIT_HEIGHT_MM, m_dwHeightMM);
-			SetDlgItemInt(IDC_EDIT_WIDTH_MM, m_dwWidthMM);
+			lpszFormatCurr = modf(m_dHeightMM, &intPart) ? lpszFormatFraction : lpszFormat;
+			strData.Format(lpszFormatCurr, m_dHeightMM);
+			SetDlgItemText(IDC_EDIT_HEIGHT_MM, strData);
+
+			lpszFormatCurr = modf(m_dWidthMM, &intPart) ? lpszFormatFraction : lpszFormat;
+			strData.Format(lpszFormatCurr, m_dWidthMM);
+			SetDlgItemText(IDC_EDIT_WIDTH_MM, strData);
 
 			SetDlgItemInt(IDC_EDIT_HEIGHT_PX, m_dwHeightPX);
 			SetDlgItemInt(IDC_EDIT_WIDTH_PX, m_dwWidthPX);
@@ -194,44 +203,3 @@ BOOL CResizeImgDlg::IsFloatAccepted(int iID)
 
 	return bAllowed;
 }
-
-/*
-// ==UserScript==
-// @name        Check
-// @namespace   swe
-// @include     https://visaservices.co.in/Sweden-Ukraine-Appointment/AppSchedulingEmb/AppSchedulingGetInfo.aspx?P=ri7FHohe3VirNKmyLaRu36t9%2fpEItw3gfYXFtDFlxVY%3d
-// @version     1
-// @grant       none
-// ==/UserScript==
-
-function checkData()
-{
-var dataElem = document.getElementById('ctl00_plhMain_lblMsg');
-
-if (dataElem == null)
-alert('Error 1');
-
-var dataStr = dataElem.innerHTML;
-
-var re = new RegExp("\.\./\.\.\./2014", "gi");
-
-var results = re.exec(dataStr);
-
-//alert(dataStr);
-
-if (results)
-{
-var parts = results[0].split('/');
-var day = parseInt(parts[0], 10);
-
-if (day < 30 && parts[1] == 'May')
-alert('Urha!!!');
-}
-else
-alert('Error 2' + results);
-
-__doPostBack('ctl00$plhMain$cboVisaCategory','');
-}
-
-setTimeout(checkData, 300000);
-*/

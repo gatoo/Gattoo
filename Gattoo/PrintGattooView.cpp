@@ -11,6 +11,7 @@
 
 #include "GattooDoc.h"
 #include "PrintGattooView.h"
+#include "GlobalSettings.h"
 #include "ResizeImgDlg.h"
 
 #ifdef _DEBUG
@@ -248,9 +249,12 @@ void CPrintGattooView::OnToolsEraser()
 void CPrintGattooView::OnToolsResize()
 {
 
-	CResizeImgDlg dlg(GetDocument()->getImgSize(), 2.5);
-
-	dlg.DoModal();
+	CResizeImgDlg dlg(GetDocument()->getImgSize(), CStaticSettings::HZ_SIZE_SCALE, CStaticSettings::VT_SIZE_SCALE);
+	
+	if (IDOK == dlg.DoModal())
+	{
+		// TODO: perform resize
+	}
 }
 
 BOOL CPrintGattooView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)

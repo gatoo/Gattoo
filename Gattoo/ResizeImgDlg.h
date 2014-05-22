@@ -9,7 +9,7 @@ class CResizeImgDlg : public CDialogEx
 
 public:
 	
-	CResizeImgDlg(CSize szPexels, double dScale = 2.5, CWnd* pParent = NULL);   // standard constructor
+	CResizeImgDlg(CSize szPexels, double dHZScale, double dVTScale, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CResizeImgDlg();
 
 // Dialog Data
@@ -25,15 +25,19 @@ public:
 
 protected:
 
-	void PrepareDlg(CSize szPexels, double dScale);
+	void PrepareDlg(CSize szPexels);
 
 	BOOL m_bKeepScale;
 
-	double m_dScale;
+	double m_dWidthToHeightScale;
 
-	DWORD m_dwHeightMM;
+	double m_dHZScale;
+	double m_dVTScale;
+
+	double m_dHeightMM;
+	double m_dWidthMM;
+
 	DWORD m_dwHeightPX;
-	DWORD m_dwWidthMM;
 	DWORD m_dwWidthPX;
 //	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
 	virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);

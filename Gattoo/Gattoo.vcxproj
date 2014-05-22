@@ -21,7 +21,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>NotSet</CharacterSet>
     <UseOfMfc>Static</UseOfMfc>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -133,6 +133,7 @@
     <ClInclude Include="Gattoo.h" />
     <ClInclude Include="GattooDoc.h" />
     <ClInclude Include="GattooTabView.h" />
+    <ClInclude Include="GlobalSettings.h" />
     <ClInclude Include="OrigGattooView.h" />
     <ClInclude Include="PrintGattooView.h" />
     <ClInclude Include="ILogger.h" />
@@ -162,6 +163,7 @@
     <ClCompile Include="Gattoo.cpp" />
     <ClCompile Include="GattooDoc.cpp" />
     <ClCompile Include="GattooTabView.cpp" />
+    <ClCompile Include="GlobalSettings.cpp" />
     <ClCompile Include="OrigGattooView.cpp" />
     <ClCompile Include="PrintGattooView.cpp" />
     <ClCompile Include="ImgPropertiesInfo.cpp" />
