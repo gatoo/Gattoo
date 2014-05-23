@@ -133,9 +133,9 @@ BOOL CGattooDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 	if (!m_ImgOrig.Load(lpszPathName)) return FALSE;
 	if (!m_ImgForPrint.Load(lpszPathName)) return FALSE;
-	 
 
-	m_ImgForPrint.doHalfTone();
+	if (!m_ImgOrig.IsBinary())
+		m_ImgForPrint.doHalfTone();
 
 	m_pCurrImg = &m_ImgOrig;
 
@@ -256,4 +256,21 @@ void CGattooDoc::CropImage(CRect &rc)
 {
 	m_pCurrImg->CropImage(rc);
 	SendMessage(AfxGetMainWnd()->GetSafeHwnd(), IDM_USER_IMG_LOADED, 0, 0);
+}
+
+bool CGattooDoc::resizeImage(CSize &szNewSize)
+{
+	CGattooImg imgTemp(m_ImgOrig);
+
+	imgTemp.Resize(szNewSize);
+
+	if (!imgTemp.IsBinary())
+		imgTemp.doHalfTone();
+
+	m_ImgForPrint = imgTemp;
+	m_pCurrImg = &m_ImgForPrint;
+
+	SendMessage(AfxGetMainWnd()->GetSafeHwnd(), IDM_USER_IMG_LOADED, 0, 0);
+
+	return true;
 }

@@ -66,6 +66,7 @@ public:
 	void SwitchToOriginal(BOOL bOrig);
 	void doInverse();
 	bool EraseRect(CRect &rcErase);
+	bool resizeImage(CSize &szNewSize);
 	void CropImage(CRect &rc);
 	afx_msg void OnFileSaveRaw();
 };

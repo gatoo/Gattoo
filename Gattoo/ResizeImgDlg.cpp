@@ -6,6 +6,7 @@
 #include "ResizeImgDlg.h"
 #include "afxdialogex.h"
 #include "CommonHelpers.h"
+#include "GlobalSettings.h"
 
 // CResizeImgDlg dialog
 
@@ -26,15 +27,18 @@ CResizeImgDlg::~CResizeImgDlg()
 void CResizeImgDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	
 	DDX_Check(pDX, IDC_CHECK_SCALE, m_bKeepScale);
+
 	DDX_Text(pDX, IDC_EDIT_HEIGHT_MM, m_dHeightMM);
-	DDV_MinMaxDouble(pDX, m_dHeightMM, 0, 1500);
 	DDX_Text(pDX, IDC_EDIT_HEIGHT_PX, m_dwHeightPX);
-	DDV_MinMaxUInt(pDX, m_dwHeightPX, 0, 3750);
 	DDX_Text(pDX, IDC_EDIT_WIDTH_MM, m_dWidthMM);
-	DDV_MinMaxDouble(pDX, m_dWidthMM, 0, 1500);
 	DDX_Text(pDX, IDC_EDIT_WIDTH_PX, m_dwWidthPX);
-	DDV_MinMaxUInt(pDX, m_dwWidthPX, 0, 3750);
+
+	DDV_MinMaxUInt(pDX, m_dwWidthPX, 1, CStaticSettings::HZ_SIZE_MAX_VALUE);
+	DDV_MinMaxUInt(pDX, m_dwHeightPX, 1, CStaticSettings::VT_SIZE_MAX_VALUE);
+	DDV_MinMaxDouble(pDX, m_dWidthMM, 1, CStaticSettings::HZ_SIZE_MAX_VALUE * CStaticSettings::HZ_SIZE_SCALE);
+	DDV_MinMaxDouble(pDX, m_dHeightMM, 1, CStaticSettings::VT_SIZE_MAX_VALUE * CStaticSettings::VT_SIZE_SCALE);
 }
 
 BEGIN_MESSAGE_MAP(CResizeImgDlg, CDialogEx)
@@ -75,10 +79,14 @@ BOOL CResizeImgDlg::OnCommand(WPARAM wParam, LPARAM lParam)
 			{
 				// Update with removed char
 				-- iCurPos;
+				bOk = false;
 				pEdit->SetWindowText(strData);
 				pEdit->SetSel(iCurPos, iCurPos);
+				bOk = true;
 				return 0;
 			}
+
+			if (iCurPos > 0 && iCurPos == strData.GetLength() && strData.GetAt(iCurPos - 1) == '.') return 0;
 
 			BOOL bScale = (BST_CHECKED == ((CButton*)GetDlgItem(IDC_CHECK_SCALE))->GetCheck());
 
@@ -189,7 +197,7 @@ BOOL CResizeImgDlg::CheckForNumber(CString& strData, int iPos, BOOL bFloat) cons
 	return bValid;
 }
 
-BOOL CResizeImgDlg::IsFloatAccepted(int iID)
+BOOL CResizeImgDlg::IsFloatAccepted(int iID) const
 {
 	BOOL bAllowed = FALSE;
 
@@ -202,4 +210,9 @@ BOOL CResizeImgDlg::IsFloatAccepted(int iID)
 	}
 
 	return bAllowed;
+}
+
+CSize CResizeImgDlg::GetNewSize() const
+{
+	return CSize(m_dwWidthPX, m_dwHeightPX);
 }

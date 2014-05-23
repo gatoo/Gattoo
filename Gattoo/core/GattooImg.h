@@ -8,6 +8,7 @@ class CGattooImg
 public:
 
 	CGattooImg(void);
+	CGattooImg(CGattooImg& src);
 	~CGattooImg(void);
 
 // 	static void CreateBitmap(char const * const szInImgFile);
@@ -32,6 +33,8 @@ public:
 	bool Load(LPCSTR lpszFilePath);
 	bool doHalfTone();
 	bool doInverse();
+
+	bool IsBinary() const;
 	
 	bool saveToSD();
 	bool saveToFile(LPCTSTR lpszPath);
@@ -40,6 +43,7 @@ public:
 
 	bool EraseRect(CRect &rcErase);
 	void CropImage(CRect & rc);
+	bool Resize(CSize & szNewSize);
 
 	//bool IsLoaded();
 
@@ -54,16 +58,10 @@ protected:
 	bool getDriveToSave(std::basic_string<TCHAR> &strDrive);
 	static bool ThreadProc(const CUPDUPDATA*);
 
-
-	bool m_bIsChanged;
-
-	int m_ZoomFactor;
-
 	EImageState m_enState;
 
 	std::string m_strImgPath;
 	
-	BYTE* m_BMPBuff;
 	cv::Mat m_Img;
 };
 

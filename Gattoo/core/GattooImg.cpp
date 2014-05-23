@@ -17,11 +17,14 @@
 #include <sstream>
 
 CGattooImg::CGattooImg(void)
-	: m_bIsChanged(false)
-	, m_BMPBuff(nullptr)
-	, m_ZoomFactor(1)
-	, m_enState(enUnknown)
+	: m_enState(enUnknown)
 {
+}
+
+CGattooImg::CGattooImg(CGattooImg& src)
+{
+	m_Img = src.m_Img.clone();
+	m_enState = src.m_enState;
 }
 
 CGattooImg::~CGattooImg(void)
@@ -90,7 +93,6 @@ bool CGattooImg::doHalfTone()
 
 	cv::cvtColor(m_Img, m_Img, CV_GRAY2RGB);
 
-	m_bIsChanged = bResult;
 	m_enState = enHalftone;
 
 	return bResult;
@@ -109,7 +111,6 @@ void const * CGattooImg::getImgData() const
 bool CGattooImg::Load(LPCSTR lpszFilePath)
 {
 	m_Img = cv::imread(lpszFilePath);
-	m_bIsChanged = true;
 
 	assert(CV_8U == m_Img.depth());
 
@@ -335,5 +336,32 @@ bool CGattooImg::saveToFile(LPCTSTR lpszPath)
 	cv::cvtColor(m_Img, m_Img, CV_GRAY2RGB);
 
 	return true;
+}
+
+bool CGattooImg::Resize(CSize & szNewSize)
+{
+	cv::Mat dst;
+
+	cv::resize(m_Img, dst, cv::Size(szNewSize.cx, szNewSize.cy), 0, 0, cv::INTER_AREA);
+
+	m_Img = dst;
+
+	return true;
+}
+
+bool CGattooImg::IsBinary() const
+{
+	/// Establish the number of bins
+	int histSize = 256;
+	
+	/// Set the ranges ( for B,G,R) )
+	int channels[] = {0, 1, 2};
+	float range[] = { 0, 256 } ;
+	const float* histRange[] = { range, range, range };
+
+	cv::Mat hist;
+	cv::calcHist(&m_Img, 1, 0, cv::Mat(), hist, 1, &histSize, histRange);
+
+	return hist.at<uchar>(0) + hist.at<uchar>(255) == m_Img.cols * m_Img.rows;
 }
 

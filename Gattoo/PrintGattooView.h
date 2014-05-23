@@ -40,6 +40,7 @@ protected:
 		enNone,
 		enCrop,
 		enErase,
+		enResize,
 		enInverse,
 		enZoomIn,
 		enZoomOut
@@ -96,6 +97,8 @@ public:
 	afx_msg void OnUpdateFileSaveRaw(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateToolsResize(CCmdUI *pCmdUI);
 	afx_msg void OnToolsResize();
+	afx_msg void OnToolsZoomIn();
+	afx_msg void OnToolsZoomOut();
 };
 
 #ifndef _DEBUG  // debug version in GattooView.cpp

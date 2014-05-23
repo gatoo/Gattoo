@@ -15,17 +15,9 @@ public:
 // Dialog Data
 	enum { IDD = IDD_DIALOG_RESIZE };
 
-protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-
-	DECLARE_MESSAGE_MAP()
-public:
-	
-//	virtual BOOL OnInitDialog();
+	CSize GetNewSize() const;
 
 protected:
-
-	void PrepareDlg(CSize szPexels);
 
 	BOOL m_bKeepScale;
 
@@ -39,9 +31,13 @@ protected:
 
 	DWORD m_dwHeightPX;
 	DWORD m_dwWidthPX;
-//	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
-	virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);
-	BOOL CheckForNumber(CString& strData, int iPos, BOOL bFloat) const;
 
-	BOOL IsFloatAccepted(int iID);
+	virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+
+	DECLARE_MESSAGE_MAP()
+
+	void PrepareDlg(CSize szPexels);
+	BOOL IsFloatAccepted(int iID) const;
+	BOOL CheckForNumber(CString& strData, int iPos, BOOL bFloat) const;
 };

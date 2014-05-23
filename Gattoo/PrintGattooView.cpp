@@ -50,6 +50,8 @@ BEGIN_MESSAGE_MAP(CPrintGattooView, CView)
 	ON_WM_LBUTTONUP()
 	ON_WM_LBUTTONDBLCLK()
 
+	ON_COMMAND(ID_TOOLS_ZOOM_IN, &CPrintGattooView::OnToolsZoomIn)
+	ON_COMMAND(ID_TOOLS_ZOOM_OUT, &CPrintGattooView::OnToolsZoomOut)
 END_MESSAGE_MAP()
 
 // CGattooView construction/destruction
@@ -90,8 +92,8 @@ void CPrintGattooView::OnDraw(CDC* pDC)
 	pDC->FillSolidRect(&rc, GetSysColor(COLOR_APPWORKSPACE));
 	pDoc->PerformDrawing(pDC, GetDrawOrigin());
 
-	CPoint pt = GetDrawOrigin();
-	pDC->StretchBlt(0, 0, 382, 400, pDC, pt.x, pt.y, 191, 200, SRCCOPY);
+// 	CPoint pt = GetDrawOrigin();
+// 	pDC->StretchBlt(0, 0, 382, 400, pDC, pt.x, pt.y, 191, 200, SRCCOPY);
 
 	if (m_enCurrentTool == enErase && m_bInClient)
 		DrawEraser(pDC);
@@ -236,8 +238,9 @@ void CPrintGattooView::OnToolsCrop()
 
 void CPrintGattooView::OnToolInverse()
 {
+	m_enCurrentTool = enInverse;
+	
 	GetDocument()->doInverse();
-	m_enCurrentTool = enNone;
 	Invalidate();
 }
 
@@ -248,13 +251,26 @@ void CPrintGattooView::OnToolsEraser()
 
 void CPrintGattooView::OnToolsResize()
 {
+	m_enCurrentTool = enResize;
 
 	CResizeImgDlg dlg(GetDocument()->getImgSize(), CStaticSettings::HZ_SIZE_SCALE, CStaticSettings::VT_SIZE_SCALE);
 	
 	if (IDOK == dlg.DoModal())
 	{
-		// TODO: perform resize
+		GetDocument()->resizeImage(dlg.GetNewSize());
+		Invalidate(FALSE);
 	}
+}
+
+void CPrintGattooView::OnToolsZoomIn()
+{
+	m_enCurrentTool = enZoomIn;
+}
+
+
+void CPrintGattooView::OnToolsZoomOut()
+{
+	m_enCurrentTool = enZoomOut;
 }
 
 BOOL CPrintGattooView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
