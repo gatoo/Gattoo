@@ -185,12 +185,22 @@ std::string const CGattooDoc::getImgDimension() const
 	return str.str();
 }
 
-std::string const CGattooDoc::getImgPrintDimension() const
+std::string const CGattooDoc::getImgPrintMMDimension() const
 {
 	std::stringstream str;
 
 	CSize sz = m_ImgForPrint.getImgSize();
 	str << sz.cx * CStaticSettings::HZ_SIZE_SCALE << "x" << sz.cy * CStaticSettings::VT_SIZE_SCALE;
+
+	return str.str();
+}
+
+std::string const CGattooDoc::getImgPrintPXDimension() const
+{
+	std::stringstream str;
+
+	CSize sz = m_ImgForPrint.getImgSize();
+	str << sz.cx << "x" << sz.cy;
 
 	return str.str();
 }

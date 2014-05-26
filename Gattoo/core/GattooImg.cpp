@@ -351,17 +351,31 @@ bool CGattooImg::Resize(CSize & szNewSize)
 
 bool CGattooImg::IsBinary() const
 {
+	std::vector<cv::Mat> bgr_planes(3);
+	
+	cv::split(m_Img, &bgr_planes[0]);
+
 	/// Establish the number of bins
 	int histSize = 256;
 	
 	/// Set the ranges ( for B,G,R) )
-	int channels[] = {0, 1, 2};
 	float range[] = { 0, 256 } ;
-	const float* histRange[] = { range, range, range };
+	const float* histRange = { range };
 
-	cv::Mat hist;
-	cv::calcHist(&m_Img, 1, 0, cv::Mat(), hist, 1, &histSize, histRange);
+	cv::Mat b_hist, g_hist, r_hist;
 
-	return hist.at<uchar>(0) + hist.at<uchar>(255) == m_Img.cols * m_Img.rows;
+	/// Compute the histograms:
+	calcHist( &bgr_planes[0], 1, 0, cv::Mat(), b_hist, 1, &histSize, &histRange);
+	calcHist( &bgr_planes[1], 1, 0, cv::Mat(), g_hist, 1, &histSize, &histRange);
+	calcHist( &bgr_planes[2], 1, 0, cv::Mat(), r_hist, 1, &histSize, &histRange);
+
+	bool bRes = true;
+	int const iImgArea = m_Img.cols * m_Img.rows;
+	
+	bRes &= (b_hist.at<float>(0) + b_hist.at<float>(255)) == iImgArea;
+	bRes &= (g_hist.at<float>(0) + g_hist.at<float>(255)) == iImgArea;
+	bRes &= (b_hist.at<float>(0) + b_hist.at<float>(255)) == iImgArea;
+
+	return bRes;
 }
 

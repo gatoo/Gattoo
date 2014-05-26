@@ -20,7 +20,8 @@ public:
 
 	CSize getImgSize() const;
 	std::string const getImgDimension() const;
-	std::string const getImgPrintDimension() const;
+	std::string const getImgPrintMMDimension() const;
+	std::string const getImgPrintPXDimension() const;
 	std::string const getImgModification() const;
 	std::string const getImgDepth() const;
 	void const * getImgData() const;

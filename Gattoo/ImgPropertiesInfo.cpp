@@ -23,9 +23,10 @@ void CImgPropertiesInfo::FillDefaultValues()
 	AddValue(enOISize, pGroup, (_variant_t) _T(""), _T("Specifies the original image size, px."));
 	AddValue(enOIModification, pGroup, (_variant_t) _T(""), _T("File modification time."));
 
-	pGroup = AddValue(enPISize);
+	pGroup = AddValue(enPISizePX);
 
-	AddValue(enPISize, pGroup, (_variant_t) _T(""), _T("Specifies the printing image size, mm."));
+	AddValue(enPISizePX, pGroup, (_variant_t) _T(""), _T("Specifies the printing image size, px."));
+	AddValue(enPISizeMM, pGroup, (_variant_t) _T(""), _T("Specifies the printing image size, mm."));
 }
 
 LPCTSTR CImgPropertiesInfo::getGroupName(int enProp)
@@ -40,7 +41,8 @@ LPCTSTR CImgPropertiesInfo::getGroupName(int enProp)
 	case enOIModification:
 		lpszResult = _T("Original image");
 		break;
-	case enPISize:
+	case enPISizePX:
+	case enPISizeMM:
 		lpszResult = _T("Image to print");
 		break;
 	}
@@ -67,8 +69,11 @@ LPCTSTR CImgPropertiesInfo::getPropName(int enProp)
 	case enOIModification:
 		lpszResult = _T("Date");
 		break;
-	case enPISize:
+	case enPISizePX:
 		lpszResult = _T("Size");
+		break;
+	case enPISizeMM:
+		lpszResult = _T("Print size");
 		break;
 	}
 

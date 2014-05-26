@@ -308,7 +308,8 @@ afx_msg LRESULT CMainFrame::OnIdmUserImgLoaded(WPARAM wParam, LPARAM lParam)
 		m_wndProperties.SetPropValue(CImgPropertiesInfo::enOIDepth, (_variant_t)pDoc->getImgDepth().c_str());
 		m_wndProperties.SetPropValue(CImgPropertiesInfo::enOIModification, (_variant_t)pDoc->getImgModification().c_str());
 
-		m_wndProperties.SetPropValue(CImgPropertiesInfo::enPISize, (_variant_t)pDoc->getImgPrintDimension().c_str());
+		m_wndProperties.SetPropValue(CImgPropertiesInfo::enPISizePX, (_variant_t)pDoc->getImgPrintPXDimension().c_str());
+		m_wndProperties.SetPropValue(CImgPropertiesInfo::enPISizeMM, (_variant_t)pDoc->getImgPrintMMDimension().c_str());
 	}
 
 	GetActiveView()->GetParent()->ShowWindow(SW_SHOW);

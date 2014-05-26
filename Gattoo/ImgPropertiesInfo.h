@@ -13,7 +13,8 @@ public:
 		enOIDepth,
 		enOISize,
 		enOIModification,
-		enPISize
+		enPISizeMM,
+		enPISizePX
 	};
 
 protected:
