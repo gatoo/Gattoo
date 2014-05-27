@@ -8,7 +8,7 @@
 #include "Filters/EqulizeFilter.h"
 #include "Filters/HalfToneFilter.h"
 
-#include "ImgConverters/ImgConverter.h"
+#include <IImgConverter.h>
 #include "StorageRoutine/CVolumeAccess.h"
 #include "DriveBrowseDlg.h"
 

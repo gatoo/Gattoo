@@ -28,9 +28,6 @@
     <Filter Include="core\Source Files\Filters">
       <UniqueIdentifier>{8e7e7b6e-d592-4a43-92d6-74a93d9ece22}</UniqueIdentifier>
     </Filter>
-    <Filter Include="core\Source Files\ImgConverters">
-      <UniqueIdentifier>{a552764b-da5c-43b8-8375-2132268f7665}</UniqueIdentifier>
-    </Filter>
     <Filter Include="progress">
       <UniqueIdentifier>{7c373bdf-5114-49be-8bdf-a1e97ab45076}</UniqueIdentifier>
     </Filter>
@@ -132,12 +129,6 @@
     <ClInclude Include="core\Filters\EqulizeFilter.h">
       <Filter>core\Source Files\Filters</Filter>
     </ClInclude>
-    <ClInclude Include="core\ImgConverters\IIMgConverter.h">
-      <Filter>core\Source Files\ImgConverters</Filter>
-    </ClInclude>
-    <ClInclude Include="core\ImgConverters\ImgConverter.h">
-      <Filter>core\Source Files\ImgConverters</Filter>
-    </ClInclude>
     <ClInclude Include="CommonHelpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -214,9 +205,6 @@
     </ClCompile>
     <ClCompile Include="core\Filters\EqulizeFilter.cpp">
       <Filter>core\Source Files\Filters</Filter>
-    </ClCompile>
-    <ClCompile Include="core\ImgConverters\ImgConverter.cpp">
-      <Filter>core\Source Files\ImgConverters</Filter>
     </ClCompile>
     <ClCompile Include="CommonHelpers.cpp">
       <Filter>Source Files</Filter>

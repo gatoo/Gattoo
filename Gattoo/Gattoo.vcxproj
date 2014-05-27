@@ -36,13 +36,15 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="local_settings.props" />
-    <Import Project="opencv.props" />
+    <Import Project="..\properties\local_settings.props" />
+    <Import Project="..\properties\libImgCOnverter.props" />
+    <Import Project="..\properties\opencv.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="local_settings.props" />
-    <Import Project="opencv.props" />
+    <Import Project="..\properties\local_settings.props" />
+    <Import Project="..\properties\libImgCOnverter.props" />
+    <Import Project="..\properties\opencv.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -124,8 +126,6 @@
     <ClInclude Include="core\Filters\HalfToneFilter.h" />
     <ClInclude Include="core\Filters\IImgFilter.h" />
     <ClInclude Include="core\GattooImg.h" />
-    <ClInclude Include="core\ImgConverters\IIMgConverter.h" />
-    <ClInclude Include="core\ImgConverters\ImgConverter.h" />
     <ClInclude Include="core\IProgress.h" />
     <ClInclude Include="core\ProgressDlg.h" />
     <ClInclude Include="core\StorageRoutine\CVolumeAccess.h" />
@@ -155,7 +155,6 @@
     <ClCompile Include="core\Filters\EqulizeFilter.cpp" />
     <ClCompile Include="core\Filters\HalfToneFilter.cpp" />
     <ClCompile Include="core\GattooImg.cpp" />
-    <ClCompile Include="core\ImgConverters\ImgConverter.cpp" />
     <ClCompile Include="core\ImgSaver.cpp" />
     <ClCompile Include="core\ProgressDlg.cpp" />
     <ClCompile Include="core\StorageRoutine\CVolumeAccess.cpp" />
