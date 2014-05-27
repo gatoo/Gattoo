@@ -2,19 +2,19 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <libImgConvIfcsDir>$(SolutionDir)libImgCoverter\Interfaces</libImgConvIfcsDir>
+    <common_dir>$(SolutionDir)common</common_dir>
   </PropertyGroup>
   <PropertyGroup>
-    <_PropertySheetDisplayName>libImgConverter</_PropertySheetDisplayName>
+    <_PropertySheetDisplayName>common</_PropertySheetDisplayName>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(libImgConvIfcsDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(common_dir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <BuildMacro Include="libImgConvIfcsDir">
-      <Value>$(libImgConvIfcsDir)</Value>
+    <BuildMacro Include="common_dir">
+      <Value>$(common_dir)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>

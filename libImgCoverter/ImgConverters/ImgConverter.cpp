@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "ImgConverter.h"
 
+#include <GlobalSettings.h>
+
 CImgConverter::CImgConverter(void)
 {
 }
@@ -13,8 +15,6 @@ bool CImgConverter::Convert(cv::Mat const & img, FILE *fOut)
 {
 	if (nullptr == fOut) return false;
 
-	std::map<uchar, uchar> levels;
-	
 	uchar intensity;
 
 	SImgHeader header;
@@ -26,16 +26,13 @@ bool CImgConverter::Convert(cv::Mat const & img, FILE *fOut)
 	memset(header.szImgName, 0x20, sizeof(header.szImgName));
 	memcpy(header.szImgName, szStrBuf, strlen(szStrBuf));
 
-	double const dXScale = 0.239;
-	double const dYScale = 0.237;
-
 	int iFileSize = sizeof(header);
-	char chPadding = (char) 0xFF;
+	unsigned char const uchPadding = static_cast<unsigned char>(0xFF);
 
 	header.shXSize = img.cols;
 	header.shYSize = img.rows;
 
-	sprintf(szStrBuf, "%.1fx%.1fìì", header.shXSize * dXScale, header.shYSize * dYScale);
+	sprintf(szStrBuf, "%.1fx%.1fìì", header.shXSize * CStaticSettings::HZ_SIZE_SCALE, header.shYSize * CStaticSettings::VT_SIZE_SCALE);
 	memset(header.szImgSize, 0x20, sizeof(header.szImgSize));
 	memcpy(header.szImgSize, szStrBuf, strlen(szStrBuf));
 
@@ -136,7 +133,7 @@ bool CImgConverter::Convert(cv::Mat const & img, FILE *fOut)
 	}
 
 	for (int i = BLOCK_SIZE - (iFileSize % BLOCK_SIZE); i > 0; --i)
-		iFileSize += fwrite(&chPadding, 1, sizeof(char), fOut);
+		iFileSize += fwrite(&uchPadding, 1, sizeof(char), fOut);
 
 	// Update dots count
 	header.uiDotsCount = MAKE_DWORD_LE(header.uiDotsCount);

@@ -31,6 +31,9 @@
     <Filter Include="progress">
       <UniqueIdentifier>{7c373bdf-5114-49be-8bdf-a1e97ab45076}</UniqueIdentifier>
     </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{4d90d3ff-684e-4044-96a5-ba981b26aff0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -129,9 +132,6 @@
     <ClInclude Include="core\Filters\EqulizeFilter.h">
       <Filter>core\Source Files\Filters</Filter>
     </ClInclude>
-    <ClInclude Include="CommonHelpers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="core\IProgress.h">
       <Filter>core\Header Files</Filter>
     </ClInclude>
@@ -162,8 +162,11 @@
     <ClInclude Include="ResizeImgDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalSettings.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\common\CommonHelpers.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\GlobalSettings.h">
+      <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -206,9 +209,6 @@
     <ClCompile Include="core\Filters\EqulizeFilter.cpp">
       <Filter>core\Source Files\Filters</Filter>
     </ClCompile>
-    <ClCompile Include="CommonHelpers.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="core\ProgressDlg.cpp">
       <Filter>core\Source Files</Filter>
     </ClCompile>
@@ -236,8 +236,11 @@
     <ClCompile Include="ResizeImgDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GlobalSettings.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\common\CommonHelpers.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\GlobalSettings.cpp">
+      <Filter>common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

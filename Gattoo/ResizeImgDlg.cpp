@@ -5,8 +5,8 @@
 #include "Gattoo.h"
 #include "ResizeImgDlg.h"
 #include "afxdialogex.h"
-#include "CommonHelpers.h"
-#include "GlobalSettings.h"
+#include "../Common/CommonHelpers.h"
+#include "../Common/GlobalSettings.h"
 
 // CResizeImgDlg dialog
 

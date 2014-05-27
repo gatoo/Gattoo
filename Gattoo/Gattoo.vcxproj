@@ -20,8 +20,8 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>NotSet</CharacterSet>
-    <UseOfMfc>Static</UseOfMfc>
-    <PlatformToolset>v100</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -38,12 +38,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\properties\local_settings.props" />
     <Import Project="..\properties\libImgCOnverter.props" />
+    <Import Project="..\properties\common.props" />
     <Import Project="..\properties\opencv.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\properties\local_settings.props" />
     <Import Project="..\properties\libImgCOnverter.props" />
+    <Import Project="..\properties\common.props" />
     <Import Project="..\properties\opencv.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -59,10 +61,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -120,7 +124,8 @@
     <None Include="res\toolbar_imgedit_256.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CommonHelpers.h" />
+    <ClInclude Include="..\common\CommonHelpers.h" />
+    <ClInclude Include="..\common\GlobalSettings.h" />
     <ClInclude Include="core\DriveBrowseDlg.h" />
     <ClInclude Include="core\Filters\EqulizeFilter.h" />
     <ClInclude Include="core\Filters\HalfToneFilter.h" />
@@ -133,7 +138,6 @@
     <ClInclude Include="Gattoo.h" />
     <ClInclude Include="GattooDoc.h" />
     <ClInclude Include="GattooTabView.h" />
-    <ClInclude Include="GlobalSettings.h" />
     <ClInclude Include="OrigGattooView.h" />
     <ClInclude Include="PrintGattooView.h" />
     <ClInclude Include="ILogger.h" />
@@ -150,7 +154,8 @@
     <ClInclude Include="TempFile.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CommonHelpers.cpp" />
+    <ClCompile Include="..\common\CommonHelpers.cpp" />
+    <ClCompile Include="..\common\GlobalSettings.cpp" />
     <ClCompile Include="core\DriveBrowseDlg.cpp" />
     <ClCompile Include="core\Filters\EqulizeFilter.cpp" />
     <ClCompile Include="core\Filters\HalfToneFilter.cpp" />
@@ -162,7 +167,6 @@
     <ClCompile Include="Gattoo.cpp" />
     <ClCompile Include="GattooDoc.cpp" />
     <ClCompile Include="GattooTabView.cpp" />
-    <ClCompile Include="GlobalSettings.cpp" />
     <ClCompile Include="OrigGattooView.cpp" />
     <ClCompile Include="PrintGattooView.cpp" />
     <ClCompile Include="ImgPropertiesInfo.cpp" />
@@ -180,6 +184,11 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Gattoo.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libImgCoverter\libImgCoverter.vcxproj">
+      <Project>{8560e7d1-3d8e-4a7b-a5c3-3781f323e32b}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

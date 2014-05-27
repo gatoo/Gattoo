@@ -2,13 +2,13 @@
 #include "Interfaces/IIMgConverter.h"
 #include "ImgConverters/ImgConverter.h"
 
-IImgConverter* createConverter(EImgConverter enType)
+IImgConverter* createImgConverter(IImgConverter::EImgConverter enType)
 {
 	IImgConverter* pConverter = nullptr;
 
 	switch(enType)
 	{
-	case enDefault:
+	case IImgConverter::enDefault:
 		pConverter = new CImgConverter;
 		break;
 	}

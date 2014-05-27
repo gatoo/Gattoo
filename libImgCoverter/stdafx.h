@@ -11,4 +11,5 @@
 
 #define MAX_PATH            260
 
-// TODO: reference additional headers your program requires here
+#define MAKE_LE(shY)  (((shY >> 8) & 0xFF) | ((shY << 8) & 0xFF00 ))
+#define MAKE_DWORD_LE(dwY)  (((dwY >> 24) & 0x000000FF) | ((dwY >> 8) & 0x0000FF00) | ((dwY << 24) & 0xFF000000) | ((dwY << 8) & 0x00FF0000))

@@ -2,9 +2,6 @@
 
 #include "..\Interfaces\iimgconverter.h"
 
-#define MAKE_LE(shY)  (((shY >> 8) & 0xFF) | ((shY << 8) & 0xFF00 ))
-#define MAKE_DWORD_LE(dwY)  (((dwY >> 24) & 0x000000FF) | ((dwY >> 8) & 0x0000FF00) | ((dwY << 24) & 0xFF000000) | ((dwY << 8) & 0x00FF0000))
-
 class CBaseImgConverter : public IImgConverter
 {
 public:
@@ -13,6 +10,8 @@ public:
 	virtual ~CBaseImgConverter(void);
 
 	static void CreateBitmap(char const * const szInImgFile);
+
+	virtual void Destroy();
 
 protected:
 

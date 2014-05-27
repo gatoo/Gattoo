@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "BaseImgConverter.h"
 
-//const int CBaseImgConverter::BLOCK_SIZE = 64;
-
 CBaseImgConverter::CBaseImgConverter(void)
 {
 
@@ -114,4 +112,9 @@ unsigned char CBaseImgConverter::getColor(unsigned char chLevel)
 	}
 
 	return chRes;
+}
+
+void CBaseImgConverter::Destroy()
+{
+	delete this;
 }

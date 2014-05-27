@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "GattooImg.h"
 
-#include "../CommonHelpers.h"
+#include "../../Common/CommonHelpers.h"
 #include "../TempFile.h"
 
 #include "Filters/IImgFilter.h"
@@ -137,7 +137,7 @@ bool CGattooImg::saveToSD()
 {
 	if (m_Img.empty()) return true;
 
-	CImgConverter converter;
+	IImgConverter* pConverter = createImgConverter(IImgConverter::enDefault);
 
 	std::string strPath;
 	CCommonHelpers::getTempFilePath(strPath);
@@ -149,7 +149,7 @@ bool CGattooImg::saveToSD()
 	tmpFile.Create();
 
 	strPath.append("pix");
-	converter.Convert(m_Img, tmpFile);
+	pConverter->Convert(m_Img, tmpFile);
 //	converter.CreateBitmap(strPath.c_str());
 
 	cv::cvtColor(m_Img, m_Img, CV_GRAY2RGB);
@@ -182,6 +182,8 @@ bool CGattooImg::saveToSD()
 	//startSave(strPath);
 
 	CVolumeAccess::cleanResources();
+
+	pConverter->Destroy();
 
 	return true;
 }
@@ -321,7 +323,7 @@ void CGattooImg::CropImage(CRect & rc)
 
 bool CGattooImg::saveToFile(LPCTSTR lpszPath)
 {
-	CImgConverter conv;
+	IImgConverter* pConverter = createImgConverter(IImgConverter::enDefault);
 	
 	FILE* fOut = fopen(lpszPath, "wb");
 	
@@ -329,7 +331,8 @@ bool CGattooImg::saveToFile(LPCTSTR lpszPath)
 
 	cv::cvtColor(m_Img, m_Img, CV_RGB2GRAY);
 
-	conv.Convert(m_Img, fOut);
+	pConverter->Convert(m_Img, fOut);
+	pConverter->Destroy();
 
 	fclose(fOut);
 

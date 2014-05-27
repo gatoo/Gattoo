@@ -9,6 +9,6 @@ public:
 	static double const VT_SIZE_SCALE;
 
 	// Maximum supported horizontal and vertical dots count
-	static UINT const HZ_SIZE_MAX_VALUE;
-	static UINT const VT_SIZE_MAX_VALUE;
+	static unsigned int const HZ_SIZE_MAX_VALUE;
+	static unsigned int const VT_SIZE_MAX_VALUE;
 };
