@@ -43,6 +43,8 @@ void COrigGattooView::OnDraw(CDC* pDC)
 
 	pDC->FillSolidRect(&rc, GetSysColor(COLOR_APPWORKSPACE));
 	pDoc->PerformDrawing(pDC, GetDrawOrigin());
+
+	//pDC->BitBlt(0, )
 }
 
 

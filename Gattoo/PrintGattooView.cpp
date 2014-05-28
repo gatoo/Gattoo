@@ -254,8 +254,10 @@ void CPrintGattooView::OnToolsResize()
 	m_enCurrentTool = enResize;
 
 	CResizeImgDlg dlg(GetDocument()->getImgSize(), CStaticSettings::HZ_SIZE_SCALE, CStaticSettings::VT_SIZE_SCALE);
+
+	LPCTSTR lpszMsg = _T("All changes will be lost after resizing. Image will be restored to original view.");
 	
-	if (IDOK == dlg.DoModal())
+	if (IDOK == dlg.DoModal() && IDYES == MessageBox(lpszMsg, nullptr, MB_OKCANCEL | MB_ICONWARNING | MB_DEFBUTTON2))
 	{
 		GetDocument()->resizeImage(dlg.GetNewSize());
 		Invalidate(FALSE);
@@ -276,8 +278,6 @@ void CPrintGattooView::OnToolsZoomOut()
 BOOL CPrintGattooView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
 	m_bInClient = true;
-
-	//TRACE("OnSetCursor\n");
 
 	ASSERT(HTCLIENT & nHitTest);
 

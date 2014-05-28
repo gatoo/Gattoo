@@ -23,8 +23,7 @@ CGattooImg::CGattooImg(void)
 
 CGattooImg::CGattooImg(CGattooImg& src)
 {
-	m_Img = src.m_Img.clone();
-	m_enState = src.m_enState;
+	*this = src;
 }
 
 CGattooImg::~CGattooImg(void)
@@ -287,6 +286,14 @@ void CGattooImg::Draw(CDC* pDC, CPoint const &ptOrigin)
 	}
 }
 
+void CGattooImg::DrawPreview(CDC * pDC)
+{
+// 	if (nullptr == m_previewDC.GetSafeHdc())
+// 	{
+// 		m_previewDC.CreateCompatibleDC(pDC);
+// 	}
+}
+
 CGattooImg::EImageState CGattooImg::getState() const
 {
 	return m_enState;
@@ -382,3 +389,13 @@ bool CGattooImg::IsBinary() const
 	return bRes;
 }
 
+CGattooImg & CGattooImg::operator=(const CGattooImg & rhs)
+{
+	if(this == &rhs) return *this;
+	
+	m_Img = rhs.m_Img.clone();
+	m_enState = rhs.m_enState;
+	m_previewDC.CreateCompatibleDC(&rhs.m_previewDC);
+
+	return *this;
+}

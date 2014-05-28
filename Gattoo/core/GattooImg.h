@@ -11,6 +11,8 @@ public:
 	CGattooImg(CGattooImg& src);
 	~CGattooImg(void);
 
+	CGattooImg & operator=(const CGattooImg & rhs);
+
 // 	static void CreateBitmap(char const * const szInImgFile);
 // 	static void ConvertBitmap(char const * const szInImgFile);
 // 	static void ConvertBitmapWithMaxMin(char const * const szInImgFile);
@@ -40,6 +42,7 @@ public:
 	bool saveToFile(LPCTSTR lpszPath);
 
 	void Draw(CDC* pDC, CPoint const &ptOrigin);
+	void DrawPreview(CDC * pDC);
 
 	bool EraseRect(CRect &rcErase);
 	void CropImage(CRect & rc);
@@ -63,5 +66,7 @@ protected:
 	std::string m_strImgPath;
 	
 	cv::Mat m_Img;
+
+	CDC m_previewDC;
 };
 
