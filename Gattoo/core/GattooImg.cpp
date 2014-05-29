@@ -253,16 +253,18 @@ bool CGattooImg::ThreadProc(const CUPDUPDATA* pCUPDUPData)
 	return true;
 }
 
-void CGattooImg::Draw(CDC* pDC, CPoint const &ptOrigin)
+void CGattooImg::Draw(CBitmap &bmpOut, CPoint const &ptStart)
 {
 	BITMAP bmp;
-	CBitmap * pBmp = pDC->GetCurrentBitmap();
 
-	if (!pBmp || !pBmp->GetBitmap(&bmp))
+	if (!bmpOut.GetBitmap(&bmp))
 	{
 		assert(false);
 		return;
 	}
+
+	int iWidth  = bmp.bmWidth;
+	int iHeight = bmp.bmHeight;
 
 	BITMAPINFO bi;
 	ZeroMemory(&bi, sizeof(bi));
@@ -270,19 +272,19 @@ void CGattooImg::Draw(CDC* pDC, CPoint const &ptOrigin)
 	bi.bmiHeader.biCompression = BI_RGB;
 	bi.bmiHeader.biBitCount = 24;
 	bi.bmiHeader.biPlanes = 1;
-	bi.bmiHeader.biWidth = bmp.bmWidth;
-	bi.bmiHeader.biHeight = -bmp.bmHeight;
+	bi.bmiHeader.biWidth = iWidth;
+	bi.bmiHeader.biHeight = -iHeight;
 
 	int iCurLine = 0;
-	LPVOID lpData = nullptr;
+	unsigned char * lpData = nullptr;
 
-	for(int i=0; i<m_Img.rows; i++)
+	lpData = m_Img.data+ (ptStart.x*3) + ptStart.y * m_Img.cols * 3;
+
+	for(int i=0; i<iHeight; i++)
 	{
-		iCurLine = m_Img.rows - i - 1;
-		lpData = m_Img.data + i * m_Img.cols*3;
-
-		SetDIBitsToDevice(pDC->GetSafeHdc(), ptOrigin.x, ptOrigin.y, m_Img.cols,
-			m_Img.rows, 0, 0, iCurLine, 1, lpData, &bi, DIB_RGB_COLORS);
+		iCurLine = iHeight - i - 1;
+		SetDIBits(nullptr, bmpOut, iCurLine, 1, (LPVOID)lpData, &bi, DIB_RGB_COLORS);
+		lpData = lpData + m_Img.cols*3;
 	}
 }
 
@@ -395,7 +397,6 @@ CGattooImg & CGattooImg::operator=(const CGattooImg & rhs)
 	
 	m_Img = rhs.m_Img.clone();
 	m_enState = rhs.m_enState;
-	m_previewDC.CreateCompatibleDC(&rhs.m_previewDC);
 
 	return *this;
 }

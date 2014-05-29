@@ -39,12 +39,33 @@ void COrigGattooView::OnDraw(CDC* pDC)
 	GetClientRect(&rc);
 
 	CMemDC memdc(*pDC, this);
-	pDC = &memdc.GetDC();
+	
+	TRACE("Draw\n");
 
-	pDC->FillSolidRect(&rc, GetSysColor(COLOR_APPWORKSPACE));
-	pDoc->PerformDrawing(pDC, GetDrawOrigin());
+	memdc.GetDC().FillSolidRect(&rc, GetSysColor(COLOR_APPWORKSPACE));
 
-	//pDC->BitBlt(0, )
+	CSize imSize = GetDocument()->getImgSize();
+	if (imSize.cx == 0 || imSize.cy == 0)
+		return;
+
+	CBitmap *bmp = memdc.GetDC().GetCurrentBitmap();
+
+	if (bmp)
+	{
+		CDC dcCache;
+		CBitmap bmpCache;
+
+		int iWidth  = std::min<int>(rc.Width(), imSize.cx);
+		int iHeight = std::min<int>(rc.Height(), imSize.cy);
+
+		bmpCache.CreateCompatibleBitmap(pDC, iWidth, iHeight);
+		dcCache.CreateCompatibleDC(pDC);
+		dcCache.SelectObject(bmpCache);
+
+		pDoc->PerformDrawing(bmpCache, CPoint(0,0));
+
+		memdc.GetDC().StretchBlt(0, 0, iWidth, iHeight, &dcCache, 0, 0, iWidth, iHeight, SRCCOPY);
+	}
 }
 
 
@@ -102,17 +123,42 @@ void COrigGattooView::OnUpdateFileSave(CCmdUI *pCmdUI)
 	pCmdUI->Enable(FALSE);
 }
 
-CPoint COrigGattooView::GetDrawOrigin()
+void COrigGattooView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
-	CRect rc;
-	CSize imSize;
+	CGattooDoc* pDoc = GetDocument();
 
-	imSize = GetDocument()->getImgSize();
-	GetClientRect(&rc);
+	if (pDoc)
+	{
+		CRect rcClient;
+		CSize sizeImg = pDoc->getImgSize();
 
-	int const iXDest = std::max<int>(0, (rc.Width() - imSize.cx)/2);
-	int const iYDest = std::max<int>(0, (rc.Height() - imSize.cy)/2);
+		GetClientRect(&rcClient);
 
-	return CPoint(iXDest, iYDest);
+		SCROLLINFO sinfo;
+
+		sinfo.cbSize = sizeof(SCROLLINFO);
+		sinfo.fMask = SIF_PAGE | SIF_RANGE;
+		sinfo.nMin = 0;
+
+		if(rcClient.Width() < sizeImg.cx)
+		{
+			sinfo.nMax = sizeImg.cx/rcClient.Width() - 1;
+			sinfo.nPage = rcClient.Width();
+			SetScrollInfo(SB_HORZ, &sinfo);
+		}
+		else
+			SetScrollRange(SB_HORZ, 0, 0);
+
+		if(rcClient.Height() < sizeImg.cy)
+		{
+			sinfo.nMax = sizeImg.cy - rcClient.Height();
+			sinfo.nPage = rcClient.Height();
+
+			SetScrollInfo(SB_VERT, &sinfo);
+		}
+		else
+			SetScrollRange(SB_VERT, 0, 0);
+	}
+
+	Invalidate();
 }
-

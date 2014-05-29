@@ -90,7 +90,7 @@ void CPrintGattooView::OnDraw(CDC* pDC)
 	pDC = &memDC.GetDC();
 
 	pDC->FillSolidRect(&rc, GetSysColor(COLOR_APPWORKSPACE));
-	pDoc->PerformDrawing(pDC, GetDrawOrigin());
+	//pDoc->PerformDrawing(pDC, GetDrawOrigin());
 
 // 	CPoint pt = GetDrawOrigin();
 // 	pDC->StretchBlt(0, 0, 382, 400, pDC, pt.x, pt.y, 191, 200, SRCCOPY);

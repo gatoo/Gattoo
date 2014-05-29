@@ -142,6 +142,8 @@ BOOL CGattooDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	SetPathName(lpszPathName);
 	SendMessage(AfxGetMainWnd()->GetSafeHwnd(), IDM_USER_IMG_LOADED, 0, 0);
 
+	UpdateAllViews(nullptr);
+
 	return TRUE;
 }
 
@@ -169,10 +171,10 @@ void CGattooDoc::OnFileSaveRaw()
 		m_ImgForPrint.saveToFile(dlg.GetPathName());
 }
 
-void CGattooDoc::PerformDrawing(CDC* pDC, CPoint const &ptOrigin)
+void CGattooDoc::PerformDrawing(CBitmap &bmpOut, CPoint const &ptStart)
 {
 	if (m_pCurrImg)
-		m_pCurrImg->Draw(pDC, ptOrigin);
+		m_pCurrImg->Draw(bmpOut, ptStart);
 }
 
 std::string const CGattooDoc::getImgDimension() const

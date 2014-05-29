@@ -41,7 +41,7 @@ public:
 	bool saveToSD();
 	bool saveToFile(LPCTSTR lpszPath);
 
-	void Draw(CDC* pDC, CPoint const &ptOrigin);
+	void Draw(CBitmap &bmpOut, CPoint const &ptStart);
 	void DrawPreview(CDC * pDC);
 
 	bool EraseRect(CRect &rcErase);
@@ -66,7 +66,5 @@ protected:
 	std::string m_strImgPath;
 	
 	cv::Mat m_Img;
-
-	CDC m_previewDC;
 };
 

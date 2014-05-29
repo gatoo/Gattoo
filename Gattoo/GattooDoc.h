@@ -26,7 +26,7 @@ public:
 	std::string const getImgDepth() const;
 	void const * getImgData() const;
 
-	void PerformDrawing(CDC* pDC, CPoint const &ptOrigin);
+	void PerformDrawing(CBitmap & bmpOut, CPoint const &ptStart);
 	
 #ifdef SHARED_HANDLERS
 	virtual void InitializeSearchContent();
