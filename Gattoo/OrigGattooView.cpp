@@ -6,6 +6,7 @@
 #include "OrigGattooView.h"
 #include "GattooDoc.h"
 
+#include <GlobalSettings.h>
 
 // COrigGattooView
 
@@ -24,6 +25,9 @@ BEGIN_MESSAGE_MAP(COrigGattooView, CView)
 	ON_WM_ERASEBKGND()
 	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE, &COrigGattooView::OnUpdateFileSave)
 	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_RAW, &COrigGattooView::OnUpdateFileSaveRaw)
+	ON_WM_HSCROLL()
+	ON_WM_VSCROLL()
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 
@@ -62,9 +66,14 @@ void COrigGattooView::OnDraw(CDC* pDC)
 		dcCache.CreateCompatibleDC(pDC);
 		dcCache.SelectObject(bmpCache);
 
-		pDoc->PerformDrawing(bmpCache, CPoint(0,0));
+		CPoint ptStart;
+		
+		ptStart.x = (rc.Width() > imSize.cx) ? (rc.Width() - imSize.cx) / 2 : 0;
+		ptStart.y = (rc.Height() > imSize.cy) ? (rc.Height() - imSize.cy) / 2 : 0;
+		
+		pDoc->PerformDrawing(bmpCache, m_ptViewPoint);		
 
-		memdc.GetDC().StretchBlt(0, 0, iWidth, iHeight, &dcCache, 0, 0, iWidth, iHeight, SRCCOPY);
+		memdc.GetDC().BitBlt(ptStart.x, ptStart.y, iWidth, iHeight, &dcCache, 0, 0, SRCCOPY);
 	}
 }
 
@@ -142,7 +151,8 @@ void COrigGattooView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 
 		if(rcClient.Width() < sizeImg.cx)
 		{
-			sinfo.nMax = sizeImg.cx/rcClient.Width() - 1;
+			m_iMaxXScroll = sizeImg.cx - rcClient.Width();
+			sinfo.nMax = sizeImg.cx;
 			sinfo.nPage = rcClient.Width();
 			SetScrollInfo(SB_HORZ, &sinfo);
 		}
@@ -151,7 +161,8 @@ void COrigGattooView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 
 		if(rcClient.Height() < sizeImg.cy)
 		{
-			sinfo.nMax = sizeImg.cy - rcClient.Height();
+			m_iMaxYScroll = sizeImg.cy - rcClient.Height();
+			sinfo.nMax = sizeImg.cy;
 			sinfo.nPage = rcClient.Height();
 
 			SetScrollInfo(SB_VERT, &sinfo);
@@ -161,4 +172,112 @@ void COrigGattooView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 	}
 
 	Invalidate();
+}
+
+
+void COrigGattooView::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
+{
+	int uiNewPos = 0;
+
+	SCROLLINFO scrlInfo;
+
+	switch (nSBCode) 
+	{ 
+		// User clicked the scroll bar shaft left of the scroll box. 
+	case SB_PAGEUP:
+		GetScrollInfo(SB_HORZ, &scrlInfo, SIF_PAGE);
+		uiNewPos = m_ptViewPoint.x - scrlInfo.nPage;
+		break; 
+
+		// User clicked the scroll bar shaft right of the scroll box. 
+	case SB_PAGEDOWN:
+		GetScrollInfo(SB_HORZ, &scrlInfo, SIF_PAGE);
+		uiNewPos = m_ptViewPoint.x + scrlInfo.nPage; 
+		break; 
+
+		// User clicked the left arrow. 
+	case SB_LINEUP: 
+		uiNewPos = m_ptViewPoint.x - CStaticSettings::HZ_SCROLL_STEP; 
+		break; 
+
+		// User clicked the right arrow. 
+	case SB_LINEDOWN: 
+		uiNewPos = m_ptViewPoint.x + CStaticSettings::HZ_SCROLL_STEP; 
+		break; 
+
+		// User dragged the scroll box. 
+	case SB_THUMBPOSITION: 
+		uiNewPos = nPos; 
+		break; 
+
+	default: 
+		uiNewPos = m_ptViewPoint.x; 
+	} 
+	
+	// New position must be between 0 and the screen width. 
+	uiNewPos = std::max<int>(0, uiNewPos); 
+	uiNewPos = std::min<int>(m_iMaxXScroll, uiNewPos); 
+
+	SetScrollPos(SB_HORZ, uiNewPos);
+	m_ptViewPoint.x = uiNewPos;
+	Invalidate();
+
+	CView::OnHScroll(nSBCode, nPos, pScrollBar);
+}
+
+
+void COrigGattooView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
+{
+	int uiNewPos = 0;
+
+	SCROLLINFO scrlInfo;
+
+	switch (nSBCode) 
+	{ 
+		// User clicked the scroll bar shaft left of the scroll box. 
+	case SB_PAGEUP:
+		GetScrollInfo(SB_VERT, &scrlInfo, SIF_PAGE);
+		uiNewPos = m_ptViewPoint.y - scrlInfo.nPage;
+		break; 
+
+		// User clicked the scroll bar shaft right of the scroll box. 
+	case SB_PAGEDOWN:
+		GetScrollInfo(SB_VERT, &scrlInfo, SIF_PAGE);
+		uiNewPos = m_ptViewPoint.y + scrlInfo.nPage; 
+		break; 
+
+		// User clicked the left arrow. 
+	case SB_LINEUP: 
+		uiNewPos = m_ptViewPoint.y - CStaticSettings::VT_SCROLL_STEP; 
+		break; 
+
+		// User clicked the right arrow. 
+	case SB_LINEDOWN: 
+		uiNewPos = m_ptViewPoint.y + CStaticSettings::VT_SCROLL_STEP; 
+		break; 
+
+		// User dragged the scroll box. 
+	case SB_THUMBPOSITION: 
+		uiNewPos = nPos; 
+		break; 
+
+	default: 
+		uiNewPos = m_ptViewPoint.y; 
+	} 
+
+	// New position must be between 0 and the screen width. 
+	uiNewPos = std::max<int>(0, uiNewPos); 
+	uiNewPos = std::min<int>(m_iMaxYScroll, uiNewPos); 
+
+	SetScrollPos(SB_VERT, uiNewPos);
+	m_ptViewPoint.y = uiNewPos;
+	Invalidate();
+
+	CView::OnVScroll(nSBCode, nPos, pScrollBar);
+}
+
+
+void COrigGattooView::OnSize(UINT nType, int cx, int cy)
+{
+	CView::OnSize(nType, cx, cy);
 }
