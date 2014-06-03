@@ -43,8 +43,6 @@ void COrigGattooView::OnDraw(CDC* pDC)
 	GetClientRect(&rc);
 
 	CMemDC memdc(*pDC, this);
-	
-	TRACE("Draw\n");
 
 	memdc.GetDC().FillSolidRect(&rc, GetSysColor(COLOR_APPWORKSPACE));
 
@@ -70,8 +68,14 @@ void COrigGattooView::OnDraw(CDC* pDC)
 		
 		ptStart.x = (rc.Width() > imSize.cx) ? (rc.Width() - imSize.cx) / 2 : 0;
 		ptStart.y = (rc.Height() > imSize.cy) ? (rc.Height() - imSize.cy) / 2 : 0;
-		
-		pDoc->PerformDrawing(bmpCache, m_ptViewPoint);		
+
+		if (imSize.cx - m_ptViewPoint.x < rc.Width())
+			m_ptViewPoint.x = std::max<int>(imSize.cx - rc.Width(), 0);
+
+		if (imSize.cy - m_ptViewPoint.y < rc.Height())
+			m_ptViewPoint.y = std::max<int>(imSize.cy - rc.Height(), 0);
+
+		pDoc->PerformDrawing(bmpCache, m_ptViewPoint);
 
 		memdc.GetDC().BitBlt(ptStart.x, ptStart.y, iWidth, iHeight, &dcCache, 0, 0, SRCCOPY);
 	}
@@ -93,6 +97,8 @@ void COrigGattooView::Dump(CDumpContext& dc) const
 
 CGattooDoc* COrigGattooView::GetDocument() const // non-debug version is inline
 {
+	if (!m_pDocument) return nullptr;
+
 	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CGattooDoc)));
 	return (CGattooDoc*)m_pDocument;
 }
@@ -134,43 +140,7 @@ void COrigGattooView::OnUpdateFileSave(CCmdUI *pCmdUI)
 
 void COrigGattooView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
-	CGattooDoc* pDoc = GetDocument();
-
-	if (pDoc)
-	{
-		CRect rcClient;
-		CSize sizeImg = pDoc->getImgSize();
-
-		GetClientRect(&rcClient);
-
-		SCROLLINFO sinfo;
-
-		sinfo.cbSize = sizeof(SCROLLINFO);
-		sinfo.fMask = SIF_PAGE | SIF_RANGE;
-		sinfo.nMin = 0;
-
-		if(rcClient.Width() < sizeImg.cx)
-		{
-			m_iMaxXScroll = sizeImg.cx - rcClient.Width();
-			sinfo.nMax = sizeImg.cx;
-			sinfo.nPage = rcClient.Width();
-			SetScrollInfo(SB_HORZ, &sinfo);
-		}
-		else
-			SetScrollRange(SB_HORZ, 0, 0);
-
-		if(rcClient.Height() < sizeImg.cy)
-		{
-			m_iMaxYScroll = sizeImg.cy - rcClient.Height();
-			sinfo.nMax = sizeImg.cy;
-			sinfo.nPage = rcClient.Height();
-
-			SetScrollInfo(SB_VERT, &sinfo);
-		}
-		else
-			SetScrollRange(SB_VERT, 0, 0);
-	}
-
+	UpdateScrolls();
 	Invalidate();
 }
 
@@ -276,8 +246,48 @@ void COrigGattooView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 	CView::OnVScroll(nSBCode, nPos, pScrollBar);
 }
 
-
 void COrigGattooView::OnSize(UINT nType, int cx, int cy)
 {
+	UpdateScrolls();
 	CView::OnSize(nType, cx, cy);
+}
+
+void COrigGattooView::UpdateScrolls()
+{
+	CGattooDoc* pDoc = GetDocument();
+
+	if (pDoc)
+	{
+		CRect rcClient;
+		CSize sizeImg = pDoc->getImgSize();
+
+		GetClientRect(&rcClient);
+
+		SCROLLINFO sinfo;
+
+		sinfo.cbSize = sizeof(SCROLLINFO);
+		sinfo.fMask = SIF_PAGE | SIF_RANGE;
+		sinfo.nMin = 0;
+
+		if(rcClient.Width() < sizeImg.cx)
+		{
+			m_iMaxXScroll = sizeImg.cx - rcClient.Width();
+			sinfo.nMax = sizeImg.cx;
+			sinfo.nPage = rcClient.Width();
+			SetScrollInfo(SB_HORZ, &sinfo);
+		}
+		else
+			SetScrollRange(SB_HORZ, 0, 0);
+
+		if(rcClient.Height() < sizeImg.cy)
+		{
+			m_iMaxYScroll = sizeImg.cy - rcClient.Height();
+			sinfo.nMax = sizeImg.cy;
+			sinfo.nPage = rcClient.Height();
+
+			SetScrollInfo(SB_VERT, &sinfo);
+		}
+		else
+			SetScrollRange(SB_VERT, 0, 0);
+	}
 }

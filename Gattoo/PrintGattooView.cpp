@@ -59,6 +59,7 @@ END_MESSAGE_MAP()
 CPrintGattooView::CPrintGattooView()
 	: m_enCurrentTool(enNone)
 	, m_bToolStarted(false)
+	, m_fZoomFactor(1)
 {
 	// TODO: add construction code here
 	m_rcEraser.SetRect(0, 0, ERASER_BLOCK_SIZE, ERASER_BLOCK_SIZE);
@@ -90,6 +91,40 @@ void CPrintGattooView::OnDraw(CDC* pDC)
 	pDC = &memDC.GetDC();
 
 	pDC->FillSolidRect(&rc, GetSysColor(COLOR_APPWORKSPACE));
+	
+	CSize imSize = GetDocument()->getImgSize();
+	if (imSize.cx == 0 || imSize.cy == 0)
+		return;
+
+	CBitmap *bmp = pDC->GetCurrentBitmap();
+
+	if (bmp)
+	{
+		CDC dcCache;
+		CBitmap bmpCache;
+
+		int iWidth  = std::min<int>(rc.Width(), imSize.cx);
+		int iHeight = std::min<int>(rc.Height(), imSize.cy);
+
+		bmpCache.CreateCompatibleBitmap(pDC, iWidth, iHeight);
+		dcCache.CreateCompatibleDC(pDC);
+		dcCache.SelectObject(bmpCache);
+
+		CPoint ptStart;
+
+		ptStart.x = (rc.Width() > imSize.cx) ? (rc.Width() - imSize.cx) / 2 : 0;
+		ptStart.y = (rc.Height() > imSize.cy) ? (rc.Height() - imSize.cy) / 2 : 0;
+
+// 		if (imSize.cx - m_ptViewPoint.x < rc.Width())
+// 			m_ptViewPoint.x = std::max<int>(imSize.cx - rc.Width(), 0);
+// 
+// 		if (imSize.cy - m_ptViewPoint.y < rc.Height())
+// 			m_ptViewPoint.y = std::max<int>(imSize.cy - rc.Height(), 0);
+
+		pDoc->PerformDrawing(bmpCache, CPoint(0,0));
+
+		pDC->StretchBlt(ptStart.x, ptStart.y, iWidth*m_fZoomFactor, iHeight*m_fZoomFactor, &dcCache, 0, 0, iWidth, iHeight, SRCCOPY);
+	}
 	//pDoc->PerformDrawing(pDC, GetDrawOrigin());
 
 // 	CPoint pt = GetDrawOrigin();
@@ -267,12 +302,15 @@ void CPrintGattooView::OnToolsResize()
 void CPrintGattooView::OnToolsZoomIn()
 {
 	m_enCurrentTool = enZoomIn;
+	m_fZoomFactor *= CStaticSettings::IMG_ZOOM_FACTOR_MULTIPLIER;
+	Invalidate(FALSE);
 }
-
 
 void CPrintGattooView::OnToolsZoomOut()
 {
 	m_enCurrentTool = enZoomOut;
+	m_fZoomFactor /= CStaticSettings::IMG_ZOOM_FACTOR_MULTIPLIER;
+	Invalidate(FALSE);
 }
 
 BOOL CPrintGattooView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
@@ -447,4 +485,10 @@ CPoint CPrintGattooView::GetDrawOrigin()
 	int const iYDest = std::max<int>(0, (rc.Height() - imSize.cy)/2);
 
 	return CPoint(iXDest, iYDest);
+}
+
+
+void CPrintGattooView::OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/)
+{
+	m_fZoomFactor = 1;
 }

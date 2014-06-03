@@ -62,6 +62,8 @@ protected:
 
 	CRect m_rcEraser;
 
+	float m_fZoomFactor;
+
 // Generated message map functions
 protected:
 	afx_msg void OnFilePrintPreview();
@@ -99,6 +101,7 @@ public:
 	afx_msg void OnToolsResize();
 	afx_msg void OnToolsZoomIn();
 	afx_msg void OnToolsZoomOut();
+	virtual void OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/);
 };
 
 #ifndef _DEBUG  // debug version in GattooView.cpp

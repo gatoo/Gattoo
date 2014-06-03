@@ -11,3 +11,5 @@ unsigned int  const CStaticSettings::VT_SIZE_MAX_VALUE = 2048;
 
 int const CStaticSettings::HZ_SCROLL_STEP = 15;
 int const CStaticSettings::VT_SCROLL_STEP = CStaticSettings::HZ_SCROLL_STEP;
+
+float const CStaticSettings::IMG_ZOOM_FACTOR_MULTIPLIER = 2;

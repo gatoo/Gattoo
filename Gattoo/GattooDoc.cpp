@@ -149,12 +149,12 @@ BOOL CGattooDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 CSize CGattooDoc::getImgSize() const
 {
-	return m_pCurrImg->getImgSize();
+	return m_pCurrImg ? m_pCurrImg->getImgSize() : CSize(0,0);
 }
 
 void const * CGattooDoc::getImgData() const
 {
-	return m_pCurrImg->getImgData();
+	return m_pCurrImg ? m_pCurrImg->getImgData() : nullptr;
 }
 
 void CGattooDoc::OnFileSave()

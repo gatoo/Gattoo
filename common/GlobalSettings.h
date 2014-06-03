@@ -15,4 +15,7 @@ public:
 	// Scroll increment steps
 	static int const HZ_SCROLL_STEP;
 	static int const VT_SCROLL_STEP;
+
+	// Zoom factor
+	static float const IMG_ZOOM_FACTOR_MULTIPLIER;
 };
