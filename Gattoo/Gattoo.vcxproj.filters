@@ -168,6 +168,9 @@
     <ClInclude Include="..\common\GlobalSettings.h">
       <Filter>common</Filter>
     </ClInclude>
+    <ClInclude Include="BaseImgView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Gattoo.cpp">
@@ -241,6 +244,9 @@
     </ClCompile>
     <ClCompile Include="..\common\GlobalSettings.cpp">
       <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseImgView.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

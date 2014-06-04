@@ -134,7 +134,7 @@ bool CGattooImg::getDriveToSave(std::basic_string<TCHAR> &strDrive)
 
 bool CGattooImg::saveToSD()
 {
-	if (m_Img.empty()) return true;
+/*	if (m_Img.empty()) return true;
 
 	IImgConverter* pConverter = createImgConverter(IImgConverter::enDefault);
 
@@ -183,7 +183,7 @@ bool CGattooImg::saveToSD()
 	CVolumeAccess::cleanResources();
 
 	pConverter->Destroy();
-
+*/
 	return true;
 }
 
@@ -332,7 +332,7 @@ void CGattooImg::CropImage(CRect & rc)
 
 bool CGattooImg::saveToFile(LPCTSTR lpszPath)
 {
-	IImgConverter* pConverter = createImgConverter(IImgConverter::enDefault);
+/*	IImgConverter* pConverter = createImgConverter(IImgConverter::enDefault);
 	
 	FILE* fOut = fopen(lpszPath, "wb");
 	
@@ -346,7 +346,7 @@ bool CGattooImg::saveToFile(LPCTSTR lpszPath)
 	fclose(fOut);
 
 	cv::cvtColor(m_Img, m_Img, CV_GRAY2RGB);
-
+*/
 	return true;
 }
 

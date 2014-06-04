@@ -57,7 +57,9 @@ protected:
 #endif // SHARED_HANDLERS
 
 public:
-//	virtual BOOL OnSaveDocument(LPCTSTR lpszPathName);
+
+	static int const IMAGE_LOAD_EVENT;
+
 	afx_msg void OnFileSave();
 	afx_msg void OnToolsHalftone();
 	afx_msg void OnToolsSaveToSD();

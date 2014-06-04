@@ -6,8 +6,6 @@
 #include "OrigGattooView.h"
 #include "GattooDoc.h"
 
-#include <GlobalSettings.h>
-
 // COrigGattooView
 
 IMPLEMENT_DYNCREATE(COrigGattooView, CView)
@@ -32,7 +30,6 @@ END_MESSAGE_MAP()
 
 
 // COrigGattooView drawing
-
 void COrigGattooView::OnDraw(CDC* pDC)
 {
 	CGattooDoc* pDoc = GetDocument();
@@ -62,7 +59,7 @@ void COrigGattooView::OnDraw(CDC* pDC)
 
 		bmpCache.CreateCompatibleBitmap(pDC, iWidth, iHeight);
 		dcCache.CreateCompatibleDC(pDC);
-		dcCache.SelectObject(bmpCache);
+		HGDIOBJ pOldBmp = dcCache.SelectObject(bmpCache);
 
 		CPoint ptStart;
 		
@@ -78,31 +75,10 @@ void COrigGattooView::OnDraw(CDC* pDC)
 		pDoc->PerformDrawing(bmpCache, m_ptViewPoint);
 
 		memdc.GetDC().BitBlt(ptStart.x, ptStart.y, iWidth, iHeight, &dcCache, 0, 0, SRCCOPY);
+
+		dcCache.SelectObject(pOldBmp);
 	}
 }
-
-
-// COrigGattooView diagnostics
-
-#ifdef _DEBUG
-void COrigGattooView::AssertValid() const
-{
-	CView::AssertValid();
-}
-
-void COrigGattooView::Dump(CDumpContext& dc) const
-{
-	CView::Dump(dc);
-}
-
-CGattooDoc* COrigGattooView::GetDocument() const // non-debug version is inline
-{
-	if (!m_pDocument) return nullptr;
-
-	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CGattooDoc)));
-	return (CGattooDoc*)m_pDocument;
-}
-#endif //_DEBUG
 
 // COrigGattooView message handlers
 void COrigGattooView::OnUpdateTools(CCmdUI *pCmdUI)
@@ -115,179 +91,24 @@ void COrigGattooView::OnUpdateFileSaveRaw(CCmdUI *pCmdUI)
 	pCmdUI->Enable(FALSE);
 }
 
-void COrigGattooView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView)
-{
-	CGattooDoc* pDoc = GetDocument();
-	pDoc->SwitchToOriginal(TRUE);
-
-	CView::OnActivateView(bActivate, pActivateView, pDeactiveView);
-
-	Invalidate();
-}
-
-BOOL COrigGattooView::OnEraseBkgnd(CDC* pDC)
-{
-	// TODO: Add your message handler code here and/or call default
-	return 0;
-
-	return CView::OnEraseBkgnd(pDC);
-}
-
 void COrigGattooView::OnUpdateFileSave(CCmdUI *pCmdUI)
 {
 	pCmdUI->Enable(FALSE);
 }
 
-void COrigGattooView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
-{
-	UpdateScrolls();
-	Invalidate();
-}
-
-
-void COrigGattooView::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
-{
-	int uiNewPos = 0;
-
-	SCROLLINFO scrlInfo;
-
-	switch (nSBCode) 
-	{ 
-		// User clicked the scroll bar shaft left of the scroll box. 
-	case SB_PAGEUP:
-		GetScrollInfo(SB_HORZ, &scrlInfo, SIF_PAGE);
-		uiNewPos = m_ptViewPoint.x - scrlInfo.nPage;
-		break; 
-
-		// User clicked the scroll bar shaft right of the scroll box. 
-	case SB_PAGEDOWN:
-		GetScrollInfo(SB_HORZ, &scrlInfo, SIF_PAGE);
-		uiNewPos = m_ptViewPoint.x + scrlInfo.nPage; 
-		break; 
-
-		// User clicked the left arrow. 
-	case SB_LINEUP: 
-		uiNewPos = m_ptViewPoint.x - CStaticSettings::HZ_SCROLL_STEP; 
-		break; 
-
-		// User clicked the right arrow. 
-	case SB_LINEDOWN: 
-		uiNewPos = m_ptViewPoint.x + CStaticSettings::HZ_SCROLL_STEP; 
-		break; 
-
-		// User dragged the scroll box. 
-	case SB_THUMBPOSITION: 
-		uiNewPos = nPos; 
-		break; 
-
-	default: 
-		uiNewPos = m_ptViewPoint.x; 
-	} 
-	
-	// New position must be between 0 and the screen width. 
-	uiNewPos = std::max<int>(0, uiNewPos); 
-	uiNewPos = std::min<int>(m_iMaxXScroll, uiNewPos); 
-
-	SetScrollPos(SB_HORZ, uiNewPos);
-	m_ptViewPoint.x = uiNewPos;
-	Invalidate();
-
-	CView::OnHScroll(nSBCode, nPos, pScrollBar);
-}
-
-
-void COrigGattooView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
-{
-	int uiNewPos = 0;
-
-	SCROLLINFO scrlInfo;
-
-	switch (nSBCode) 
-	{ 
-		// User clicked the scroll bar shaft left of the scroll box. 
-	case SB_PAGEUP:
-		GetScrollInfo(SB_VERT, &scrlInfo, SIF_PAGE);
-		uiNewPos = m_ptViewPoint.y - scrlInfo.nPage;
-		break; 
-
-		// User clicked the scroll bar shaft right of the scroll box. 
-	case SB_PAGEDOWN:
-		GetScrollInfo(SB_VERT, &scrlInfo, SIF_PAGE);
-		uiNewPos = m_ptViewPoint.y + scrlInfo.nPage; 
-		break; 
-
-		// User clicked the left arrow. 
-	case SB_LINEUP: 
-		uiNewPos = m_ptViewPoint.y - CStaticSettings::VT_SCROLL_STEP; 
-		break; 
-
-		// User clicked the right arrow. 
-	case SB_LINEDOWN: 
-		uiNewPos = m_ptViewPoint.y + CStaticSettings::VT_SCROLL_STEP; 
-		break; 
-
-		// User dragged the scroll box. 
-	case SB_THUMBPOSITION: 
-		uiNewPos = nPos; 
-		break; 
-
-	default: 
-		uiNewPos = m_ptViewPoint.y; 
-	} 
-
-	// New position must be between 0 and the screen width. 
-	uiNewPos = std::max<int>(0, uiNewPos); 
-	uiNewPos = std::min<int>(m_iMaxYScroll, uiNewPos); 
-
-	SetScrollPos(SB_VERT, uiNewPos);
-	m_ptViewPoint.y = uiNewPos;
-	Invalidate();
-
-	CView::OnVScroll(nSBCode, nPos, pScrollBar);
-}
-
-void COrigGattooView::OnSize(UINT nType, int cx, int cy)
-{
-	UpdateScrolls();
-	CView::OnSize(nType, cx, cy);
-}
-
-void COrigGattooView::UpdateScrolls()
+void COrigGattooView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView)
 {
 	CGattooDoc* pDoc = GetDocument();
+	pDoc->SwitchToOriginal(TRUE);
 
-	if (pDoc)
-	{
-		CRect rcClient;
-		CSize sizeImg = pDoc->getImgSize();
+	CBaseImgView::OnActivateView(bActivate, pActivateView, pDeactiveView);
 
-		GetClientRect(&rcClient);
-
-		SCROLLINFO sinfo;
-
-		sinfo.cbSize = sizeof(SCROLLINFO);
-		sinfo.fMask = SIF_PAGE | SIF_RANGE;
-		sinfo.nMin = 0;
-
-		if(rcClient.Width() < sizeImg.cx)
-		{
-			m_iMaxXScroll = sizeImg.cx - rcClient.Width();
-			sinfo.nMax = sizeImg.cx;
-			sinfo.nPage = rcClient.Width();
-			SetScrollInfo(SB_HORZ, &sinfo);
-		}
-		else
-			SetScrollRange(SB_HORZ, 0, 0);
-
-		if(rcClient.Height() < sizeImg.cy)
-		{
-			m_iMaxYScroll = sizeImg.cy - rcClient.Height();
-			sinfo.nMax = sizeImg.cy;
-			sinfo.nPage = rcClient.Height();
-
-			SetScrollInfo(SB_VERT, &sinfo);
-		}
-		else
-			SetScrollRange(SB_VERT, 0, 0);
-	}
+	Invalidate();
 }
+
+void COrigGattooView::OnDocumentLoad()
+{
+	UpdateScrolls();
+	Invalidate();
+}
+

@@ -25,8 +25,6 @@
 
 #include <windows.h>
 
-
-
 #ifndef _AFX_NO_OLE_SUPPORT
 #include <afxdtctl.h>           // MFC support for Internet Explorer 4 Common Controls
 #endif
@@ -36,7 +34,12 @@
 
 #include <afxcontrolbars.h>     // MFC support for ribbons and control bars
 
+#include <stdlib.h>
+#include <crtdbg.h>
 
+// #ifdef _DEBUG
+// #include <vld.h>
+// #endif
 
 
 #define IDM_USER_IMG_LOADED	(WM_USER+100)

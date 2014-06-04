@@ -5,11 +5,13 @@
 #pragma once
 
 #include "GattooDoc.h"
+#include "BaseImgView.h"
 
-class CPrintGattooView : public CView
+class CPrintGattooView : public CBaseImgView
 {
 protected: // create from serialization only
 	CPrintGattooView();
+	
 	DECLARE_DYNCREATE(CPrintGattooView)
 
 // Attributes
@@ -94,14 +96,17 @@ public:
 	afx_msg void OnMouseLeave();
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
-	void DrawCropFrame(CDC* pDC);
+	
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	afx_msg void OnUpdateFileSaveRaw(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateToolsResize(CCmdUI *pCmdUI);
 	afx_msg void OnToolsResize();
 	afx_msg void OnToolsZoomIn();
 	afx_msg void OnToolsZoomOut();
-	virtual void OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/);
+
+	void DrawCropFrame(CDC* pDC);
+	virtual void OnDocumentLoad();
+
 };
 
 #ifndef _DEBUG  // debug version in GattooView.cpp

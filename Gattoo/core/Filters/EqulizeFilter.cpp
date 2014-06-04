@@ -17,9 +17,5 @@ bool CEqulizeFilter::Apply(cv::Mat &img)
 	// Apply Histogram Equalization
 	cv::equalizeHist(img, img);
 
-// #ifdef _DEBUG
-// 	cv::imshow("Equalized", img);
-// #endif
-
 	return true;
 }

@@ -47,9 +47,6 @@ CGattooApp::CGattooApp()
 	// TODO: replace application ID string below with unique ID string; recommended
 	// format for string is CompanyName.ProductName.SubProduct.VersionInformation
 	SetAppID(_T("Gattoo.AppID.NoVersion"));
-
-	// TODO: add construction code here,
-	// Place all significant initialization in InitInstance
 }
 
 // The one and only CGattooApp object
@@ -72,10 +69,6 @@ BOOL CGattooApp::InitInstance()
 	InitCommonControlsEx(&InitCtrls);
 
 	CWinAppEx::InitInstance();
-
-	cv::Mat a;
-
-	a = cv::imread("", CV_LOAD_IMAGE_COLOR);
 
 	EnableTaskbarInteraction(FALSE);
 
@@ -152,12 +145,6 @@ protected:
 // Implementation
 protected:
 	DECLARE_MESSAGE_MAP()
-public:
-//	afx_msg void OnUpdateToolsHalftone(CCmdUI *pCmdUI);
-//	afx_msg void OnToolsEraser();
-//	afx_msg void OnNcMouseLeave();
-//	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
-//	virtual BOOL OnChildNotify(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pLResult);
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
@@ -170,9 +157,6 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
-//	ON_UPDATE_COMMAND_UI(ID_TOOLS_HALFTONE, &CAboutDlg::OnUpdateToolsHalftone)
-//	ON_COMMAND(ID_TOOLS_ERASER, &CAboutDlg::OnToolsEraser)
-//	ON_WM_NCMOUSELEAVE()
 END_MESSAGE_MAP()
 
 // App command to run the dialog

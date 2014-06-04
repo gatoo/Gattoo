@@ -31,6 +31,7 @@ public:
 
 protected:
 	afx_msg LRESULT OnIdmUserImgLoad(WPARAM wParam, LPARAM lParam);
+	virtual void OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/);
 };
 
 

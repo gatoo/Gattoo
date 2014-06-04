@@ -20,7 +20,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>NotSet</CharacterSet>
-    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfMfc>Static</UseOfMfc>
     <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -40,6 +40,7 @@
     <Import Project="..\properties\libImgCOnverter.props" />
     <Import Project="..\properties\common.props" />
     <Import Project="..\properties\opencv.props" />
+    <Import Project="..\properties\vld.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -60,8 +61,9 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_CRTDBG_MAP_ALLOC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -126,6 +128,7 @@
   <ItemGroup>
     <ClInclude Include="..\common\CommonHelpers.h" />
     <ClInclude Include="..\common\GlobalSettings.h" />
+    <ClInclude Include="BaseImgView.h" />
     <ClInclude Include="core\DriveBrowseDlg.h" />
     <ClInclude Include="core\Filters\EqulizeFilter.h" />
     <ClInclude Include="core\Filters\HalfToneFilter.h" />
@@ -156,6 +159,7 @@
   <ItemGroup>
     <ClCompile Include="..\common\CommonHelpers.cpp" />
     <ClCompile Include="..\common\GlobalSettings.cpp" />
+    <ClCompile Include="BaseImgView.cpp" />
     <ClCompile Include="core\DriveBrowseDlg.cpp" />
     <ClCompile Include="core\Filters\EqulizeFilter.cpp" />
     <ClCompile Include="core\Filters\HalfToneFilter.cpp" />

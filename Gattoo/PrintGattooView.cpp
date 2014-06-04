@@ -14,6 +14,8 @@
 #include "GlobalSettings.h"
 #include "ResizeImgDlg.h"
 
+#include "BaseImgView.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -74,7 +76,7 @@ BOOL CPrintGattooView::PreCreateWindow(CREATESTRUCT& cs)
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
 
-	return CView::PreCreateWindow(cs);
+	return CBaseImgView::PreCreateWindow(cs);
 }
 
 // CGattooView drawing
@@ -186,12 +188,12 @@ void CPrintGattooView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 #ifdef _DEBUG
 void CPrintGattooView::AssertValid() const
 {
-	CView::AssertValid();
+	CBaseImgView::AssertValid();
 }
 
 void CPrintGattooView::Dump(CDumpContext& dc) const
 {
-	CView::Dump(dc);
+	CBaseImgView::Dump(dc);
 }
 
 CGattooDoc* CPrintGattooView::GetDocument() const // non-debug version is inline
@@ -209,7 +211,7 @@ BOOL CPrintGattooView::OnEraseBkgnd(CDC* pDC)
 {
 	return 0;// TODO: Add your message handler code here and/or call default
 
-	return CView::OnEraseBkgnd(pDC);
+	return CBaseImgView::OnEraseBkgnd(pDC);
 }
 
 void CPrintGattooView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView)
@@ -217,7 +219,7 @@ void CPrintGattooView::OnActivateView(BOOL bActivate, CView* pActivateView, CVie
 	CGattooDoc* pDoc = GetDocument();
 	pDoc->SwitchToOriginal(FALSE);
 
-	CView::OnActivateView(bActivate, pActivateView, pDeactiveView);
+	CBaseImgView::OnActivateView(bActivate, pActivateView, pDeactiveView);
 
 	Invalidate();
 }
@@ -333,7 +335,7 @@ BOOL CPrintGattooView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 		return TRUE;
 	}
 
-	return CView::OnSetCursor(pWnd, nHitTest, message);
+	return CBaseImgView::OnSetCursor(pWnd, nHitTest, message);
 }
 
 void CPrintGattooView::OnMouseMove(UINT nFlags, CPoint point)
@@ -362,7 +364,7 @@ void CPrintGattooView::OnMouseMove(UINT nFlags, CPoint point)
 		Invalidate(FALSE);
 	}
 
-	CView::OnMouseMove(nFlags, point);
+	CBaseImgView::OnMouseMove(nFlags, point);
 }
 
 void CPrintGattooView::OnMouseLeave()
@@ -382,7 +384,7 @@ void CPrintGattooView::OnMouseLeave()
 
 	TrackMouseEvent(&ev);
 
-	CView::OnMouseLeave();
+	CBaseImgView::OnMouseLeave();
 }
 
 void CPrintGattooView::OnLButtonDown(UINT nFlags, CPoint point)
@@ -409,7 +411,7 @@ void CPrintGattooView::OnLButtonDown(UINT nFlags, CPoint point)
 		}
 	}
 
-	CView::OnLButtonDown(nFlags, point);
+	CBaseImgView::OnLButtonDown(nFlags, point);
 }
 
 void CPrintGattooView::OnLButtonUp(UINT nFlags, CPoint point)
@@ -429,7 +431,7 @@ void CPrintGattooView::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 
 	ReleaseCapture();
-	CView::OnLButtonUp(nFlags, point);
+	CBaseImgView::OnLButtonUp(nFlags, point);
 }
 
 void CPrintGattooView::OnLButtonDblClk(UINT nFlags, CPoint point)
@@ -455,7 +457,7 @@ void CPrintGattooView::OnLButtonDblClk(UINT nFlags, CPoint point)
 		}
 	}
 
-	CView::OnLButtonDblClk(nFlags, point);
+	CBaseImgView::OnLButtonDblClk(nFlags, point);
 }
 
 void CPrintGattooView::DoErase(CPoint const &pt)
@@ -487,8 +489,7 @@ CPoint CPrintGattooView::GetDrawOrigin()
 	return CPoint(iXDest, iYDest);
 }
 
-
-void CPrintGattooView::OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/)
+void CPrintGattooView::OnDocumentLoad()
 {
 	m_fZoomFactor = 1;
 }

@@ -41,10 +41,6 @@ bool CHalfToneFilter::Apply(cv::Mat & img)
 			Trans(Error, *img.ptr<UCHAR>(i+1, j-1), (double)3/16);
 		}
 
-// #ifdef _DEBUG
-// 	cv::imshow("Halftoned", img);
-// #endif
-
 	return true;
 }
 

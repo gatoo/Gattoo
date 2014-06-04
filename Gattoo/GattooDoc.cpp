@@ -22,6 +22,8 @@
 
 // CGattooDoc
 
+int const CGattooDoc::IMAGE_LOAD_EVENT = 100;
+
 IMPLEMENT_DYNCREATE(CGattooDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CGattooDoc, CDocument)
@@ -142,7 +144,7 @@ BOOL CGattooDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	SetPathName(lpszPathName);
 	SendMessage(AfxGetMainWnd()->GetSafeHwnd(), IDM_USER_IMG_LOADED, 0, 0);
 
-	UpdateAllViews(nullptr);
+	UpdateAllViews(nullptr, IMAGE_LOAD_EVENT);
 
 	return TRUE;
 }

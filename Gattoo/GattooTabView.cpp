@@ -46,8 +46,8 @@ int CGattooTabView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CTabView::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	AddView (RUNTIME_CLASS (COrigGattooView), _T("Original"), -1);
-	AddView (RUNTIME_CLASS (CPrintGattooView), _T("Print"), -1);
+	AddView(RUNTIME_CLASS (COrigGattooView), _T("Original"), -1);
+	AddView(RUNTIME_CLASS (CPrintGattooView), _T("Print"), -1);
 
 	GetTabControl().ShowWindow(SW_HIDE);
 	m_bInitialState = true;
@@ -66,4 +66,17 @@ void CGattooTabView::OnDraw(CDC* pDC)
 	}
 	else
 		CTabView::OnDraw(pDC);
+}
+
+void CGattooTabView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
+{
+// 	if (lHint == CGattooDoc::IMAGE_LOAD_EVENT)
+// 	{
+// 		int const iTabsCount = GetTabControl().GetTabsNum();
+// 
+// 		for(int i=0; i<iTabsCount; ++i)
+// 			((CBaseImgView*)GetTabControl().GetTabWnd(i))->OnDocumentLoad();
+// 	}
+
+	CTabView::OnUpdate(pSender, lHint, pHint);
 }

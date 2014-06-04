@@ -17,6 +17,7 @@
     <Link>
       <AdditionalLibraryDirectories>$(opencv_lib_dir)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opencv_core$(opencv_ver).lib;opencv_highgui$(opencv_ver).lib;opencv_imgproc$(opencv_ver).lib</AdditionalDependencies>
+      <DelayLoadDLLs>%(DelayLoadDLLs)</DelayLoadDLLs>
     </Link>
     <PostBuildEvent>
       <Command>copy $(opencv_bin_dir)opencv_core$(opencv_ver).dll $(TargetDir)

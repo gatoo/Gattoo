@@ -1,29 +1,14 @@
 #pragma once
 
-// COrigGattooView view
-
 #include "GattooDoc.h"
+#include "BaseImgView.h"
 
-class COrigGattooView : public CView
+class COrigGattooView : public CBaseImgView
 {
 
 public:
 
-	CGattooDoc* GetDocument() const;
-
-	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-	afx_msg void OnUpdateFileSave(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateFileSaveRaw(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateTools(CCmdUI *pCmdUI);
-
-	virtual void OnDraw(CDC* pDC);
-
 	virtual ~COrigGattooView();
-
-#ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
-#endif
 
 protected:
 
@@ -32,20 +17,16 @@ protected:
 
 	COrigGattooView();
 
-	CPoint m_ptViewPoint;
+	afx_msg void OnUpdateFileSave(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateFileSaveRaw(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateTools(CCmdUI *pCmdUI);
 
-	int m_iMaxXScroll;
-	int m_iMaxYScroll;
-
-	void UpdateScrolls();
-
+	virtual void OnDraw(CDC* pDC);
 	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
-	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
-public:
-	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
-	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
-	afx_msg void OnSize(UINT nType, int cx, int cy);
-	
+
+	virtual void OnDocumentLoad();
+
+	virtual void OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/);
 };
 
 #ifndef _DEBUG  // debug version in GattooView.cpp
