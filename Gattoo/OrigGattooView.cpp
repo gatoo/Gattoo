@@ -18,14 +18,11 @@ COrigGattooView::~COrigGattooView()
 {
 }
 
-BEGIN_MESSAGE_MAP(COrigGattooView, CView)
+BEGIN_MESSAGE_MAP(COrigGattooView, CBaseImgView)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_TOOLS_ERASER, ID_TOOLS_ZOOM_OUT, &COrigGattooView::OnUpdateTools)
 	ON_WM_ERASEBKGND()
 	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE, &COrigGattooView::OnUpdateFileSave)
 	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_RAW, &COrigGattooView::OnUpdateFileSaveRaw)
-	ON_WM_HSCROLL()
-	ON_WM_VSCROLL()
-	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 
@@ -103,12 +100,12 @@ void COrigGattooView::OnActivateView(BOOL bActivate, CView* pActivateView, CView
 
 	CBaseImgView::OnActivateView(bActivate, pActivateView, pDeactiveView);
 
-	Invalidate();
+	Invalidate(FALSE);
 }
 
 void COrigGattooView::OnDocumentLoad()
 {
 	UpdateScrolls();
-	Invalidate();
+	Invalidate(FALSE);
 }
 

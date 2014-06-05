@@ -27,7 +27,7 @@ int const CPrintGattooView::ERASER_BLOCK_SIZE = 20;
 
 IMPLEMENT_DYNCREATE(CPrintGattooView, CView)
 
-BEGIN_MESSAGE_MAP(CPrintGattooView, CView)
+BEGIN_MESSAGE_MAP(CPrintGattooView, CBaseImgView)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
 	ON_WM_ERASEBKGND()
@@ -61,7 +61,6 @@ END_MESSAGE_MAP()
 CPrintGattooView::CPrintGattooView()
 	: m_enCurrentTool(enNone)
 	, m_bToolStarted(false)
-	, m_fZoomFactor(1)
 {
 	// TODO: add construction code here
 	m_rcEraser.SetRect(0, 0, ERASER_BLOCK_SIZE, ERASER_BLOCK_SIZE);
@@ -105,8 +104,8 @@ void CPrintGattooView::OnDraw(CDC* pDC)
 		CDC dcCache;
 		CBitmap bmpCache;
 
-		int iWidth  = std::min<int>(rc.Width(), imSize.cx);
-		int iHeight = std::min<int>(rc.Height(), imSize.cy);
+		int iWidth  = std::min<int>(rc.Width() / m_fZoomFactor, imSize.cx);
+		int iHeight = std::min<int>(rc.Height() / m_fZoomFactor, imSize.cy);
 
 		bmpCache.CreateCompatibleBitmap(pDC, iWidth, iHeight);
 		dcCache.CreateCompatibleDC(pDC);
@@ -114,16 +113,20 @@ void CPrintGattooView::OnDraw(CDC* pDC)
 
 		CPoint ptStart;
 
-		ptStart.x = (rc.Width() > imSize.cx) ? (rc.Width() - imSize.cx) / 2 : 0;
-		ptStart.y = (rc.Height() > imSize.cy) ? (rc.Height() - imSize.cy) / 2 : 0;
+		ptStart.x = (rc.Width() > imSize.cx * m_fZoomFactor) ? (rc.Width() - imSize.cx * m_fZoomFactor) / 2 : 0;
+		ptStart.y = (rc.Height() > imSize.cy * m_fZoomFactor) ? (rc.Height() - imSize.cy * m_fZoomFactor) / 2 : 0;
 
-// 		if (imSize.cx - m_ptViewPoint.x < rc.Width())
-// 			m_ptViewPoint.x = std::max<int>(imSize.cx - rc.Width(), 0);
-// 
-// 		if (imSize.cy - m_ptViewPoint.y < rc.Height())
-// 			m_ptViewPoint.y = std::max<int>(imSize.cy - rc.Height(), 0);
+		if (imSize.cx * m_fZoomFactor - m_ptViewPoint.x < rc.Width())
+			m_ptViewPoint.x = std::max<int>(imSize.cx * m_fZoomFactor - rc.Width(), 0);
 
-		pDoc->PerformDrawing(bmpCache, CPoint(0,0));
+		if (imSize.cy * m_fZoomFactor - m_ptViewPoint.y < rc.Height())
+			m_ptViewPoint.y = std::max<int>(imSize.cy * m_fZoomFactor - rc.Height(), 0);
+
+		CPoint pt;
+
+		pt.x = m_ptViewPoint.x / m_fZoomFactor;
+		pt.y = m_ptViewPoint.y / m_fZoomFactor;
+		pDoc->PerformDrawing(bmpCache, pt);
 
 		pDC->StretchBlt(ptStart.x, ptStart.y, iWidth*m_fZoomFactor, iHeight*m_fZoomFactor, &dcCache, 0, 0, iWidth, iHeight, SRCCOPY);
 	}
@@ -305,6 +308,9 @@ void CPrintGattooView::OnToolsZoomIn()
 {
 	m_enCurrentTool = enZoomIn;
 	m_fZoomFactor *= CStaticSettings::IMG_ZOOM_FACTOR_MULTIPLIER;
+	m_ptViewPoint.x *= CStaticSettings::IMG_ZOOM_FACTOR_MULTIPLIER;
+	m_ptViewPoint.y *= CStaticSettings::IMG_ZOOM_FACTOR_MULTIPLIER;
+	UpdateScrolls();
 	Invalidate(FALSE);
 }
 
@@ -312,17 +318,18 @@ void CPrintGattooView::OnToolsZoomOut()
 {
 	m_enCurrentTool = enZoomOut;
 	m_fZoomFactor /= CStaticSettings::IMG_ZOOM_FACTOR_MULTIPLIER;
+	m_ptViewPoint.x /= CStaticSettings::IMG_ZOOM_FACTOR_MULTIPLIER;
+	m_ptViewPoint.y /= CStaticSettings::IMG_ZOOM_FACTOR_MULTIPLIER;
+	UpdateScrolls();
 	Invalidate(FALSE);
 }
 
 BOOL CPrintGattooView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
-	m_bInClient = true;
-
-	ASSERT(HTCLIENT & nHitTest);
-
-	if (m_enCurrentTool == enErase)
+	if ((HTCLIENT & nHitTest) && (m_enCurrentTool == enErase))
 	{
+		m_bInClient = true;
+
 		SetCursor(nullptr);
 
 		TRACKMOUSEEVENT ev;
@@ -492,4 +499,7 @@ CPoint CPrintGattooView::GetDrawOrigin()
 void CPrintGattooView::OnDocumentLoad()
 {
 	m_fZoomFactor = 1;
+
+	UpdateScrolls();
+	Invalidate(FALSE);
 }

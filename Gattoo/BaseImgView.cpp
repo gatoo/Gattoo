@@ -11,6 +11,7 @@
 //IMPLEMENT_DYNCREATE(CBaseImgView, CView)
 
 CBaseImgView::CBaseImgView()
+	: m_fZoomFactor(1)
 {
 }
 
@@ -50,12 +51,6 @@ BOOL CBaseImgView::OnEraseBkgnd(CDC* pDC)
 	return 0; //CView::OnEraseBkgnd(pDC);
 }
 
-void CBaseImgView::OnUpdate(CBaseImgView* pSender, LPARAM lHint, CObject* pHint)
-{
-	if (lHint == CGattooDoc::IMAGE_LOAD_EVENT)
-		OnDocumentLoad();
-}
-
 void CBaseImgView::UpdateScrolls()
 {
 	CGattooDoc* pDoc = GetDocument();
@@ -75,8 +70,8 @@ void CBaseImgView::UpdateScrolls()
 
 		if(rcClient.Width() < sizeImg.cx)
 		{
-			m_iMaxXScroll = sizeImg.cx - rcClient.Width();
-			sinfo.nMax = sizeImg.cx;
+			m_iMaxXScroll = (sizeImg.cx * m_fZoomFactor) - rcClient.Width();
+			sinfo.nMax = sizeImg.cx * m_fZoomFactor;
 			sinfo.nPage = rcClient.Width();
 			SetScrollInfo(SB_HORZ, &sinfo);
 		}
@@ -85,8 +80,8 @@ void CBaseImgView::UpdateScrolls()
 
 		if(rcClient.Height() < sizeImg.cy)
 		{
-			m_iMaxYScroll = sizeImg.cy - rcClient.Height();
-			sinfo.nMax = sizeImg.cy;
+			m_iMaxYScroll = (sizeImg.cy * m_fZoomFactor) - rcClient.Height();
+			sinfo.nMax = sizeImg.cy * m_fZoomFactor;
 			sinfo.nPage = rcClient.Height();
 
 			SetScrollInfo(SB_VERT, &sinfo);
@@ -104,40 +99,40 @@ void CBaseImgView::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 
 	switch (nSBCode) 
 	{ 
-		// User clicked the scroll bar shaft left of the scroll box. 
+		// User clicked the scroll bar shaft left of the scroll box.
 	case SB_PAGEUP:
 		GetScrollInfo(SB_HORZ, &scrlInfo, SIF_PAGE);
 		uiNewPos = m_ptViewPoint.x - scrlInfo.nPage;
-		break; 
+		break;
 
-		// User clicked the scroll bar shaft right of the scroll box. 
+		// User clicked the scroll bar shaft right of the scroll box.
 	case SB_PAGEDOWN:
 		GetScrollInfo(SB_HORZ, &scrlInfo, SIF_PAGE);
-		uiNewPos = m_ptViewPoint.x + scrlInfo.nPage; 
-		break; 
+		uiNewPos = m_ptViewPoint.x + scrlInfo.nPage;
+		break;
 
-		// User clicked the left arrow. 
-	case SB_LINEUP: 
-		uiNewPos = m_ptViewPoint.x - CStaticSettings::HZ_SCROLL_STEP; 
-		break; 
+		// User clicked the left arrow.
+	case SB_LINEUP:
+		uiNewPos = m_ptViewPoint.x - CStaticSettings::HZ_SCROLL_STEP;
+		break;
 
-		// User clicked the right arrow. 
-	case SB_LINEDOWN: 
-		uiNewPos = m_ptViewPoint.x + CStaticSettings::HZ_SCROLL_STEP; 
-		break; 
+		// User clicked the right arrow.
+	case SB_LINEDOWN:
+		uiNewPos = m_ptViewPoint.x + CStaticSettings::HZ_SCROLL_STEP;
+		break;
 
-		// User dragged the scroll box. 
-	case SB_THUMBPOSITION: 
-		uiNewPos = nPos; 
-		break; 
+		// User dragged the scroll box.
+	case SB_THUMBPOSITION:
+		uiNewPos = nPos;
+		break;
 
-	default: 
-		uiNewPos = m_ptViewPoint.x; 
+	default:
+		uiNewPos = m_ptViewPoint.x;
 	} 
 
 	// New position must be between 0 and the screen width. 
-	uiNewPos = std::max<int>(0, uiNewPos); 
-	uiNewPos = std::min<int>(m_iMaxXScroll, uiNewPos); 
+	uiNewPos = std::max<int>(0, uiNewPos);
+	uiNewPos = std::min<int>(m_iMaxXScroll, uiNewPos);
 
 	SetScrollPos(SB_HORZ, uiNewPos);
 	m_ptViewPoint.x = uiNewPos;
@@ -152,37 +147,37 @@ void CBaseImgView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 
 	SCROLLINFO scrlInfo;
 
-	switch (nSBCode) 
+	switch (nSBCode)
 	{ 
-		// User clicked the scroll bar shaft left of the scroll box. 
+		// User clicked the scroll bar shaft left of the scroll box.
 	case SB_PAGEUP:
 		GetScrollInfo(SB_VERT, &scrlInfo, SIF_PAGE);
 		uiNewPos = m_ptViewPoint.y - scrlInfo.nPage;
-		break; 
+		break;
 
-		// User clicked the scroll bar shaft right of the scroll box. 
+		// User clicked the scroll bar shaft right of the scroll box.
 	case SB_PAGEDOWN:
 		GetScrollInfo(SB_VERT, &scrlInfo, SIF_PAGE);
 		uiNewPos = m_ptViewPoint.y + scrlInfo.nPage; 
-		break; 
+		break;
 
-		// User clicked the left arrow. 
-	case SB_LINEUP: 
-		uiNewPos = m_ptViewPoint.y - CStaticSettings::VT_SCROLL_STEP; 
-		break; 
+		// User clicked the left arrow.
+	case SB_LINEUP:
+		uiNewPos = m_ptViewPoint.y - CStaticSettings::VT_SCROLL_STEP;
+		break;
 
-		// User clicked the right arrow. 
-	case SB_LINEDOWN: 
-		uiNewPos = m_ptViewPoint.y + CStaticSettings::VT_SCROLL_STEP; 
-		break; 
+		// User clicked the right arrow.
+	case SB_LINEDOWN:
+		uiNewPos = m_ptViewPoint.y + CStaticSettings::VT_SCROLL_STEP;
+		break;
 
-		// User dragged the scroll box. 
-	case SB_THUMBPOSITION: 
-		uiNewPos = nPos; 
-		break; 
+		// User dragged the scroll box.
+	case SB_THUMBPOSITION:
+		uiNewPos = nPos;
+		break;
 
-	default: 
-		uiNewPos = m_ptViewPoint.y; 
+	default:
+		uiNewPos = m_ptViewPoint.y;
 	} 
 
 	// New position must be between 0 and the screen width. 
@@ -196,18 +191,14 @@ void CBaseImgView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 	CView::OnVScroll(nSBCode, nPos, pScrollBar);
 }
 
+void CBaseImgView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
+{
+	if (lHint == CGattooDoc::IMAGE_LOAD_EVENT)
+		OnDocumentLoad();
+}
+
 void CBaseImgView::OnSize(UINT nType, int cx, int cy)
 {
-	UpdateScrolls();
 	CView::OnSize(nType, cx, cy);
-}
-
-void CBaseImgView::OnDraw(CDC* pDC)
-{
-	throw std::exception("The method or operation is not implemented.");
-}
-
-void CBaseImgView::OnDocumentLoad()
-{
-	throw std::exception("The method or operation is not implemented.");
+	UpdateScrolls();
 }

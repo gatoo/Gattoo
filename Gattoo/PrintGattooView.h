@@ -64,8 +64,6 @@ protected:
 
 	CRect m_rcEraser;
 
-	float m_fZoomFactor;
-
 // Generated message map functions
 protected:
 	afx_msg void OnFilePrintPreview();
@@ -79,6 +77,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+	
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);	
 	afx_msg void OnToolsCrop();
 
@@ -106,7 +105,6 @@ public:
 
 	void DrawCropFrame(CDC* pDC);
 	virtual void OnDocumentLoad();
-
 };
 
 #ifndef _DEBUG  // debug version in GattooView.cpp
