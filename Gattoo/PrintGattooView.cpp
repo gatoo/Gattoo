@@ -54,6 +54,7 @@ BEGIN_MESSAGE_MAP(CPrintGattooView, CBaseImgView)
 
 	ON_COMMAND(ID_TOOLS_ZOOM_IN, &CPrintGattooView::OnToolsZoomIn)
 	ON_COMMAND(ID_TOOLS_ZOOM_OUT, &CPrintGattooView::OnToolsZoomOut)
+	ON_WM_CHAR()
 END_MESSAGE_MAP()
 
 // CGattooView construction/destruction
@@ -130,10 +131,6 @@ void CPrintGattooView::OnDraw(CDC* pDC)
 
 		pDC->StretchBlt(ptStart.x, ptStart.y, iWidth*m_fZoomFactor, iHeight*m_fZoomFactor, &dcCache, 0, 0, iWidth, iHeight, SRCCOPY);
 	}
-	//pDoc->PerformDrawing(pDC, GetDrawOrigin());
-
-// 	CPoint pt = GetDrawOrigin();
-// 	pDC->StretchBlt(0, 0, 382, 400, pDC, pt.x, pt.y, 191, 200, SRCCOPY);
 
 	if (m_enCurrentTool == enErase && m_bInClient)
 		DrawEraser(pDC);
@@ -143,20 +140,31 @@ void CPrintGattooView::OnDraw(CDC* pDC)
 
 void CPrintGattooView::DrawEraser(CDC* pDC)
 {
-	POINT pt;
+	CDC dc;
 	CPen pen;
-	CRect const rcFrame(1, 1, 1, 1);
-	
+	POINT pt;
+	CBitmap bmp;
+
 	GetCursorPos(&pt);
 	ScreenToClient(&pt);
 
-	m_rcEraser.MoveToXY(pt);
+	CRect rcEraser(m_rcEraser);
+
+	rcEraser.right *= m_fZoomFactor;
+	rcEraser.bottom *= m_fZoomFactor;
+
+	rcEraser.MoveToXY(pt);
 
 	pen.CreatePen(PS_SOLID, 1, RGB(0xFF, 0xFF, 0xFF));
 
-	pDC->SelectObject(pen);
-	pDC->Rectangle(m_rcEraser);
-	pDC->FillSolidRect(m_rcEraser - rcFrame, RGB(0, 0, 0));
+	dc.CreateCompatibleDC(pDC);
+	bmp.CreateCompatibleBitmap(pDC, rcEraser.Width(), rcEraser.Height());
+
+	dc.SelectObject(bmp);
+	dc.SelectObject(pen);
+	dc.FillSolidRect(rcEraser, RGB(0, 0, 0));
+
+	pDC->BitBlt(rcEraser.left, rcEraser.top, rcEraser.Width(), rcEraser.Height(), &dc, 0, 0, DSTINVERT);
 }
 
 void CPrintGattooView::DrawCropFrame(CDC* pDC)
@@ -455,7 +463,7 @@ void CPrintGattooView::OnLButtonDblClk(UINT nFlags, CPoint point)
 
 			CRect imgRect(0, 0, size.cx-1, size.cy-1);
 
-			rcCropFrame -= GetDrawOrigin();
+			rcCropFrame -= m_ptViewPoint;
 			rcCropFrame.IntersectRect(imgRect, rcCropFrame);
 
 			pDoc->CropImage(rcCropFrame);
@@ -472,11 +480,15 @@ void CPrintGattooView::DoErase(CPoint const &pt)
 	CGattooDoc* pDoc = GetDocument();
 	CRect rcErase(m_rcEraser);
 
-	rcErase.MoveToXY(pt);
-	rcErase -= GetDrawOrigin();
+	rcErase.MoveToXY(pt.x , pt.y );
+	rcErase += m_ptViewPoint;
+
+	rcErase.MoveToXY(rcErase.left / m_fZoomFactor, rcErase.top/m_fZoomFactor);
 
 	CSize size = pDoc->getImgSize();
 	CRect imgRect(0, 0, size.cx, size.cy);
+
+	
 	rcErase.IntersectRect(imgRect, rcErase);
 
 	pDoc->EraseRect(rcErase);
@@ -502,4 +514,27 @@ void CPrintGattooView::OnDocumentLoad()
 
 	UpdateScrolls();
 	Invalidate(FALSE);
+}
+
+
+void CPrintGattooView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	if (enErase == m_enCurrentTool)
+	{
+		switch(nChar)
+		{
+		case _T('['):
+			// Decrease eraser size
+			m_rcEraser.DeflateRect(2,2);
+			Invalidate(FALSE);
+			break;
+		case _T(']'):
+			// Increase eraser size
+			m_rcEraser.InflateRect(2,2);
+			Invalidate(FALSE);
+			break;
+		}
+	}
+	
+	CBaseImgView::OnChar(nChar, nRepCnt, nFlags);
 }

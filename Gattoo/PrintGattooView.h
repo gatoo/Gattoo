@@ -105,6 +105,7 @@ public:
 
 	void DrawCropFrame(CDC* pDC);
 	virtual void OnDocumentLoad();
+	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 };
 
 #ifndef _DEBUG  // debug version in GattooView.cpp

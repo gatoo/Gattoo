@@ -68,7 +68,7 @@ void CBaseImgView::UpdateScrolls()
 		sinfo.fMask = SIF_PAGE | SIF_RANGE;
 		sinfo.nMin = 0;
 
-		if(rcClient.Width() < sizeImg.cx)
+		if(rcClient.Width() < sizeImg.cx * m_fZoomFactor)
 		{
 			m_iMaxXScroll = (sizeImg.cx * m_fZoomFactor) - rcClient.Width();
 			sinfo.nMax = sizeImg.cx * m_fZoomFactor;
@@ -78,7 +78,7 @@ void CBaseImgView::UpdateScrolls()
 		else
 			SetScrollRange(SB_HORZ, 0, 0);
 
-		if(rcClient.Height() < sizeImg.cy)
+		if(rcClient.Height() < sizeImg.cy * m_fZoomFactor)
 		{
 			m_iMaxYScroll = (sizeImg.cy * m_fZoomFactor) - rcClient.Height();
 			sinfo.nMax = sizeImg.cy * m_fZoomFactor;
