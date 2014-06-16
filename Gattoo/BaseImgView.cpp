@@ -76,7 +76,10 @@ void CBaseImgView::UpdateScrolls()
 			SetScrollInfo(SB_HORZ, &sinfo);
 		}
 		else
+		{
+			m_iMaxXScroll = 0;
 			SetScrollRange(SB_HORZ, 0, 0);
+		}
 
 		if(rcClient.Height() < sizeImg.cy * m_fZoomFactor)
 		{
@@ -87,7 +90,10 @@ void CBaseImgView::UpdateScrolls()
 			SetScrollInfo(SB_VERT, &sinfo);
 		}
 		else
+		{
+			m_iMaxYScroll = 0;
 			SetScrollRange(SB_VERT, 0, 0);
+		}
 	}
 }
 

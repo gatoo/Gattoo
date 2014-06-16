@@ -105,17 +105,15 @@ void CPrintGattooView::OnDraw(CDC* pDC)
 		CDC dcCache;
 		CBitmap bmpCache;
 
-		int iWidth  = std::min<int>(rc.Width() / m_fZoomFactor, imSize.cx);
-		int iHeight = std::min<int>(rc.Height() / m_fZoomFactor, imSize.cy);
+		int iWidth  = std::min<int>(ceil(rc.Width() / m_fZoomFactor), imSize.cx);
+		int iHeight = std::min<int>(ceil(rc.Height() / m_fZoomFactor), imSize.cy);
 
 		bmpCache.CreateCompatibleBitmap(pDC, iWidth, iHeight);
 		dcCache.CreateCompatibleDC(pDC);
 		dcCache.SelectObject(bmpCache);
 
-		CPoint ptStart;
-
-		ptStart.x = (rc.Width() > imSize.cx * m_fZoomFactor) ? (rc.Width() - imSize.cx * m_fZoomFactor) / 2 : 0;
-		ptStart.y = (rc.Height() > imSize.cy * m_fZoomFactor) ? (rc.Height() - imSize.cy * m_fZoomFactor) / 2 : 0;
+		m_ptDrawStart.x = (rc.Width() > imSize.cx * m_fZoomFactor) ? (rc.Width() - imSize.cx * m_fZoomFactor) / 2 : 0;
+		m_ptDrawStart.y = (rc.Height() > imSize.cy * m_fZoomFactor) ? (rc.Height() - imSize.cy * m_fZoomFactor) / 2 : 0;
 
 		if (imSize.cx * m_fZoomFactor - m_ptViewPoint.x < rc.Width())
 			m_ptViewPoint.x = std::max<int>(imSize.cx * m_fZoomFactor - rc.Width(), 0);
@@ -129,7 +127,7 @@ void CPrintGattooView::OnDraw(CDC* pDC)
 		pt.y = m_ptViewPoint.y / m_fZoomFactor;
 		pDoc->PerformDrawing(bmpCache, pt);
 
-		pDC->StretchBlt(ptStart.x, ptStart.y, iWidth*m_fZoomFactor, iHeight*m_fZoomFactor, &dcCache, 0, 0, iWidth, iHeight, SRCCOPY);
+		pDC->StretchBlt(m_ptDrawStart.x, m_ptDrawStart.y, iWidth*m_fZoomFactor, iHeight*m_fZoomFactor, &dcCache, 0, 0, iWidth, iHeight, SRCCOPY);
 	}
 
 	if (m_enCurrentTool == enErase && m_bInClient)
@@ -355,6 +353,15 @@ BOOL CPrintGattooView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 
 void CPrintGattooView::OnMouseMove(UINT nFlags, CPoint point)
 {
+	if (m_iMaxYScroll)
+	{
+		CRect rcClient;
+		GetClientRect(&rcClient);
+		
+		if (!rcClient.PtInRect(point) && !(nFlags & MK_LBUTTON))
+			OnMouseLeave();
+	}
+
 	if(m_enCurrentTool == enErase && m_bInClient)
 	{
 		if (nFlags & MK_LBUTTON)
@@ -384,10 +391,6 @@ void CPrintGattooView::OnMouseMove(UINT nFlags, CPoint point)
 
 void CPrintGattooView::OnMouseLeave()
 {
-	// TODO: Add your message handler code here and/or call default
-
-	TRACE("OnMouseLeave\n");
-	
 	m_bInClient = false;
 	Invalidate(FALSE);
 
@@ -398,6 +401,8 @@ void CPrintGattooView::OnMouseLeave()
 	ev.hwndTrack = m_hWnd;
 
 	TrackMouseEvent(&ev);
+
+	SetCursor(LoadCursor(nullptr, IDC_ARROW));
 
 	CBaseImgView::OnMouseLeave();
 }
@@ -464,6 +469,11 @@ void CPrintGattooView::OnLButtonDblClk(UINT nFlags, CPoint point)
 			CRect imgRect(0, 0, size.cx-1, size.cy-1);
 
 			rcCropFrame -= m_ptViewPoint;
+			rcCropFrame.left /= m_fZoomFactor;
+			rcCropFrame.right /= m_fZoomFactor;
+			rcCropFrame.top /= m_fZoomFactor;
+			rcCropFrame.bottom /= m_fZoomFactor;
+
 			rcCropFrame.IntersectRect(imgRect, rcCropFrame);
 
 			pDoc->CropImage(rcCropFrame);
@@ -483,12 +493,14 @@ void CPrintGattooView::DoErase(CPoint const &pt)
 	rcErase.MoveToXY(pt.x , pt.y );
 	rcErase += m_ptViewPoint;
 
-	rcErase.MoveToXY(rcErase.left / m_fZoomFactor, rcErase.top/m_fZoomFactor);
+	if (m_ptDrawStart.x || m_ptDrawStart.y)
+		rcErase -= m_ptDrawStart;
+
+	rcErase.MoveToXY(rcErase.left / m_fZoomFactor, rcErase.top / m_fZoomFactor);
 
 	CSize size = pDoc->getImgSize();
 	CRect imgRect(0, 0, size.cx, size.cy);
 
-	
 	rcErase.IntersectRect(imgRect, rcErase);
 
 	pDoc->EraseRect(rcErase);
@@ -524,14 +536,22 @@ void CPrintGattooView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 		switch(nChar)
 		{
 		case _T('['):
-			// Decrease eraser size
-			m_rcEraser.DeflateRect(2,2);
-			Invalidate(FALSE);
+			if (m_rcEraser.Width() > 1)
+			{
+				// Decrease eraser size
+				m_rcEraser.bottom = m_rcEraser.right -= 1;
+				m_rcEraser.MoveToXY(0,0);
+				Invalidate(FALSE);
+			}
 			break;
 		case _T(']'):
-			// Increase eraser size
-			m_rcEraser.InflateRect(2,2);
-			Invalidate(FALSE);
+			if (m_rcEraser.Width() < 100)
+			{
+				// Increase eraser size
+				m_rcEraser.bottom = m_rcEraser.right += 1;
+				m_rcEraser.MoveToXY(0,0);
+				Invalidate(FALSE);
+			}
 			break;
 		}
 	}

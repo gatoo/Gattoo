@@ -64,6 +64,8 @@ protected:
 
 	CRect m_rcEraser;
 
+	CPoint m_ptDrawStart;
+
 // Generated message map functions
 protected:
 	afx_msg void OnFilePrintPreview();
