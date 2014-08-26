@@ -189,7 +189,7 @@ bool CGattooImg::saveToSD()
 
 bool CGattooImg::ThreadProc(const CUPDUPDATA* pCUPDUPData)
 {
-	CVolumeAccess *vol = CVolumeAccess::getInstance();
+	CVolumeAccess vol('T');
 
 	LPCTSTR szFilePath = (LPCTSTR) pCUPDUPData->GetAppData();
 	if (nullptr == szFilePath) return false;
@@ -205,7 +205,7 @@ bool CGattooImg::ThreadProc(const CUPDUPDATA* pCUPDUPData)
 
 	DWORD dwStartSector = 70000;
 	size_t readData = 0;
-	const size_t iBufSize = vol->getSectorSize();
+	const size_t iBufSize = vol.getSectorSize();
 	std::vector<BYTE> vecData(iBufSize);
 
 	readData = fread(&vecData[0], sizeof(BYTE), iBufSize, pFile);
@@ -220,10 +220,10 @@ bool CGattooImg::ThreadProc(const CUPDUPDATA* pCUPDUPData)
 	std::streampos const iUpdtPos = strInfo.tellp();
 	strInfo << "0%";
 
- 	dwStartSector -= vol->getResrvdSctCount();
+	dwStartSector -= vol.getResrvdSctCount();
 	while(readData == iBufSize && !pCUPDUPData->ShouldTerminate())
 	{
-		vol->writeBytesToDeviceSector(&vecData[0], iBufSize, dwStartSector++);
+		vol.writeBytesToDeviceSector(&vecData[0], iBufSize, dwStartSector++);
 		readData = fread(&vecData[0], sizeof(BYTE), iBufSize, pFile);
 
 
@@ -244,7 +244,7 @@ bool CGattooImg::ThreadProc(const CUPDUPDATA* pCUPDUPData)
 	if (readData)
 	{
 		memset(&vecData[0] + readData, 0, iBufSize - readData);
-		vol->writeBytesToDeviceSector(&vecData[0], iBufSize, dwStartSector);
+		vol.writeBytesToDeviceSector(&vecData[0], iBufSize, dwStartSector);
 		pCUPDUPData->SetProgress((int)dCurProgress);
 	}
 

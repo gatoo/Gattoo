@@ -1,7 +1,6 @@
 #pragma once
 
 #include <winioctl.h>
-#include "../IProgress.h"
 
 #pragma pack(push,1)
 struct FATBootSector
@@ -37,66 +36,45 @@ struct FATBootSector
 };
 #pragma pack(pop)
 
-class  CVolumeAccess
+class CVolumeAccess
 {
 private:
+
 	HANDLE			m_hDevice;
 	DWORD			m_sectorSize;
 	FATBootSector	m_bootSector;
 	DWORD			m_clusterSizeBytes;
 	DWORD*			m_FAT1Data;
 	DWORD*			m_FAT2Data;
-		
+
 	// Static members
 	static const DWORD FAT_END_CHAIN = 0x0FFFFFFF;
 
 	static TCHAR			s_driveLetter;
 	static CVolumeAccess*	s_instance;
 
-	// Ctors
-	CVolumeAccess(TCHAR aVolumeDriveLetter);
-
 	// Member functions
 	bool lockAndDismount();
 	void readBootSector();
 	void initData();
-	void readFatsData();
 
 	bool goToSector(DWORD aSectorNum);
 	bool readBytesFromDeviceCluster(BYTE* aBuffer, DWORD aSizeOfData, DWORD aStartCluster);
 	bool readBytesFromDeviceSector(BYTE* aBuffer, DWORD aSizeOfData, DWORD aStartSector);
 	bool writeBytesToDeviceCluster(BYTE* aBuffer, DWORD aSizeOfData, DWORD aStartCluster);
-	
-	
-	void printData(byte* aData, long aSize);
-	void writeDataToFile(BYTE* aData, long aSize, TCHAR* aFileName);
 
 	// Clean resources
 	void clean();
 
 public:
 
+	CVolumeAccess(TCHAR aVolumeDriveLetter);
+	~CVolumeAccess();
+
 	bool writeBytesToDeviceSector(BYTE* aBuffer, DWORD aSizeOfData, DWORD aStartSector);
-
-	DWORD getRootDirCluster();
-	DWORD getSectorNumFromCluster(DWORD adwClusterNum);
-
-	bool readChainedClusters(DWORD aStartClusterNum, BYTE* aoChainedClustersData, DWORD* aoSizeOfData);
-	bool writeChainedClusters(DWORD aStartClusterNum, BYTE* aiChainedClustersData, DWORD aSizeOfData);
-	
-	void dumpFatsData(TCHAR* aDestPath);
 
 	DWORD getSectorSize() const;
 	DWORD getResrvdSctCount() const;
 
-	// Static members
-	static void setWorkingDriveLetter(TCHAR aDriveLetter);
-	static TCHAR getWorkingDriveLetter();
-	static CVolumeAccess* getInstance();
-	static void cleanResources();
-	// Ctors & Dtors
-	~CVolumeAccess();
-
 	bool checkVolumeParams();
-	bool saveDataToSector(LPCTSTR szFilePath, DWORD dwStartSector, IProgress* pProgress);
 };

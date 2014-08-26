@@ -1,6 +1,6 @@
 #include "StdAfx.h"
+#include <assert.h>
 #include "ImgPropertiesInfo.h"
-
 
 CImgPropertiesInfo::CImgPropertiesInfo(void)
 {

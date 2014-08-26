@@ -132,12 +132,6 @@
     <ClInclude Include="core\Filters\EqulizeFilter.h">
       <Filter>core\Source Files\Filters</Filter>
     </ClInclude>
-    <ClInclude Include="core\IProgress.h">
-      <Filter>core\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="core\ProgressDlg.h">
-      <Filter>core\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PropertiesInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -211,9 +205,6 @@
     </ClCompile>
     <ClCompile Include="core\Filters\EqulizeFilter.cpp">
       <Filter>core\Source Files\Filters</Filter>
-    </ClCompile>
-    <ClCompile Include="core\ProgressDlg.cpp">
-      <Filter>core\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PropertiesInfo.cpp">
       <Filter>Source Files</Filter>

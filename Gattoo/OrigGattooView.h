@@ -27,9 +27,4 @@ protected:
 	virtual void OnDocumentLoad();
 };
 
-#ifndef _DEBUG  // debug version in GattooView.cpp
-inline CGattooDoc* COrigGattooView::GetDocument() const
-{ return reinterpret_cast<CGattooDoc*>(m_pDocument); }
-#endif
-
 

@@ -9,6 +9,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImgConverter", "ImgConverte
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libImgCoverter", "libImgCoverter\libImgCoverter.vcxproj", "{8560E7D1-3D8E-4A7B-A5C3-3781F323E32B}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Gattoo_Setup", "Gattoo_Setup\Gattoo_Setup.vdproj", "{BE177394-2922-4751-A330-52D878E7CB53}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6FBD7C47-6BCC-4AEF-AC8A-28CC773E35DB} = {6FBD7C47-6BCC-4AEF-AC8A-28CC773E35DB}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -31,6 +36,9 @@ Global
 		{8560E7D1-3D8E-4A7B-A5C3-3781F323E32B}.Debug|Win32.Build.0 = Debug|Win32
 		{8560E7D1-3D8E-4A7B-A5C3-3781F323E32B}.Release|Win32.ActiveCfg = Release|Win32
 		{8560E7D1-3D8E-4A7B-A5C3-3781F323E32B}.Release|Win32.Build.0 = Release|Win32
+		{BE177394-2922-4751-A330-52D878E7CB53}.Debug|Win32.ActiveCfg = Debug
+		{BE177394-2922-4751-A330-52D878E7CB53}.Release|Win32.ActiveCfg = Release
+		{BE177394-2922-4751-A330-52D878E7CB53}.Release|Win32.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

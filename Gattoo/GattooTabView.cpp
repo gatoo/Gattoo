@@ -70,13 +70,10 @@ void CGattooTabView::OnDraw(CDC* pDC)
 
 void CGattooTabView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
-// 	if (lHint == CGattooDoc::IMAGE_LOAD_EVENT)
-// 	{
-// 		int const iTabsCount = GetTabControl().GetTabsNum();
-// 
-// 		for(int i=0; i<iTabsCount; ++i)
-// 			((CBaseImgView*)GetTabControl().GetTabWnd(i))->OnDocumentLoad();
-// 	}
+	if (lHint == CGattooDoc::IMAGE_LOAD_EVENT)
+	{
+		SetActiveView(0);
+	}
 
 	CTabView::OnUpdate(pSender, lHint, pHint);
 }

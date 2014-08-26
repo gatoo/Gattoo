@@ -29,7 +29,7 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>NotSet</CharacterSet>
     <UseOfMfc>Static</UseOfMfc>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -134,8 +134,6 @@
     <ClInclude Include="core\Filters\HalfToneFilter.h" />
     <ClInclude Include="core\Filters\IImgFilter.h" />
     <ClInclude Include="core\GattooImg.h" />
-    <ClInclude Include="core\IProgress.h" />
-    <ClInclude Include="core\ProgressDlg.h" />
     <ClInclude Include="core\StorageRoutine\CVolumeAccess.h" />
     <ClInclude Include="external\progress\UPDialog.h" />
     <ClInclude Include="Gattoo.h" />
@@ -165,7 +163,6 @@
     <ClCompile Include="core\Filters\HalfToneFilter.cpp" />
     <ClCompile Include="core\GattooImg.cpp" />
     <ClCompile Include="core\ImgSaver.cpp" />
-    <ClCompile Include="core\ProgressDlg.cpp" />
     <ClCompile Include="core\StorageRoutine\CVolumeAccess.cpp" />
     <ClCompile Include="external\progress\UPDialog.cpp" />
     <ClCompile Include="Gattoo.cpp" />
