@@ -161,17 +161,6 @@ bool CGattooImg::saveToSD()
 	data.chDrive = strDrive.c_str()[0];
 	data.szFilePath = tmpFile.getName();
 
-	CVolumeAccess vol(data.chDrive);
-
-	if (!vol.checkVolumeParams())
-	{
-		if (IDYES != MessageBox(nullptr, _T("Volume parameters are not valid. Reformat drive (all data will be lost)?"), _T("Warning"), MB_YESNO|MB_ICONWARNING))
-			return false;
-
-		//formatDrive(strDrive[0]);
-		//return true;
-	}
-
 	CUPDialog progress(AfxGetMainWnd()->GetSafeHwnd(), ThreadProc, (LPVOID)&data);
 
 	progress.SetDialogTemplate(nullptr, MAKEINTRESOURCE(IDD_DIALOG_SAVE_PROGRESS), IDC_STATIC_PROGRESS, IDC_PROGRESS, IDC_BUTTON_CANCEL);
@@ -196,6 +185,15 @@ bool CGattooImg::ThreadProc(const CUPDUPDATA* pCUPDUPData)
 	CVolumeAccess vol(pData->chDrive);
 
 	if (!vol.IsDeviceReady()) return false;
+
+	if (!vol.checkVolumeParams())
+	{
+		if (IDYES != MessageBox(nullptr, _T("Volume parameters are not valid. Reformat drive (all data will be lost)?"), _T("Warning"), MB_YESNO|MB_ICONWARNING))
+			return false;
+
+		//formatDrive(strDrive[0]);
+		//return true;
+	}
 
 	FILE* pFile = NULL;
 

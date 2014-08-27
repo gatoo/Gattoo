@@ -341,6 +341,9 @@
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
 		<row><td>Gattoo.Primary_Output</td><td>{730F6965-C92D-4E16-9571-E74AF97B2347}</td><td>INSTALLDIR</td><td>2</td><td/><td>gattoo.primary_output</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{A9B312DF-ACEA-42C0-99D8-D66A80FC83D8}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>opencv_core246.dll</td><td>{06AC50D6-66D0-4A2A-850E-5A3503EA708C}</td><td>INSTALLDIR</td><td>2</td><td/><td>opencv_core246.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>opencv_highgui246.dll</td><td>{E82C995A-8F6F-4A1A-B8A6-1D1398EB0078}</td><td>INSTALLDIR</td><td>2</td><td/><td>opencv_highgui246.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>opencv_imgproc246.dll</td><td>{7C6039E2-D8C7-4FC9-9093-EC04524FD23B}</td><td>INSTALLDIR</td><td>2</td><td/><td>opencv_imgproc246.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
 	<table name="Condition">
@@ -1138,8 +1141,9 @@
 		<row><td>DesktopFolder</td><td>TARGETDIR</td><td>.:Desktop</td><td/><td>3</td><td/></row>
 		<row><td>FavoritesFolder</td><td>TARGETDIR</td><td>.:FAVORI~1|Favorites</td><td/><td>0</td><td/></row>
 		<row><td>FontsFolder</td><td>TARGETDIR</td><td>.:Fonts</td><td/><td>0</td><td/></row>
+		<row><td>GATTOO</td><td>ProgramFilesFolder</td><td>Gattoo</td><td/><td>0</td><td/></row>
 		<row><td>GlobalAssemblyCache</td><td>TARGETDIR</td><td>.:Global~1|GlobalAssemblyCache</td><td/><td>0</td><td/></row>
-		<row><td>INSTALLDIR</td><td>MY_PRODUCT_NAME</td><td>.</td><td/><td>0</td><td/></row>
+		<row><td>INSTALLDIR</td><td>GATTOO</td><td>.</td><td/><td>0</td><td/></row>
 		<row><td>ISCommonFilesFolder</td><td>CommonFilesFolder</td><td>Instal~1|InstallShield</td><td/><td>0</td><td/></row>
 		<row><td>ISMyCompanyDir</td><td>ProgramFilesFolder</td><td>MYCOMP~1|My Company Name</td><td/><td>0</td><td/></row>
 		<row><td>ISMyProductDir</td><td>ISMyCompanyDir</td><td>MYPROD~1|My Product Name</td><td/><td>0</td><td/></row>
@@ -1860,6 +1864,9 @@
 		<col key="yes" def="s72">Component_</col>
 		<row><td>AlwaysInstall</td><td>Gattoo.Primary_Output</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT1</td></row>
+		<row><td>AlwaysInstall</td><td>opencv_core246.dll</td></row>
+		<row><td>AlwaysInstall</td><td>opencv_highgui246.dll</td></row>
+		<row><td>AlwaysInstall</td><td>opencv_imgproc246.dll</td></row>
 	</table>
 
 	<table name="File">
@@ -1875,6 +1882,9 @@
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
 		<row><td>gattoo.primary_output</td><td>Gattoo.Primary_Output</td><td>Gattoo.Primary Output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Gattoo&gt;|Built</td><td>3</td><td/></row>
+		<row><td>opencv_core246.dll</td><td>opencv_core246.dll</td><td>OPENCV~1.DLL|opencv_core246.dll</td><td>0</td><td/><td/><td/><td>1</td><td>E:\Downloads\opencv\build\x86\vc11\bin\opencv_core246.dll</td><td>1</td><td/></row>
+		<row><td>opencv_highgui246.dll</td><td>opencv_highgui246.dll</td><td>OPENCV~1.DLL|opencv_highgui246.dll</td><td>0</td><td/><td/><td/><td>1</td><td>E:\Downloads\opencv\build\x86\vc11\bin\opencv_highgui246.dll</td><td>1</td><td/></row>
+		<row><td>opencv_imgproc246.dll</td><td>opencv_imgproc246.dll</td><td>OPENCV~1.DLL|opencv_imgproc246.dll</td><td>0</td><td/><td/><td/><td>1</td><td>E:\Downloads\opencv\build\x86\vc11\bin\opencv_imgproc246.dll</td><td>1</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -2018,6 +2028,9 @@
 		<col def="S0">Miscellaneous</col>
 		<row><td>Gattoo.Primary_Output</td><td/><td/><td>_A4415BBD_A759_47DD_A653_D84DEB06741E_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_85B2A226_BC7A_4F3C_8344_90F39FFF5340_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>opencv_core246.dll</td><td/><td/><td>_ADC8797D_7831_4567_B2CC_4076B49E2538_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>opencv_highgui246.dll</td><td/><td/><td>_410B9F1E_CCBC_44A1_AF8B_2DE3B05F3F30_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>opencv_imgproc246.dll</td><td/><td/><td>_47457D09_2F93_4A05_85D0_E7BDB0618485_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISCustomActionReference">
@@ -3979,7 +3992,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{A8845D22-33D7-42DB-82E8-68B3C9FA3DCA}</td></row>
 		<row><td>ISUSSignature</td><td>{EC5A5FD1-8ED3-49C0-A596-14877E763A2A}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewProject,viewISToday,viewAppV,viewRealSetupDesign,viewUpgradePaths,viewUpdateService,viewAppFiles,viewObjects,viewDependencies,viewShortcuts,viewRegistry,viewServices,viewUI,viewTextMessages,viewSystemSearch,viewCustomActions,viewRelease,viewFileExtensions,viewVRoots,viewIniFiles</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewProject,viewISToday,viewAppV,viewRealSetupDesign,viewUpgradePaths,viewUpdateService,viewAppFiles,viewObjects,viewDependencies,viewShortcuts,viewRegistry,viewServices,viewUI,viewTextMessages,viewSystemSearch,viewCustomActions,viewRelease,viewFileExtensions,viewVRoots,viewIniFiles,viewSetupDesign,viewSetupTypes,viewFeatureFiles,viewDesignPatches</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
