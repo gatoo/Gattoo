@@ -24,6 +24,7 @@ BEGIN_MESSAGE_MAP(CBaseImgView, CView)
 	ON_WM_HSCROLL()
 	ON_WM_VSCROLL()
 	ON_WM_SIZE()
+//	ON_COMMAND(AFX_IDS_SCMAXIMIZE, &CBaseImgView::OnAfxIdsScmaximize)
 END_MESSAGE_MAP()
 
 #ifdef _DEBUG
@@ -51,7 +52,7 @@ BOOL CBaseImgView::OnEraseBkgnd(CDC* pDC)
 	return 0; //CView::OnEraseBkgnd(pDC);
 }
 
-void CBaseImgView::UpdateScrolls()
+void CBaseImgView::UpdateScrolls(int y)
 {
 	CGattooDoc* pDoc = GetDocument();
 
@@ -67,19 +68,29 @@ void CBaseImgView::UpdateScrolls()
 		sinfo.cbSize = sizeof(SCROLLINFO);
 		sinfo.fMask = SIF_PAGE | SIF_RANGE;
 		sinfo.nMin = 0;
+		sinfo.nMax = 0;
+		sinfo.nPage = 0;
+
+		m_iMaxXScroll = 0;
 
 		if(rcClient.Width() < sizeImg.cx * m_fZoomFactor)
 		{
 			m_iMaxXScroll = (sizeImg.cx * m_fZoomFactor) - rcClient.Width();
 			sinfo.nMax = sizeImg.cx * m_fZoomFactor;
 			sinfo.nPage = rcClient.Width();
+
 			SetScrollInfo(SB_HORZ, &sinfo);
 		}
 		else
 		{
-			m_iMaxXScroll = 0;
-			SetScrollRange(SB_HORZ, 0, 0);
+			ShowScrollBar(SB_HORZ, FALSE);
 		}
+
+		
+
+			TRACE("Set %d\n", y);
+		
+		m_iMaxYScroll = 0;
 
 		if(rcClient.Height() < sizeImg.cy * m_fZoomFactor)
 		{
@@ -91,9 +102,10 @@ void CBaseImgView::UpdateScrolls()
 		}
 		else
 		{
-			m_iMaxYScroll = 0;
-			SetScrollRange(SB_VERT, 0, 0);
+			ShowScrollBar(SB_VERT, FALSE);
 		}
+
+		
 	}
 }
 
@@ -206,5 +218,7 @@ void CBaseImgView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 void CBaseImgView::OnSize(UINT nType, int cx, int cy)
 {
 	CView::OnSize(nType, cx, cy);
-	UpdateScrolls();
+
+	TRACE("%d  %d\n", cx, cy);
+	UpdateScrolls(cy);
 }

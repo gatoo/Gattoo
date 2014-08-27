@@ -303,7 +303,7 @@ void CPrintGattooView::OnToolsResize()
 
 	LPCTSTR lpszMsg = _T("All changes will be lost after resizing. Image will be restored to original view.");
 	
-	if (IDOK == dlg.DoModal() && IDYES == MessageBox(lpszMsg, nullptr, MB_OKCANCEL | MB_ICONWARNING | MB_DEFBUTTON2))
+	if (IDOK == dlg.DoModal() && IDOK == MessageBox(lpszMsg, nullptr, MB_OKCANCEL | MB_ICONWARNING | MB_DEFBUTTON2))
 	{
 		GetDocument()->resizeImage(dlg.GetNewSize());
 		Invalidate(FALSE);
@@ -469,6 +469,8 @@ void CPrintGattooView::OnLButtonDblClk(UINT nFlags, CPoint point)
 			CRect imgRect(0, 0, size.cx-1, size.cy-1);
 
 			rcCropFrame -= m_ptViewPoint;
+			rcCropFrame -= m_ptDrawStart;
+
 			rcCropFrame.left /= m_fZoomFactor;
 			rcCropFrame.right /= m_fZoomFactor;
 			rcCropFrame.top /= m_fZoomFactor;

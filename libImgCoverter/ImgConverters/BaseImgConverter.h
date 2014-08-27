@@ -9,7 +9,7 @@ public:
 	CBaseImgConverter(void);
 	virtual ~CBaseImgConverter(void);
 
-	static void CreateBitmap(char const * const szInImgFile);
+	bool CreateBitmap(char const * const szInImgFile);
 
 	virtual void Destroy();
 

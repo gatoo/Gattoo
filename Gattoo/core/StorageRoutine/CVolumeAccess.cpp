@@ -6,6 +6,7 @@
 #include <vector>
 
 CVolumeAccess::CVolumeAccess(TCHAR aVolumeDriveLetter)
+	: m_hDevice(INVALID_HANDLE_VALUE)
 
 {
 	TCHAR lVolume[9];
@@ -48,7 +49,7 @@ CVolumeAccess::~CVolumeAccess()
 
 void CVolumeAccess::clean()
 {
-	if (m_hDevice != NULL)
+	if (m_hDevice != INVALID_HANDLE_VALUE)
 		CloseHandle(m_hDevice);
 }
 
@@ -188,6 +189,11 @@ DWORD CVolumeAccess::getSectorSize() const
 DWORD CVolumeAccess::getResrvdSctCount() const
 {
 	return m_bootSector.BPB_RsvdSecCnt;
+}
+
+bool CVolumeAccess::IsDeviceReady()
+{
+	return INVALID_HANDLE_VALUE != m_hDevice;
 }
 
 

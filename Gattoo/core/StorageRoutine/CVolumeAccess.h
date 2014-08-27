@@ -71,6 +71,8 @@ public:
 	CVolumeAccess(TCHAR aVolumeDriveLetter);
 	~CVolumeAccess();
 
+	bool IsDeviceReady();
+
 	bool writeBytesToDeviceSector(BYTE* aBuffer, DWORD aSizeOfData, DWORD aStartSector);
 
 	DWORD getSectorSize() const;

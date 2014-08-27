@@ -134,43 +134,45 @@ bool CGattooImg::getDriveToSave(std::basic_string<TCHAR> &strDrive)
 
 bool CGattooImg::saveToSD()
 {
-/*	if (m_Img.empty()) return true;
+	if (m_Img.empty()) return true;
 
 	IImgConverter* pConverter = createImgConverter(IImgConverter::enDefault);
-
-	std::string strPath;
-	CCommonHelpers::getTempFilePath(strPath);
 
 	cv::cvtColor(m_Img, m_Img, CV_RGB2GRAY);
 
 	CTempFile tmpFile;
-
 	tmpFile.Create();
 
-	strPath.append("pix");
 	pConverter->Convert(m_Img, tmpFile);
-//	converter.CreateBitmap(strPath.c_str());
 
+	if (0x8000 & GetKeyState(VK_SHIFT))
+	{
+		pConverter->CreateBitmap(tmpFile.getName());
+	}
+	
 	cv::cvtColor(m_Img, m_Img, CV_GRAY2RGB);
 
 	std::string strDrive;
 	getDriveToSave(strDrive);
 	if (0 == strDrive.size()) return false;
 
-	CVolumeAccess::setWorkingDriveLetter(strDrive[0]);
-	CVolumeAccess *vol = CVolumeAccess::getInstance();
+	SWriteProgressData data;
 
-	if (!vol->checkVolumeParams())
+	data.chDrive = strDrive.c_str()[0];
+	data.szFilePath = tmpFile.getName();
+
+	CVolumeAccess vol(data.chDrive);
+
+	if (!vol.checkVolumeParams())
 	{
 		if (IDYES != MessageBox(nullptr, _T("Volume parameters are not valid. Reformat drive (all data will be lost)?"), _T("Warning"), MB_YESNO|MB_ICONWARNING))
 			return false;
 
 		//formatDrive(strDrive[0]);
-
 		//return true;
 	}
 
-	CUPDialog progress(AfxGetMainWnd()->GetSafeHwnd(), ThreadProc, (LPVOID)strPath.c_str());
+	CUPDialog progress(AfxGetMainWnd()->GetSafeHwnd(), ThreadProc, (LPVOID)&data);
 
 	progress.SetDialogTemplate(nullptr, MAKEINTRESOURCE(IDD_DIALOG_SAVE_PROGRESS), IDC_STATIC_PROGRESS, IDC_PROGRESS, IDC_BUTTON_CANCEL);
 
@@ -178,21 +180,22 @@ bool CGattooImg::saveToSD()
 		MessageBox(AfxGetMainWnd()->GetSafeHwnd(), _T("Image was saved to SD card successfully."), _T("Information"), MB_OK|MB_ICONINFORMATION);
 	else
 		MessageBox(AfxGetMainWnd()->GetSafeHwnd(), _T("Image saving to SD card was interrupted."), _T("Warning"), MB_OK|MB_ICONEXCLAMATION);
-	//startSave(strPath);
-
-	CVolumeAccess::cleanResources();
-
+	
 	pConverter->Destroy();
-*/
+
 	return true;
 }
 
 bool CGattooImg::ThreadProc(const CUPDUPDATA* pCUPDUPData)
 {
-	CVolumeAccess vol('T');
+	SWriteProgressData* pData = (SWriteProgressData*) pCUPDUPData->GetAppData();
 
-	LPCTSTR szFilePath = (LPCTSTR) pCUPDUPData->GetAppData();
+	LPCTSTR szFilePath = (LPCTSTR) pData->szFilePath;
 	if (nullptr == szFilePath) return false;
+
+	CVolumeAccess vol(pData->chDrive);
+
+	if (!vol.IsDeviceReady()) return false;
 
 	FILE* pFile = NULL;
 
@@ -332,22 +335,22 @@ void CGattooImg::CropImage(CRect & rc)
 
 bool CGattooImg::saveToFile(LPCTSTR lpszPath)
 {
-/*	IImgConverter* pConverter = createImgConverter(IImgConverter::enDefault);
-	
-	FILE* fOut = fopen(lpszPath, "wb");
-	
-	if (fOut == nullptr) return false;
+// 	IImgConverter* pConverter = createImgConverter(IImgConverter::enDefault);
+// 	
+// 	FILE* fOut = fopen(lpszPath, "wb");
+// 	
+// 	if (fOut == nullptr) return false;
+// 
+// 	cv::cvtColor(m_Img, m_Img, CV_RGB2GRAY);
+// 
+// 	pConverter->Convert(m_Img, fOut);
+// 	pConverter->Destroy();
+// 
+// 	fclose(fOut);
+// 
+// 	cv::cvtColor(m_Img, m_Img, CV_GRAY2RGB);
 
-	cv::cvtColor(m_Img, m_Img, CV_RGB2GRAY);
-
-	pConverter->Convert(m_Img, fOut);
-	pConverter->Destroy();
-
-	fclose(fOut);
-
-	cv::cvtColor(m_Img, m_Img, CV_GRAY2RGB);
-*/
-	return true;
+	return cv::imwrite(lpszPath, m_Img);
 }
 
 bool CGattooImg::Resize(CSize & szNewSize)

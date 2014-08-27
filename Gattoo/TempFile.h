@@ -12,6 +12,8 @@ public:
 
 	bool Close(bool bDelete = true);
 
+	LPCTSTR getName();
+
 	operator FILE* () const;
 
 protected:

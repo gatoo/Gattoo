@@ -59,5 +59,11 @@ protected:
 	std::string m_strImgPath;
 	
 	cv::Mat m_Img;
+
+	struct SWriteProgressData
+	{
+		LPCTSTR szFilePath;
+		TCHAR   chDrive;
+	};
 };
 

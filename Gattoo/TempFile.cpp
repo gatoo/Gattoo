@@ -39,3 +39,8 @@ bool CTempFile::Close(bool bDelete /*= true*/)
 
 	return bDelete ? 0 != DeleteFile(m_strFilePath.c_str()) : true;
 }
+
+LPCTSTR CTempFile::getName()
+{
+	return m_strFilePath.c_str();
+}

@@ -11,7 +11,7 @@ CBaseImgConverter::~CBaseImgConverter(void)
 
 }
 
-void CBaseImgConverter::CreateBitmap(char const * const szInImgFile)
+bool CBaseImgConverter::CreateBitmap(char const * const szInImgFile)
 {
 	cv::Mat srcImg;
 	size_t readData = 0;
@@ -20,18 +20,18 @@ void CBaseImgConverter::CreateBitmap(char const * const szInImgFile)
 	char szDataBuf[BLOCK_SIZE];
 
 	FILE *f = fopen(szInImgFile, "rb");
-	if (NULL == f) return;
+	if (NULL == f) return false;
 
 	readData = fread(&header, 1, sizeof(SImgHeader), f);
 
-	if (sizeof(SImgHeader) != readData) return;
+	if (sizeof(SImgHeader) != readData) return false;
 
 	srcImg.create(MAKE_LE(header.shYSize), MAKE_LE(header.shXSize), CV_8UC1);
 	srcImg = 0x5F;
 
 	readData = fread(szDataBuf, 1, BLOCK_SIZE, f);
 
-	if (EOF == readData || readData != BLOCK_SIZE) return;
+	if (EOF == readData || readData != BLOCK_SIZE) return false;
 
 	unsigned short iY =0;
 	unsigned short iX =0;
@@ -71,6 +71,8 @@ void CBaseImgConverter::CreateBitmap(char const * const szInImgFile)
 	strOutName.append(".bmp");
 
 	cv::imwrite(strOutName, srcImg);
+
+	return true;
 }
 
 char CBaseImgConverter::getLevel(uchar intencity)

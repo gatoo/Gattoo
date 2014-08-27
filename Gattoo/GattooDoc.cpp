@@ -166,8 +166,8 @@ void CGattooDoc::OnFileSave()
 
 void CGattooDoc::OnFileSaveRaw()
 {
-	static TCHAR szFilter[] = _T("Raw print files (*.pix)|*.pix||");
-	CFileDialog dlg(FALSE, _T("pix"), nullptr, OFN_ENABLESIZING | OFN_NOCHANGEDIR | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST, szFilter, AfxGetMainWnd(), sizeof(OPENFILENAME), TRUE);
+	static TCHAR szFilter[] = _T("Bitmap files (*.bmp)|*.bmp||");
+	CFileDialog dlg(FALSE, _T("bmp"), nullptr, OFN_ENABLESIZING | OFN_NOCHANGEDIR | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST, szFilter, AfxGetMainWnd(), sizeof(OPENFILENAME), TRUE);
 
 	if (IDOK == dlg.DoModal())
 		m_ImgForPrint.saveToFile(dlg.GetPathName());
