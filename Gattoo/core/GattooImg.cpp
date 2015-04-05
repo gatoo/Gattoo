@@ -29,7 +29,7 @@ CGattooImg::CGattooImg(CGattooImg& src)
 CGattooImg::~CGattooImg(void)
 {
 }
-
+/*
 unsigned char CGattooImg::getColor(unsigned char chLevel)
 {
 	unsigned char chRes = 0;
@@ -70,7 +70,7 @@ char CGattooImg::getLevel(uchar intencity)
 	else
 		return 7;
 }
-
+*/
 bool CGattooImg::doHalfTone()
 {
 	bool bResult = true;

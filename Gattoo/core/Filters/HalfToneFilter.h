@@ -13,5 +13,9 @@ public:
 protected:
 
 	__forceinline void Trans(int Error, UCHAR & chData, double dFraction);
+
+	__forceinline BYTE getNearestColor(BYTE byColor, std::vector<BYTE>& palette);
+
+	void generatePalette(std::vector<BYTE>& palette, int paletteSize);
 };
 
