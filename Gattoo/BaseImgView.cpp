@@ -75,8 +75,8 @@ void CBaseImgView::UpdateScrolls(int y)
 
 		if(rcClient.Width() < sizeImg.cx * m_fZoomFactor)
 		{
-			m_iMaxXScroll = (sizeImg.cx * m_fZoomFactor) - rcClient.Width();
-			sinfo.nMax = sizeImg.cx * m_fZoomFactor;
+			m_iMaxXScroll = (int)(sizeImg.cx * m_fZoomFactor) - rcClient.Width();
+			sinfo.nMax = (int)(sizeImg.cx * m_fZoomFactor);
 			sinfo.nPage = rcClient.Width();
 
 			SetScrollInfo(SB_HORZ, &sinfo);
@@ -94,8 +94,8 @@ void CBaseImgView::UpdateScrolls(int y)
 
 		if(rcClient.Height() < sizeImg.cy * m_fZoomFactor)
 		{
-			m_iMaxYScroll = (sizeImg.cy * m_fZoomFactor) - rcClient.Height();
-			sinfo.nMax = sizeImg.cy * m_fZoomFactor;
+			m_iMaxYScroll = (int)(sizeImg.cy * m_fZoomFactor) - rcClient.Height();
+			sinfo.nMax = (int)(sizeImg.cy * m_fZoomFactor);
 			sinfo.nPage = rcClient.Height();
 
 			SetScrollInfo(SB_VERT, &sinfo);

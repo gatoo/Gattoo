@@ -31,6 +31,8 @@ public:
 	COutputWnd();
 	void UpdateFonts();
 
+	void AddMsg(char const * msg);
+
 // Attributes
 protected:
 	

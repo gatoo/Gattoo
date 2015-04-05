@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -21,7 +21,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>NotSet</CharacterSet>
     <UseOfMfc>Static</UseOfMfc>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v120_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -29,7 +29,7 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>NotSet</CharacterSet>
     <UseOfMfc>Static</UseOfMfc>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v120_xp</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -138,12 +138,14 @@
     <ClInclude Include="Gattoo.h" />
     <ClInclude Include="GattooDoc.h" />
     <ClInclude Include="GattooTabView.h" />
+    <ClInclude Include="Logger\ILogger.h" />
+    <ClInclude Include="Logger\ILogPresenter.h" />
+    <ClInclude Include="Logger\Logger.h" />
     <ClInclude Include="OrigGattooView.h" />
     <ClInclude Include="PrintGattooView.h" />
     <ClInclude Include="ILogger.h" />
     <ClInclude Include="ImgPropertiesInfo.h" />
     <ClInclude Include="MainFrm.h" />
-    <ClInclude Include="OutputLogger.h" />
     <ClInclude Include="OutputWnd.h" />
     <ClInclude Include="PropertiesInfo.h" />
     <ClInclude Include="PropertiesWnd.h" />
@@ -167,11 +169,11 @@
     <ClCompile Include="Gattoo.cpp" />
     <ClCompile Include="GattooDoc.cpp" />
     <ClCompile Include="GattooTabView.cpp" />
+    <ClCompile Include="Logger\Logger.cpp" />
     <ClCompile Include="OrigGattooView.cpp" />
     <ClCompile Include="PrintGattooView.cpp" />
     <ClCompile Include="ImgPropertiesInfo.cpp" />
     <ClCompile Include="MainFrm.cpp" />
-    <ClCompile Include="OutputLogger.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
     <ClCompile Include="PropertiesInfo.cpp" />
     <ClCompile Include="PropertiesWnd.cpp" />

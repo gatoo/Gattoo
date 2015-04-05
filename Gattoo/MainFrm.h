@@ -5,6 +5,7 @@
 #pragma once
 #include "OutputWnd.h"
 #include "PropertiesWnd.h"
+#include "Logger/ILogPresenter.h"
 
 class CMainFrame : public CFrameWndEx
 {
@@ -25,6 +26,8 @@ public:
 public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual BOOL LoadFrame(UINT nIDResource, DWORD dwDefaultStyle = WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, CWnd* pParentWnd = NULL, CCreateContext* pContext = NULL);
+
+	virtual void DisplayLogMsg(char const * lpctMsg);
 
 // Implementation
 public:

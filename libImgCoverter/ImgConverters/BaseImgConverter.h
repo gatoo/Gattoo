@@ -19,7 +19,7 @@ protected:
 	{
 		char szImgName[16];
 		char szImgSize[16];
-
+			
 		short shXSize;
 		short shYSize;
 

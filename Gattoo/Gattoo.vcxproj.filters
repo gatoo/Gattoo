@@ -34,6 +34,9 @@
     <Filter Include="common">
       <UniqueIdentifier>{4d90d3ff-684e-4044-96a5-ba981b26aff0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="logger">
+      <UniqueIdentifier>{37542367-011a-4174-b4d4-919a1e84916b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -111,9 +114,6 @@
     <ClInclude Include="ILogger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OutputLogger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="core\DriveBrowseDlg.h">
       <Filter>core\Header Files</Filter>
     </ClInclude>
@@ -165,6 +165,15 @@
     <ClInclude Include="BaseImgView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Logger\ILogger.h">
+      <Filter>logger</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger\Logger.h">
+      <Filter>logger</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger\ILogPresenter.h">
+      <Filter>logger</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Gattoo.cpp">
@@ -183,9 +192,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PropertiesWnd.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OutputLogger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="core\DriveBrowseDlg.cpp">
@@ -238,6 +244,9 @@
     </ClCompile>
     <ClCompile Include="BaseImgView.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger\Logger.cpp">
+      <Filter>logger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

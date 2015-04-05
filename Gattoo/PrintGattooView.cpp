@@ -105,29 +105,30 @@ void CPrintGattooView::OnDraw(CDC* pDC)
 		CDC dcCache;
 		CBitmap bmpCache;
 
-		int iWidth  = std::min<int>(ceil(rc.Width() / m_fZoomFactor), imSize.cx);
-		int iHeight = std::min<int>(ceil(rc.Height() / m_fZoomFactor), imSize.cy);
+		int iWidth  = std::min<int>((int)ceil(rc.Width() / m_fZoomFactor), imSize.cx);
+		int iHeight = std::min<int>((int)ceil(rc.Height() / m_fZoomFactor), imSize.cy);
 
 		bmpCache.CreateCompatibleBitmap(pDC, iWidth, iHeight);
 		dcCache.CreateCompatibleDC(pDC);
 		dcCache.SelectObject(bmpCache);
 
-		m_ptDrawStart.x = (rc.Width() > imSize.cx * m_fZoomFactor) ? (rc.Width() - imSize.cx * m_fZoomFactor) / 2 : 0;
-		m_ptDrawStart.y = (rc.Height() > imSize.cy * m_fZoomFactor) ? (rc.Height() - imSize.cy * m_fZoomFactor) / 2 : 0;
+		m_ptDrawStart.x = (LONG)((rc.Width() > imSize.cx * m_fZoomFactor) ? (rc.Width() - imSize.cx * m_fZoomFactor) / 2 : 0);
+		m_ptDrawStart.y = (LONG)((rc.Height() > imSize.cy * m_fZoomFactor) ? (rc.Height() - imSize.cy * m_fZoomFactor) / 2 : 0);
 
 		if (imSize.cx * m_fZoomFactor - m_ptViewPoint.x < rc.Width())
-			m_ptViewPoint.x = std::max<int>(imSize.cx * m_fZoomFactor - rc.Width(), 0);
+			m_ptViewPoint.x = std::max<int>((int)(imSize.cx * m_fZoomFactor) - rc.Width(), 0);
 
 		if (imSize.cy * m_fZoomFactor - m_ptViewPoint.y < rc.Height())
-			m_ptViewPoint.y = std::max<int>(imSize.cy * m_fZoomFactor - rc.Height(), 0);
+			m_ptViewPoint.y = std::max<int>((int)(imSize.cy * m_fZoomFactor) - rc.Height(), 0);
 
 		CPoint pt;
 
-		pt.x = m_ptViewPoint.x / m_fZoomFactor;
-		pt.y = m_ptViewPoint.y / m_fZoomFactor;
+		pt.x = (LONG)(m_ptViewPoint.x / m_fZoomFactor);
+		pt.y = (LONG)(m_ptViewPoint.y / m_fZoomFactor);
+
 		pDoc->PerformDrawing(bmpCache, pt);
 
-		pDC->StretchBlt(m_ptDrawStart.x, m_ptDrawStart.y, iWidth*m_fZoomFactor, iHeight*m_fZoomFactor, &dcCache, 0, 0, iWidth, iHeight, SRCCOPY);
+		pDC->StretchBlt(m_ptDrawStart.x, m_ptDrawStart.y, (int)(iWidth*m_fZoomFactor), (int)(iHeight*m_fZoomFactor), &dcCache, 0, 0, iWidth, iHeight, SRCCOPY);
 	}
 
 	if (m_enCurrentTool == enErase && m_bInClient)
@@ -332,11 +333,12 @@ void CPrintGattooView::OnToolsZoomOut()
 
 BOOL CPrintGattooView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
-	if ((HTCLIENT & nHitTest) && (m_enCurrentTool == enErase))
+	if (HTCLIENT & nHitTest)
 	{
 		m_bInClient = true;
 
-		SetCursor(nullptr);
+		if (m_enCurrentTool == enErase)
+			SetCursor(nullptr);
 
 		TRACKMOUSEEVENT ev;
 

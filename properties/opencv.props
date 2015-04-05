@@ -4,6 +4,7 @@
   <PropertyGroup Label="UserMacros">
     <VS_ver Condition="$(PlatformToolsetVersion) == 100">10</VS_ver>
     <VS_ver Condition="$(PlatformToolsetVersion) == 110">11</VS_ver>
+    <VS_ver Condition="$(PlatformToolsetVersion) == 120">12</VS_ver>
     <opencv_platform>$(PlatformShortName)</opencv_platform>
     <opencv_lib_dir>$(opencvdir)$(opencv_platform)\vc$(VS_ver)\lib\</opencv_lib_dir>
     <opencv_inc_dir>$(opencvdir)include\</opencv_inc_dir>
@@ -24,6 +25,10 @@
 copy $(opencv_bin_dir)opencv_highgui$(opencv_ver).dll $(TargetDir)
 copy $(opencv_bin_dir)opencv_imgproc$(opencv_ver).dll $(TargetDir)</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <BuildMacro Include="VS_ver">

@@ -8,6 +8,8 @@
 #include "Gattoo.h"
 #include "MainFrm.h"
 
+#include "Logger/Logger.h"
+
 #include "GattooDoc.h"
 #include "GattooTabView.h"
 
@@ -31,7 +33,7 @@ END_MESSAGE_MAP()
 
 // CGattooApp construction
 
-CGattooApp::CGattooApp()
+CGattooApp::CGattooApp() : m_pLogger(nullptr)
 {
 	m_bHiColorIcons = TRUE;
 
@@ -47,6 +49,25 @@ CGattooApp::CGattooApp()
 	// TODO: replace application ID string below with unique ID string; recommended
 	// format for string is CompanyName.ProductName.SubProduct.VersionInformation
 	SetAppID(_T("Gattoo.AppID.NoVersion"));
+}
+
+void CGattooApp::AddLogMsg(char const * msg, char const * szFile, int iLine, ...)
+{
+	char buffer[512];
+	va_list args;
+	va_start(args, iLine);
+	vsprintf(buffer, msg, args);
+	va_end(args);
+
+	CString str;
+
+	char const * pFileName = strrchr(szFile, '\\');
+
+	szFile = pFileName ? ++pFileName : szFile;
+
+	str.Format("%s, (%s, %d)", buffer, szFile, iLine);
+
+	if (m_pLogger) ((CMainFrame*)m_pMainWnd)->DisplayLogMsg(str);
 }
 
 // The one and only CGattooApp object
@@ -84,13 +105,13 @@ BOOL CGattooApp::InitInstance()
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Iukysh"));
 	LoadStdProfileSettings(4);  // Load standard INI file options (including MRU)
-
-
+	
 	InitContextMenuManager();
 
 	InitKeyboardManager();
 
 	InitTooltipManager();
+
 	CMFCToolTipInfo ttParams;
 	ttParams.m_bVislManagerTheme = TRUE;
 	theApp.GetTooltipManager()->SetTooltipParams(AFX_TOOLTIP_TYPE_ALL,
@@ -117,6 +138,9 @@ BOOL CGattooApp::InitInstance()
 	// app was launched with /RegServer, /Register, /Unregserver or /Unregister.
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
+
+	m_pLogger = new CLogger();
+	m_pLogger->SetPresenter((ILogPresenter*) m_pMainWnd);
 
 	// The one and only window has been initialized, so show and update it
 	m_pMainWnd->ShowWindow(SW_SHOW);

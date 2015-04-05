@@ -341,9 +341,9 @@
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
 		<row><td>Gattoo.Primary_Output</td><td>{730F6965-C92D-4E16-9571-E74AF97B2347}</td><td>INSTALLDIR</td><td>2</td><td/><td>gattoo.primary_output</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{A9B312DF-ACEA-42C0-99D8-D66A80FC83D8}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>opencv_core246.dll</td><td>{06AC50D6-66D0-4A2A-850E-5A3503EA708C}</td><td>INSTALLDIR</td><td>2</td><td/><td>opencv_core246.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>opencv_highgui246.dll</td><td>{E82C995A-8F6F-4A1A-B8A6-1D1398EB0078}</td><td>INSTALLDIR</td><td>2</td><td/><td>opencv_highgui246.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>opencv_imgproc246.dll</td><td>{7C6039E2-D8C7-4FC9-9093-EC04524FD23B}</td><td>INSTALLDIR</td><td>2</td><td/><td>opencv_imgproc246.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>opencv_core2411.dll</td><td>{2D8D04F8-1B0C-40E2-B256-F42437EE117A}</td><td>INSTALLDIR</td><td>2</td><td/><td>opencv_core2411.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>opencv_highgui2411.dll</td><td>{0EDC1AA8-D249-4D55-BF32-252353718C1A}</td><td>INSTALLDIR</td><td>2</td><td/><td>opencv_highgui2411.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>opencv_imgproc2411.dll</td><td>{334089BA-B71C-4EBE-8C24-19297E3D8BAC}</td><td>INSTALLDIR</td><td>2</td><td/><td>opencv_imgproc2411.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
 	<table name="Condition">
@@ -1865,9 +1865,9 @@
 		<col key="yes" def="s72">Component_</col>
 		<row><td>AlwaysInstall</td><td>Gattoo.Primary_Output</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT1</td></row>
-		<row><td>AlwaysInstall</td><td>opencv_core246.dll</td></row>
-		<row><td>AlwaysInstall</td><td>opencv_highgui246.dll</td></row>
-		<row><td>AlwaysInstall</td><td>opencv_imgproc246.dll</td></row>
+		<row><td>AlwaysInstall</td><td>opencv_core2411.dll</td></row>
+		<row><td>AlwaysInstall</td><td>opencv_highgui2411.dll</td></row>
+		<row><td>AlwaysInstall</td><td>opencv_imgproc2411.dll</td></row>
 	</table>
 
 	<table name="File">
@@ -1883,9 +1883,9 @@
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
 		<row><td>gattoo.primary_output</td><td>Gattoo.Primary_Output</td><td>Gattoo.Primary Output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;Gattoo&gt;|Built</td><td>3</td><td/></row>
-		<row><td>opencv_core246.dll</td><td>opencv_core246.dll</td><td>OPENCV~1.DLL|opencv_core246.dll</td><td>0</td><td/><td/><td/><td>1</td><td>E:\Downloads\opencv\build\x86\vc11\bin\opencv_core246.dll</td><td>1</td><td/></row>
-		<row><td>opencv_highgui246.dll</td><td>opencv_highgui246.dll</td><td>OPENCV~1.DLL|opencv_highgui246.dll</td><td>0</td><td/><td/><td/><td>1</td><td>E:\Downloads\opencv\build\x86\vc11\bin\opencv_highgui246.dll</td><td>1</td><td/></row>
-		<row><td>opencv_imgproc246.dll</td><td>opencv_imgproc246.dll</td><td>OPENCV~1.DLL|opencv_imgproc246.dll</td><td>0</td><td/><td/><td/><td>1</td><td>E:\Downloads\opencv\build\x86\vc11\bin\opencv_imgproc246.dll</td><td>1</td><td/></row>
+		<row><td>opencv_core2411.dll</td><td>opencv_core2411.dll</td><td>OPENCV~1.DLL|opencv_core2411.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\SergeyY\Programming\OpenCV_2.4.11\build\x86\vc12\bin\opencv_core2411.dll</td><td>1</td><td/></row>
+		<row><td>opencv_highgui2411.dll</td><td>opencv_highgui2411.dll</td><td>OPENCV~1.DLL|opencv_highgui2411.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\SergeyY\Programming\OpenCV_2.4.11\build\x86\vc12\bin\opencv_highgui2411.dll</td><td>1</td><td/></row>
+		<row><td>opencv_imgproc2411.dll</td><td>opencv_imgproc2411.dll</td><td>OPENCV~1.DLL|opencv_imgproc2411.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\SergeyY\Programming\OpenCV_2.4.11\build\x86\vc12\bin\opencv_imgproc2411.dll</td><td>1</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -2029,9 +2029,9 @@
 		<col def="S0">Miscellaneous</col>
 		<row><td>Gattoo.Primary_Output</td><td/><td/><td>_A4415BBD_A759_47DD_A653_D84DEB06741E_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_85B2A226_BC7A_4F3C_8344_90F39FFF5340_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>opencv_core246.dll</td><td/><td/><td>_ADC8797D_7831_4567_B2CC_4076B49E2538_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>opencv_highgui246.dll</td><td/><td/><td>_410B9F1E_CCBC_44A1_AF8B_2DE3B05F3F30_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>opencv_imgproc246.dll</td><td/><td/><td>_47457D09_2F93_4A05_85D0_E7BDB0618485_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>opencv_core2411.dll</td><td/><td/><td>_311B1875_D3F3_4C3B_93D1_C2C364E7B8F8_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>opencv_highgui2411.dll</td><td/><td/><td>_E903433A_35DA_47DE_89F3_2E03246972A5_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>opencv_imgproc2411.dll</td><td/><td/><td>_DF3EC63C_DAF5_434A_9F65_8E192D7F91CD_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISCustomActionReference">
@@ -2133,6 +2133,8 @@
 		<col key="yes" def="s38">Feature_</col>
 		<col key="yes" def="s255">ISMergeModule_</col>
 		<col key="yes" def="i2">Language_</col>
+		<row><td>AlwaysInstall</td><td>Microsoft_VC120_CRT_x86.194841A2_D0F2_3B96_9F71_05BA91BEA0FA</td><td>0</td></row>
+		<row><td>AlwaysInstall</td><td>Microsoft_VC120_MFC_x86.194841A2_D0F2_3B96_9F71_05BA91BEA0FA</td><td>0</td></row>
 	</table>
 
 	<table name="ISFeatureSetupPrerequisites">
@@ -2255,6 +2257,8 @@
 		<col def="s255">Name</col>
 		<col def="S255">Destination</col>
 		<col def="I4">ISAttributes</col>
+		<row><td>Microsoft_VC120_CRT_x86.194841A2_D0F2_3B96_9F71_05BA91BEA0FA</td><td>0</td><td>Visual C++ 12.0 CRT (x86)</td><td/><td/></row>
+		<row><td>Microsoft_VC120_MFC_x86.194841A2_D0F2_3B96_9F71_05BA91BEA0FA</td><td>0</td><td>Visual C++ 12.0 MFC (x86)</td><td/><td/></row>
 	</table>
 
 	<table name="ISMergeModuleCfgValues">
@@ -2616,7 +2620,6 @@
 		<col def="I2">Order</col>
 		<col def="I2">ISSetupLocation</col>
 		<col def="S255">ISReleaseFlags</col>
-		<row><td>_87A5B77A_58B4_447B_BA22_7B1D776E55CE_</td><td>Microsoft Visual C++ 2012 Redistributable Package (x86).prq</td><td/><td>0</td><td/></row>
 	</table>
 
 	<table name="ISSetupType">
@@ -3756,6 +3759,9 @@
 		<row><td>ID_STRING4</td><td>1033</td><td>Gattoo</td><td>0</td><td/><td>-467533001</td></row>
 		<row><td>ID_STRING5</td><td>1033</td><td>Gattoo</td><td>0</td><td/><td>-467504329</td></row>
 		<row><td>ID_STRING6</td><td>1033</td><td>UNINST~1|Uninstall Gattoo</td><td>0</td><td/><td>-467504297</td></row>
+		<row><td>ID_STRING7</td><td>1033</td><td>=-NewEnvironment1</td><td>0</td><td/><td>-2120019104</td></row>
+		<row><td>ID_STRING8</td><td>1033</td><td/><td>0</td><td/><td>-2119992224</td></row>
+		<row><td>ID_STRING9</td><td>1033</td><td>www.none.com</td><td>0</td><td/><td>-2120018624</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1033</td><td>This feature will remain uninstalled.</td><td>0</td><td/><td>-1700637108</td></row>
 	</table>
 
@@ -3865,6 +3871,9 @@
 		<col def="I2">ISIconIndex</col>
 		<row><td>ARPPRODUCTICON.exe</td><td/><td>&lt;ISProductFolder&gt;\redist\Language Independent\OS Independent\setupicon.ico</td><td>0</td></row>
 		<row><td>NewShortcut2_1BE66AB98F634B68839E6D6F018E447E.exe</td><td/><td>C:\Program Files (x86)\InstallShield\2013LE\Redist\Language Independent\OS Independent\uninstall.ico</td><td>0</td></row>
+		<row><td>_344A8E6F3F10401E94F63CDC1F6C456C.exe</td><td/><td>D:\SergeyY\Programming\Granit\Gattoo\Debug\Gattoo.exe</td><td>0</td></row>
+		<row><td>_40AB0E79B1204D5B82B15EDD94FB2FFE.exe</td><td/><td>D:\SergeyY\Programming\Granit\Gattoo\Release\Gattoo.exe</td><td>0</td></row>
+		<row><td>_4F298E3B0B4B47B0BB2FFC3986A3107D.exe</td><td/><td>D:\SergeyY\Programming\Granit\Gattoo\Debug\Gattoo.exe</td><td>0</td></row>
 	</table>
 
 	<table name="IniFile">
@@ -3983,7 +3992,7 @@
 UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 			</td></row>
 		<row><td>DefaultProductConfiguration</td><td>Express</td></row>
-		<row><td>EnableSwidtag</td><td>1</td></row>
+		<row><td>EnableSwidtag</td><td>0</td></row>
 		<row><td>ISCompilerOption_CompileBeforeBuild</td><td>1</td></row>
 		<row><td>ISCompilerOption_Debug</td><td>0</td></row>
 		<row><td>ISCompilerOption_IncludePath</td><td/></row>
@@ -3997,7 +4006,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{A8845D22-33D7-42DB-82E8-68B3C9FA3DCA}</td></row>
 		<row><td>ISUSSignature</td><td>{EC5A5FD1-8ED3-49C0-A596-14877E763A2A}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewProject,viewISToday,viewAppV,viewRealSetupDesign,viewUpgradePaths,viewUpdateService,viewAppFiles,viewObjects,viewDependencies,viewShortcuts,viewRegistry,viewServices,viewUI,viewTextMessages,viewSystemSearch,viewCustomActions,viewRelease,viewFileExtensions,viewVRoots,viewIniFiles,viewSetupDesign,viewSetupTypes,viewFeatureFiles,viewDesignPatches</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewProject,viewISToday,viewAppV,viewRealSetupDesign,viewUpgradePaths,viewUpdateService,viewAppFiles,viewObjects,viewDependencies,viewShortcuts,viewRegistry,viewServices,viewUI,viewTextMessages,viewSystemSearch,viewCustomActions,viewRelease,viewFileExtensions,viewVRoots,viewIniFiles,viewSetupDesign,viewSetupTypes,viewFeatureFiles,viewDesignPatches,viewEnvironmentVariables</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
@@ -4306,6 +4315,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ARPNOMODIFY</td><td>1</td><td/></row>
 		<row><td>ARPPRODUCTICON</td><td>ARPPRODUCTICON.exe</td><td/></row>
 		<row><td>ARPSIZE</td><td/><td/></row>
+		<row><td>ARPURLINFOABOUT</td><td>##ID_STRING9##</td><td/></row>
 		<row><td>AgreeToLicense</td><td>No</td><td/></row>
 		<row><td>ApplicationUsers</td><td>AllUsers</td><td/></row>
 		<row><td>DWUSINTERVAL</td><td>30</td><td/></row>

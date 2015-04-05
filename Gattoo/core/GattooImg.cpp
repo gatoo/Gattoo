@@ -180,11 +180,19 @@ bool CGattooImg::ThreadProc(const CUPDUPDATA* pCUPDUPData)
 	SWriteProgressData* pData = (SWriteProgressData*) pCUPDUPData->GetAppData();
 
 	LPCTSTR szFilePath = (LPCTSTR) pData->szFilePath;
-	if (nullptr == szFilePath) return false;
+	if (nullptr == szFilePath)
+	{
+		LogDbg(_T("No temp file path specified."));
+		return false;
+	}
 
 	CVolumeAccess vol(pData->chDrive);
 
-	if (!vol.IsDeviceReady()) return false;
+	if (!vol.IsDeviceReady())
+	{
+		LogDbg(_T("Device is not ready."));
+		return false;
+	}
 
 	if (!vol.checkVolumeParams())
 	{
@@ -198,7 +206,11 @@ bool CGattooImg::ThreadProc(const CUPDUPDATA* pCUPDUPData)
 	FILE* pFile = NULL;
 
 	_tfopen_s(&pFile, szFilePath, _T("rb"));
-	if (nullptr == pFile) return false;
+	if (nullptr == pFile)
+	{
+		LogDbg(_T("Failed to open file."));
+		return false;
+	}
 
 	fseek(pFile, 0, SEEK_END);
 	long lTotal = ftell(pFile);

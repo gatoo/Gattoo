@@ -41,13 +41,14 @@
 // #include <vld.h>
 // #endif
 
+#include "Gattoo.h"
 
 #define IDM_USER_IMG_LOADED	(WM_USER+100)
 
-#define LogDbg(msg, ...) ;
-#define LogInf(msg, ...) ;
-#define LogWrn(msg, ...) ;
-#define LogErr(msg, ...) ;
+#define LogDbg(msg, ...) ((CGattooApp*) AfxGetApp())->AddLogMsg(msg, __FILE__, __LINE__, __VA_ARGS__);
+#define LogInf(msg, ...) ((CGattooApp*) AfxGetApp())->AddLogMsg(msg, __FILE__, __LINE__, __VA_ARGS__);
+#define LogWrn(msg, ...) ((CGattooApp*) AfxGetApp())->AddLogMsg(msg, __FILE__, __LINE__, __VA_ARGS__);
+#define LogErr(msg, ...) ((CGattooApp*) AfxGetApp())->AddLogMsg(msg, __FILE__, __LINE__, __VA_ARGS__);
 
 #ifdef _UNICODE
 #if defined _M_IX86

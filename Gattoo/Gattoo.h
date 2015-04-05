@@ -8,7 +8,7 @@
 #endif
 
 #include "resource.h"       // main symbols
-
+#include "Logger/ILogger.h"
 
 // CGattooApp:
 // See Gattoo.cpp for the implementation of this class
@@ -17,8 +17,10 @@
 class CGattooApp : public CWinAppEx
 {
 public:
+
 	CGattooApp();
 
+	void AddLogMsg(char const * msg, char const * szFile, int iLine, ...);
 
 // Overrides
 public:
@@ -33,6 +35,10 @@ public:
 
 	afx_msg void OnAppAbout();
 	DECLARE_MESSAGE_MAP()
+
+private:
+
+	ILogger * m_pLogger;
 };
 
 extern CGattooApp theApp;

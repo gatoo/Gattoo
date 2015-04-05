@@ -54,7 +54,7 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	ASSERT(bNameValid);
 		
 	// Fill output tabs with some dummy text (nothing magic here)
-	FillLogWindow();
+	// FillLogWindow();
 	
 	return 0;
 }
@@ -94,6 +94,11 @@ void COutputWnd::FillLogWindow()
 void COutputWnd::UpdateFonts()
 {
 	m_wndOutputLog.SetFont(&afxGlobalData.fontRegular);
+}
+
+void COutputWnd::AddMsg(char const * msg)
+{
+	m_wndOutputLog.AddString(msg);
 }
 
 /////////////////////////////////////////////////////////////////////////////
