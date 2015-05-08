@@ -79,7 +79,7 @@ bool CGattooImg::doHalfTone()
 	if (m_Img.empty())
 		return false;
 
-	filters.push_back(new CEqulizeFilter());
+	//filters.push_back(new CEqulizeFilter());
 	filters.push_back(new CHalfToneFilter());
 
 	cv::cvtColor(m_Img, m_Img, CV_RGB2GRAY);
@@ -345,21 +345,6 @@ void CGattooImg::CropImage(CRect & rc)
 
 bool CGattooImg::saveToFile(LPCTSTR lpszPath)
 {
-// 	IImgConverter* pConverter = createImgConverter(IImgConverter::enDefault);
-// 	
-// 	FILE* fOut = fopen(lpszPath, "wb");
-// 	
-// 	if (fOut == nullptr) return false;
-// 
-// 	cv::cvtColor(m_Img, m_Img, CV_RGB2GRAY);
-// 
-// 	pConverter->Convert(m_Img, fOut);
-// 	pConverter->Destroy();
-// 
-// 	fclose(fOut);
-// 
-// 	cv::cvtColor(m_Img, m_Img, CV_GRAY2RGB);
-
 	return cv::imwrite(lpszPath, m_Img);
 }
 
@@ -394,12 +379,26 @@ bool CGattooImg::IsBinary() const
 	calcHist( &bgr_planes[1], 1, 0, cv::Mat(), g_hist, 1, &histSize, &histRange);
 	calcHist( &bgr_planes[2], 1, 0, cv::Mat(), r_hist, 1, &histSize, &histRange);
 
-	bool bRes = true;
 	int const iImgArea = m_Img.cols * m_Img.rows;
+
+	bool bRes = true;	
+
+	int const palSize = 8;
+	std::vector<BYTE> palette(palSize);
+	CHalfToneFilter::generatePalette(palette, palSize);
 	
-	bRes &= (b_hist.at<float>(0) + b_hist.at<float>(255)) == iImgArea;
-	bRes &= (g_hist.at<float>(0) + g_hist.at<float>(255)) == iImgArea;
-	bRes &= (b_hist.at<float>(0) + b_hist.at<float>(255)) == iImgArea;
+	int iSumB = 0, iSumG = 0, iSumR = 0;
+	
+	for (size_t i = 0; i < palette.size(); i++)
+	{
+		iSumB += static_cast<int>(b_hist.at<float>(palette[i]));
+		iSumG += static_cast<int>(g_hist.at<float>(palette[i]));
+		iSumR += static_cast<int>(r_hist.at<float>(palette[i]));
+	}
+
+	bRes &= iSumB == iImgArea;
+	bRes &= iSumG == iImgArea;
+	bRes &= iSumR == iImgArea;	
 
 	return bRes;
 }

@@ -14,80 +14,86 @@ bool CHalfToneFilter::Apply(cv::Mat & img)
 {
 	if (img.empty()) return true;
 
-	const int iPaletteSize = 3;
+	const int iPaletteSize = 8;
+
 	std::vector<BYTE> palette(iPaletteSize);
 
 	generatePalette(palette, iPaletteSize);
 
 	int Error = 0;
 
-	//int n=0;
+	//std::map<UCHAR, int> colors;
 
-	for(int i=0; i<img.rows-1; i++)
-		for (int j=1; j<img.cols-1; j++)
+	UCHAR* p = nullptr, *p2 = nullptr;
+
+	for (int i = 0; i < img.rows - 1; i++)
+	{
+		p = img.ptr<UCHAR>(i);
+		p2 = img.ptr<UCHAR>(i + 1);
+		
+		p[0] = 0;
+
+		for (int j = 1; j < img.cols - 1; j++)
 		{
-			BYTE intencity = *img.ptr<UCHAR>(i, j);
-
+			BYTE intencity = p[j];
 			BYTE newIntencity = getNearestColor(intencity, palette);
-			memset(img.ptr<UCHAR>(i, j), newIntencity, 1);
+
+			p[j] = newIntencity;
+
+			//colors[newIntencity]++;
 			Error = intencity - newIntencity;
 			
-			/*if(intencity > 128)
-			{
-				memset(img.ptr<UCHAR>(i, j), 0xFF, 1);
-				Error = intencity - 0xFF;
-				n++;
-			}
-			else
-			{
-				memset(img.ptr<UCHAR>(i, j), 0x00, 1) ;
-				Error = intencity;
-				n++;
-			}
-			*/
-
-			Trans(Error, *img.ptr<UCHAR>(i, j+1), (double)7/16);
-			Trans(Error, *img.ptr<UCHAR>(i+1, j+1), (double)1/16);
-			Trans(Error, *img.ptr<UCHAR>(i+1, j), (double)5/16);
-			Trans(Error, *img.ptr<UCHAR>(i+1, j-1), (double)3/16);
+			Trans(Error, p[j + 1], 7.0 / 16);
+			Trans(Error, p2[j + 1], 1.0 / 16);
+			Trans(Error, p2[j], 5.0 / 16);
+			Trans(Error, p2[j - 1], 3.0 / 16);
+			
 		}
+		
+		p[img.cols - 1] = 0;
+	}
+
+	// Fill last row
+	p = img.ptr<UCHAR>(img.rows - 1);
+	memset(p, 0, img.cols);
 
 	return true;
 }
 
 __forceinline void CHalfToneFilter::Trans(int Error, UCHAR & chData, double dFraction)
 {
-	chData = std::min(255, std::max(0, chData + int(dFraction * Error)));
+	chData = std::min(255, std::max(0, static_cast<int>(chData + dFraction * Error)));
+	//chData = chData + dFraction * Error;
 }
 
 __forceinline BYTE CHalfToneFilter::getNearestColor(BYTE byColor, std::vector<BYTE>& palette)
 {
 	int distanceSquared, minDistanceSquared, bestIndex = 0;
 	minDistanceSquared = 255 * 255 + 1;
-	
-	for (int i = 0; i < palette.size(); i++)
+
+	for (size_t i = 0; i < palette.size(); i++)
 	{
-		int diff = ((int)byColor) - palette[i];
+		int diff = byColor - palette[i];
 		distanceSquared = diff*diff;
-		
+
 		if (distanceSquared < minDistanceSquared)
 		{
 			minDistanceSquared = distanceSquared;
 			bestIndex = i;
 		}
 	}
-	
+
 	return palette[bestIndex];
 }
 
 void CHalfToneFilter::generatePalette(std::vector<BYTE>& palette, int paletteSize)
 {
-	double paletteWidth = (double) 0xFF / (paletteSize - 1);
-	
+	double paletteWidth = static_cast<double> (0xFF) / (paletteSize - 1);
+
 	palette[0] = 0xFF;
 
 	for (int i = 1; i < paletteSize; i++)
 	{
-		palette[i] = 0xFF - paletteWidth * i;
+		palette[i] = static_cast<UCHAR>(0xFF - paletteWidth * i);
 	}
 }

@@ -61,7 +61,7 @@ bool CImgConverter::Convert(cv::Mat const & img, FILE *fOut)
 		{
 			intensity = getLevel(img.at<uchar>(j, i));
 
-			if (intensity == 7)
+			if (intensity != 0)
 			{
 				bDot = true;
 

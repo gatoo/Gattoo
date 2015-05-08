@@ -86,10 +86,6 @@ void CBaseImgView::UpdateScrolls(int y)
 			ShowScrollBar(SB_HORZ, FALSE);
 		}
 
-		
-
-			TRACE("Set %d\n", y);
-		
 		m_iMaxYScroll = 0;
 
 		if(rcClient.Height() < sizeImg.cy * m_fZoomFactor)
@@ -219,6 +215,5 @@ void CBaseImgView::OnSize(UINT nType, int cx, int cy)
 {
 	CView::OnSize(nType, cx, cy);
 
-	TRACE("%d  %d\n", cx, cy);
 	UpdateScrolls(cy);
 }

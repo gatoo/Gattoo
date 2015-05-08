@@ -56,7 +56,7 @@ void CGattooApp::AddLogMsg(char const * msg, char const * szFile, int iLine, ...
 	char buffer[512];
 	va_list args;
 	va_start(args, iLine);
-	vsprintf(buffer, msg, args);
+	vsprintf_s(buffer, 512, msg, args);
 	va_end(args);
 
 	CString str;
